@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class Snake {
+public abstract class Snake {
 
     // Markers for the direction
     public static final int LEFT 	= 1;
@@ -19,8 +19,6 @@ public class Snake {
      * @param board the whole board with every information necessary
      * @return direction in which the snake should move
      */
-    public int think(Board board) {
+    public abstract int think(Board board);
 
-        return LEFT;
-    }
 }
