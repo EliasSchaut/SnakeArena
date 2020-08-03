@@ -6,6 +6,8 @@ public class Field {
     private final int posY;
 
     private boolean apple;
+    private boolean isFree;
+
 
     /**
      * Initialize Field
@@ -14,10 +16,11 @@ public class Field {
      * @param y the y-Coordinate of the Board
      * @param apple is there an apple on field or not
      */
-    public Field(int x, int y, boolean apple) {
+    public Field(int x, int y) {
         this.posX = x;
         this.posY = y;
-        this.apple = apple;
+        this.apple = false;
+        this.isFree = true;
     }
 
 
@@ -35,5 +38,13 @@ public class Field {
 
     public void setApple(boolean apple) {
         this.apple = apple;
+    }
+
+    public boolean isFree() {
+        return isFree;
+    }
+
+    public void setFree(boolean free) {
+        isFree = free;
     }
 }
