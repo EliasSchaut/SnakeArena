@@ -152,9 +152,13 @@ public class Board extends JPanel {
     private boolean removeApple(Graphics2D g2d, int x, int y) {
         for (Field appleField : apples) {
             if ((appleField.getPosX() == x) && (appleField.getPosY() == y)) {
+
+                // no .setFree here, because a snake will be on this field
                 fields[appleField.getPosX()][appleField.getPosY()].setApple(false);
                 apples.remove(appleField);
-                this.setApple(g2d);
+
+                // no this.setApple here, because setApple will create new Apples automatic,
+                // if the list apples is les then MAX_APPLES_ON_BOARD
 
                 return true;
             }
