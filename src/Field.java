@@ -14,7 +14,6 @@ public class Field {
      *
      * @param x the x-Coordinate of the Board
      * @param y the y-Coordinate of the Board
-     * @param apple is there an apple on field or not
      */
     public Field(int x, int y) {
         this.posX = x;
