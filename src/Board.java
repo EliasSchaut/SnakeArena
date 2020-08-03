@@ -63,7 +63,6 @@ public class Board extends JPanel {
             snake.add(new Field(random.getPosX() + 2, random.getPosY()));
 
             this.snakes.add(snake);
-
         }
     }
 
@@ -80,6 +79,7 @@ public class Board extends JPanel {
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
         this.paintBoard(g2d);
+        this.setApple(g2d);
 
         this.moveSnakes();
 
@@ -96,10 +96,23 @@ public class Board extends JPanel {
 
         for (int x = 0; x < MAX_X; x++) {
             for (int y = 0; y < MAX_Y; y++) {
-                g2d.drawRect(x * 20, y * 20, 20, 20);
+                g2d.drawRect(x * MAX_X, y * MAX_Y, MAX_X, MAX_Y);
             }
         }
-        g2d.drawRect(20, 20, 20, 20);
+        g2d.drawRect(MAX_X, MAX_Y, MAX_X, MAX_Y);
+    }
+
+    /**
+     * Draw an apple
+     *
+     * @param g2d
+     * @param x
+     * @param y
+     */
+    private void paintApple(Graphics2D g2d, int x, int y) {
+        g2d.setColor(Color.red);
+
+        g2d.fillOval(x * MAX_X, y * MAX_Y, MAX_X, MAX_Y);
     }
 
 
@@ -113,8 +126,8 @@ public class Board extends JPanel {
 
         for (int i = 0; i < snakes.size(); i++) {
             for (int j = 0; j < snakes.get(i).size(); j++) {
-                g2d.fillOval(snakes.get(i).get(j).getPosX() * 20,
-                        snakes.get(i).get(j).getPosY() * 20, 20, 20);
+                g2d.fillOval(snakes.get(i).get(j).getPosX() * MAX_X,
+                        snakes.get(i).get(j).getPosY() * MAX_Y, MAX_X, MAX_Y);
             }
         }
     }
@@ -131,16 +144,17 @@ public class Board extends JPanel {
     /**
      * remove an apple on the board and place another
      *
+     * @param g2d
      * @param x x-Coordinate of apple
      * @param y y-Coordinate of apple
      * @return if an apple was removed
      */
-    private boolean removeApple(int x, int y) {
+    private boolean removeApple(Graphics2D g2d, int x, int y) {
         for (Field appleField : apples) {
             if ((appleField.getPosX() == x) && (appleField.getPosY() == y)) {
                 fields[appleField.getPosX()][appleField.getPosY()].setApple(false);
                 apples.remove(appleField);
-                setApple();
+                this.setApple(g2d);
 
                 return true;
             }
@@ -153,10 +167,10 @@ public class Board extends JPanel {
     /**
      * place an apple on the board
      *
-     * @return if an apple was set on board
+     * @param g2d
      */
-    private boolean setApple() {
-        if (apples.size() < MAX_APPLES_ON_BOARD) {
+    private void setApple(Graphics2D g2d) {
+        while (apples.size() < MAX_APPLES_ON_BOARD) {
             Field appleField;
 
             do {
@@ -167,11 +181,12 @@ public class Board extends JPanel {
             fields[appleField.getPosX()][appleField.getPosY()].setFree(false);
             fields[appleField.getPosX()][appleField.getPosY()].setApple(true);
             apples.add(appleField);
-            return true;
+        }
 
-        } else {
-            return false;
 
+        // paint apples
+        for (int i = 0; i < apples.size(); i++) {
+            this.paintApple(g2d, apples.get(i).getPosX(), apples.get(i).getPosY());
         }
     }
 
