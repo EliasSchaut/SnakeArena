@@ -18,7 +18,6 @@ public class MySnake extends Snake {
      * @param board the whole board with every information necessary
      * @return direction in which the snake should move
      */
-    @Override
     public int think(Board board) {
         // lovely intelligence code here
 
