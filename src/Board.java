@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -19,7 +18,8 @@ public class Board extends JPanel {
 
     private final Field[][] fields = new Field[MAX_X][MAX_Y];
     private final LinkedList<Field> apples = new LinkedList<>();
-    private ArrayList<LinkedList<Field>> snakes = new ArrayList<>();
+    private LinkedList<LinkedList<Field>> snakesLocation = new LinkedList<>();
+    private LinkedList<Snake> snakes = new LinkedList<>();
 
     private Game game;
 
@@ -58,11 +58,12 @@ public class Board extends JPanel {
             fields[random.getPosX() + 2][random.getPosY()].setFree(false);
 
             LinkedList<Field> snake = new LinkedList<>();
-            snake.add(new Field(random.getPosX() + 0, random.getPosY()));
-            snake.add(new Field(random.getPosX() + 1, random.getPosY()));
-            snake.add(new Field(random.getPosX() + 2, random.getPosY()));
+            snake.addLast(new Field(random.getPosX() + 0, random.getPosY()));
+            snake.addLast(new Field(random.getPosX() + 1, random.getPosY()));
+            snake.addLast(new Field(random.getPosX() + 2, random.getPosY()));
 
-            this.snakes.add(snake);
+            this.snakes.add(snakes[i]);
+            this.snakesLocation.add(snake);
         }
     }
 
@@ -122,12 +123,13 @@ public class Board extends JPanel {
      * @param g2d
      */
     private void paintSnakes(Graphics2D g2d) {
-        g2d.setColor(Color.blue); // test
 
-        for (int i = 0; i < snakes.size(); i++) {
-            for (int j = 0; j < snakes.get(i).size(); j++) {
-                g2d.fillOval(snakes.get(i).get(j).getPosX() * MAX_X,
-                        snakes.get(i).get(j).getPosY() * MAX_Y, MAX_X, MAX_Y);
+        for (int i = 0; i < this.snakesLocation.size(); i++) {
+            g2d.setColor(this.snakes.get(i).COLOR);
+
+            for (int j = 0; j < this.snakesLocation.get(i).size(); j++) {
+                g2d.fillOval(this.snakesLocation.get(i).get(j).getPosX() * MAX_X,
+                        this.snakesLocation.get(i).get(j).getPosY() * MAX_Y, MAX_X, MAX_Y);
             }
         }
     }
@@ -137,7 +139,38 @@ public class Board extends JPanel {
      * Moves the snakes over the board
      */
     private void moveSnakes() {
-        
+        int direction;
+        int newX;
+        int newY;
+
+        for (int i = 0; i < this.snakes.size(); i++) {
+            direction = this.snakes.get(i).think(this);
+            newX = this.snakesLocation.get(i).getLast().getPosX();
+            newY = this.snakesLocation.get(i).getLast().getPosY();
+
+            if ((direction == Snake.LEFT) && (newX > 0)) {
+                newX = --newX;
+
+            } else if ((direction == Snake.UP) && (newY > 0)) {
+                newY = --newY;
+
+            } else if ((direction == Snake.RIGHT) && (newX < (MAX_X - 1))) {
+                newX = ++newX;
+
+            } else if ((direction == Snake.DOWN) && (newY < (MAX_Y - 1))) {
+                newY = ++newY;
+
+            } else {
+                System.out.println("Snake " + this.snakes.get(i).NAME + " returns no correct direction " +
+                        "or drive in a border");
+                // TODO: kill snake
+
+            }
+
+            this.snakesLocation.get(i).addLast(new Field(newX, newY));
+            this.snakesLocation.get(i).removeFirst();
+
+        }
     }
 
 

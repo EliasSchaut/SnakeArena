@@ -24,7 +24,9 @@ public class Window extends JFrame {
 
         // Test -----
         Snake mySnake = new MySnake();
-        Snake[] mySnakes = {mySnake, mySnake};
+        Snake mySnake2 = new MySnake();
+        Snake mySnake3 = new MySnake();
+        Snake[] mySnakes = {mySnake, mySnake2, mySnake3};
         // ----------
 
         // create Arena (BoardLayout)
