@@ -1,6 +1,5 @@
 # SnakeArena
 
-## Programm:
 Jeder kennt das Spiel [Snake](https://en.wikipedia.org/wiki/Snake_(video_game_genre))
 
 Nun habe ich mir folgendes überlegt:
