@@ -1,6 +1,6 @@
 # SnakeArena
 
-Jeder kennt das Spiel [Snake](https://en.wikipedia.org/wiki/Snake_(video_game_genre))
+Jeder kennt das Spiel [snakes.Snake](https://en.wikipedia.org/wiki/Snake_(video_game_genre))
 
 Nun habe ich mir folgendes überlegt:
 Erstigruppen von ca 3 Erstis Umfang müssen eine KI-Schlange programmieren, die dann zusammen mit den anderen Schlangen der anderen Gruppen auf ein großes Feld geklatscht werden.

@@ -1,3 +1,8 @@
+package io;
+
+import snakes.DebugSnake;
+import snakes.Snake;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -9,7 +14,7 @@ public class InputListener implements KeyListener {
 
     // --- Constructor -----------------------------------------------------
 
-    public InputListener(Game game, DebugSnake debugSnake) {
+    protected InputListener(Game game, DebugSnake debugSnake) {
         this.debugSnake = debugSnake;
         this.game = game;
 

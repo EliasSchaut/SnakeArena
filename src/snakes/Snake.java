@@ -1,4 +1,7 @@
+package snakes;
+
 import java.awt.*;
+import board.*;
 
 public abstract class Snake {
 
@@ -19,6 +22,6 @@ public abstract class Snake {
      * @param board the whole board with every information necessary
      * @return direction in which the snake should move
      */
-    public abstract int think(Board board);
+    public abstract int think(BoardInfo board);
 
 }

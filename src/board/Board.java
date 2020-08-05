@@ -1,3 +1,8 @@
+package board;
+
+import snakes.*;
+import io.Game;
+
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -7,14 +12,12 @@ import java.util.LinkedList;
 
 /**
  * This class represents the Arena with the snakes
- *
- * TODO: Snake move
  */
 public class Board extends JPanel {
 
-    private static final int MAX_X = 20;
-    private static final int MAX_Y = 20;
-    private static final int MAX_APPLES_ON_BOARD = 2;
+    protected static final int MAX_X = 20;
+    protected static final int MAX_Y = 20;
+    protected static final int MAX_APPLES_ON_BOARD = 2;
 
     private final Field[][] fields = new Field[MAX_X][MAX_Y];
     private final LinkedList<Field> apples = new LinkedList<>();
@@ -27,12 +30,12 @@ public class Board extends JPanel {
 
 
     /**
-     * Create Board
+     * Create Board.Board
      */
     public Board(Game game, Snake[] snakes) {
         this.game = game;
 
-        // declare Board
+        // declare Board.Board
         for (int i = 0; i < MAX_X; i++) {
             for (int j = 0; j < MAX_Y; j++) {
                 fields[i][j] = new Field(i, j);
@@ -184,7 +187,7 @@ public class Board extends JPanel {
         int newY;
 
         for (int i = 0; i < this.snakes.size(); i++) {
-            direction = this.snakes.get(i).think(this);
+            direction = this.snakes.get(i).think(new BoardInfo(this, i));
             newX = this.snakesLocation.get(i).getLast().getPosX();
             newY = this.snakesLocation.get(i).getLast().getPosY();
 
@@ -202,7 +205,7 @@ public class Board extends JPanel {
                 ++newY;
 
             } else {
-                System.out.println("Snake " + this.snakes.get(i).NAME + " returns no correct direction " +
+                System.out.println("snakes.Snake " + this.snakes.get(i).NAME + " returns no correct direction " +
                         "or drive in a border");
                 killSnake(g2d, i);
                 continue;
@@ -242,10 +245,7 @@ public class Board extends JPanel {
     }
 
     private void killSnake(Graphics2D g2d, int snakeIndex) {
-        for (Field snakePoint: this.snakesLocation.get(snakeIndex)) {
-            barrier.add(snakePoint);
-
-        }
+        barrier.addAll(this.snakesLocation.get(snakeIndex));
 
         this.paintBarrier(g2d);
 
@@ -303,22 +303,42 @@ public class Board extends JPanel {
 
 
         // paint apples
-        for (int i = 0; i < apples.size(); i++) {
-            this.paintApple(g2d, apples.get(i).getPosX(), apples.get(i).getPosY());
+        for (Field apple : apples) {
+            this.paintApple(g2d, apple.getPosX(), apple.getPosY());
         }
     }
 
 
     /**
-     * Returns a random Field on the Board
+     * Returns a random Board.Field on the Board.Board
      *
-     * @return a random Field on the Board
+     * @return a random Board.Field on the Board.Board
      */
-    private Field getRandomField() {
+    protected Field getRandomField() {
         int x = (int) (Math.random() * MAX_X);
         int y = (int) (Math.random() * MAX_Y);
 
         return new Field(x, y);
+    }
+
+    protected Field[][] getFields() {
+        return fields;
+    }
+
+    protected LinkedList<Field> getApples() {
+        return apples;
+    }
+
+    protected LinkedList<LinkedList<Field>> getSnakesLocation() {
+        return snakesLocation;
+    }
+
+    protected LinkedList<Snake> getSnakes() {
+        return snakes;
+    }
+
+    protected LinkedList<Field> getBarrier() {
+        return barrier;
     }
 }
 

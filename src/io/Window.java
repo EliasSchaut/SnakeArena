@@ -1,9 +1,17 @@
+package io;
+
+import board.Board;
+import snakes.AntonsSnake;
+import snakes.DebugSnake;
+import snakes.MySnake;
+import snakes.Snake;
+
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- * The Window Class represents the full window on the screen.
+ * The game.Window Class represents the full window on the screen.
  * It renders all appearances.
  */
 public class Window extends JFrame {
@@ -15,7 +23,7 @@ public class Window extends JFrame {
     public Window(Game game, String title) {
         super(title);
 
-        // Create Window frame
+        // Create game.Window frame
         this.setSize(500,500);
         this.setLayout(new BorderLayout());
 
@@ -31,7 +39,7 @@ public class Window extends JFrame {
         // create Arena (BoardLayout)
         this.boardPanel = new Board(game, mySnakes);
 
-        // Adds Arena Panel to Window frame
+        // Adds Arena Panel to game.Window frame
         this.add(this.boardPanel, BorderLayout.CENTER);
 
         // register key listener

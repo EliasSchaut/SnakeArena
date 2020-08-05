@@ -1,6 +1,10 @@
+package snakes;
+
+import board.*;
+
 import java.awt.*;
 
-public class AntonsSnake extends Snake{
+public class AntonsSnake extends Snake {
 
     public AntonsSnake() {
         this.NAME = "Cpt_Tony";                      // everybody can set his favorite name
@@ -9,7 +13,8 @@ public class AntonsSnake extends Snake{
     }
 
     @Override
-    public int think(Board board) {
+    public int think(BoardInfo board) {
+
 
         return RIGHT;
     }

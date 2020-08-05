@@ -1,8 +1,12 @@
+package snakes;
+
+import board.*;
+
 import java.awt.*;
 
 
 /**
- * an example Snake for testing
+ * an example snakes.Snake for testing
  */
 public class MySnake extends Snake {
 
@@ -10,7 +14,7 @@ public class MySnake extends Snake {
     private int counter;
 
     public MySnake() {
-        this.NAME = "MySnake";                      // everybody can set his favorite name
+        this.NAME = "snakes.MySnake";                      // everybody can set his favorite name
         this.COLOR = new Color(80, 0, 80); // everybody can set his favorite color
 
         counter = 0;
@@ -23,7 +27,7 @@ public class MySnake extends Snake {
      * @param board the whole board with every information necessary
      * @return direction in which the snake should move
      */
-    public int think(Board board) {
+    public int think(BoardInfo board) {
         // lovely intelligence code here
         if (counter == 2) {
             direction = (direction + 1) % 4;
