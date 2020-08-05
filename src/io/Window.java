@@ -1,7 +1,6 @@
 package io;
 
 import board.Board;
-import snakes.AntonsSnake;
 import snakes.DebugSnake;
 import snakes.MySnake;
 import snakes.Snake;
@@ -32,8 +31,7 @@ public class Window extends JFrame {
         Snake mySnake2 = new MySnake();
         Snake mySnake3 = new MySnake();
         DebugSnake debugSnake = new DebugSnake();
-        Snake anton = new AntonsSnake();
-        Snake[] mySnakes = {mySnake, mySnake2, mySnake3, debugSnake, anton};
+        Snake[] mySnakes = {mySnake, mySnake2, mySnake3, debugSnake};
         // ----------
 
         // create Arena (BoardLayout)
