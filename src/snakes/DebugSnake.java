@@ -9,7 +9,7 @@ public class DebugSnake extends Snake {
     public int direction = RIGHT;
 
     public DebugSnake() {
-        this.NAME = "snakes.DebugSnake";                      // everybody can set his favorite name
+        this.NAME = "DebugSnake";                      // everybody can set his favorite name
         this.COLOR = new Color(0, 80, 0); // everybody can set his favorite color
 
     }

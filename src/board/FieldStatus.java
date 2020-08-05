@@ -1,13 +1,12 @@
 package board;
 
 public enum FieldStatus {
-    FREE                (0),
-    BLOCKED             (1),
-    APPLE               (2),
-    YOUR_SNAKE          (3),
-    YOUR_SNAKE_HEAD     (4),
-    OTHER_SNAKE         (5),
-    OTHER_SNAKE_HEAD    (6);
+    FREE,
+    BLOCKED,
+    APPLE,
+    YOUR_SNAKE,
+    YOUR_SNAKE_HEAD,
+    OTHER_SNAKE,
+    OTHER_SNAKE_HEAD;
 
-    FieldStatus(int i) {}
 }

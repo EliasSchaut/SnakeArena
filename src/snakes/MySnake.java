@@ -35,6 +35,8 @@ public class MySnake extends Snake {
         }
         ++counter;
 
+
+
         return direction; // or LEFT, or DOWN, or UP
     }
 }

@@ -111,6 +111,8 @@ public class Board extends JPanel {
         if (snakes.size() == 1) {
             game.isRunning = false;
         }
+
+        System.out.println(apples.size());
     }
 
 
@@ -271,8 +273,7 @@ public class Board extends JPanel {
                 fields[appleField.getPosX()][appleField.getPosY()].setApple(false);
                 apples.remove(appleField);
 
-                // no this.setApple here, because setApple will create new Apples automatic,
-                // if the list apples is les then MAX_APPLES_ON_BOARD
+                this.setApple(g2d);
 
                 return true;
             }
