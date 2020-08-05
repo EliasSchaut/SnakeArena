@@ -14,7 +14,7 @@ public class MySnake extends Snake {
         this.COLOR = new Color(80, 0, 80); // everybody can set his favorite color
 
         counter = 0;
-        direction = LEFT;
+        direction = UP;
     }
 
     /**

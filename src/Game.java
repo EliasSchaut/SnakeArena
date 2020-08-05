@@ -7,7 +7,7 @@ public class Game {
     private Window window;
 
     // game will loop until this is false
-    private boolean isRunning = true;
+    public boolean isRunning = true;
 
     // This game
     private Game game;

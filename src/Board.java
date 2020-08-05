@@ -65,6 +65,22 @@ public class Board extends JPanel {
             this.snakes.add(snakes[i]);
             this.snakesLocation.add(snake);
         }
+
+        // ------- Debug ---------
+        /*String out = "";
+        for (int i = 0; i < 20; i++) {
+            for (int j = 0; j < 20; j++) {
+                out += this.fields[j][i].isFree() + " ";
+
+            }
+
+            out += "\n";
+        }
+
+        out += "\n\n";
+
+        System.out.println(out);*/
+        // -----------------------
     }
 
 
@@ -82,9 +98,13 @@ public class Board extends JPanel {
         this.paintBoard(g2d);
         this.setApple(g2d);
 
-        this.moveSnakes();
+        this.moveSnakes(g2d);
 
         this.paintSnakes(g2d);
+
+        if (snakes.size() == 1) {
+            game.isRunning = false;
+        }
     }
 
 
@@ -114,6 +134,8 @@ public class Board extends JPanel {
         g2d.setColor(Color.red);
 
         g2d.fillOval(x * MAX_X, y * MAX_Y, MAX_X, MAX_Y);
+
+        g2d.fillRect(5 * MAX_X, 1 * MAX_Y, MAX_X, MAX_Y);
     }
 
 
@@ -137,8 +159,10 @@ public class Board extends JPanel {
 
     /**
      * Moves the snakes over the board
+     *
+     * @param g2d
      */
-    private void moveSnakes() {
+    private void moveSnakes(Graphics2D g2d) {
         int direction;
         int newX;
         int newY;
@@ -148,29 +172,73 @@ public class Board extends JPanel {
             newX = this.snakesLocation.get(i).getLast().getPosX();
             newY = this.snakesLocation.get(i).getLast().getPosY();
 
+            System.out.println(newX + " " + newY);
+
+            // check if snake is allowed to move in this direction
             if ((direction == Snake.LEFT) && (newX > 0)) {
-                newX = --newX;
+                --newX;
 
             } else if ((direction == Snake.UP) && (newY > 0)) {
-                newY = --newY;
+                --newY;
 
             } else if ((direction == Snake.RIGHT) && (newX < (MAX_X - 1))) {
-                newX = ++newX;
+                ++newX;
 
             } else if ((direction == Snake.DOWN) && (newY < (MAX_Y - 1))) {
-                newY = ++newY;
+                ++newY;
 
             } else {
                 System.out.println("Snake " + this.snakes.get(i).NAME + " returns no correct direction " +
                         "or drive in a border");
-                // TODO: kill snake
-
+                killSnake(g2d, i);
+                continue;
             }
 
+
+            // check if snake run in another snake or in an apple
+            boolean ate = false;
+            if (!this.fields[newX][newY].isFree()) {
+
+                if (this.fields[newX][newY].isApple()) {
+                    removeApple(g2d, newX, newY);
+                    ate = true;
+
+                } else {
+                    killSnake(g2d, i);
+                    continue;
+
+                }
+            }
+
+
+            // set Fields -> TODO: make better
+            int oldX = this.snakesLocation.get(i).getFirst().getPosX();
+            int oldY = this.snakesLocation.get(i).getFirst().getPosY();
+
+            this.fields[newX][newY].setFree(false);
+            this.fields[oldX][oldY].setFree(true);
+
+            // move snake
             this.snakesLocation.get(i).addLast(new Field(newX, newY));
-            this.snakesLocation.get(i).removeFirst();
+
+            if (!ate) {
+                this.snakesLocation.get(i).removeFirst();
+            }
+        }
+    }
+
+    private void killSnake(Graphics2D g2d, int snakeIndex) {
+        for (Field snakePoint: this.snakesLocation.get(snakeIndex)) {
+            g2d.setColor(Color.DARK_GRAY);
+
+            g2d.fillRect(snakePoint.getPosX() * MAX_X,
+                    snakePoint.getPosY() * MAX_Y, MAX_X, MAX_Y);
 
         }
+
+        this.snakesLocation.remove(snakeIndex);
+        this.snakes.remove(snakeIndex);
+
     }
 
 
