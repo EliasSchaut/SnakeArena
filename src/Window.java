@@ -10,13 +10,10 @@ public class Window extends JFrame {
 
     private static final long serialVersionUID = -4535052202864274946L;
 
-    private JPanel boardPanel;
-
-    private Game game;
+    private final JPanel boardPanel;
 
     public Window(Game game, String title) {
         super(title);
-        this.game = game;
 
         // Create Window frame
         this.setSize(500,500);
@@ -27,7 +24,8 @@ public class Window extends JFrame {
         Snake mySnake2 = new MySnake();
         Snake mySnake3 = new MySnake();
         DebugSnake debugSnake = new DebugSnake();
-        Snake[] mySnakes = {mySnake, mySnake2, mySnake3, debugSnake};
+        Snake anton = new AntonsSnake();
+        Snake[] mySnakes = {mySnake, mySnake2, mySnake3, debugSnake, anton};
         // ----------
 
         // create Arena (BoardLayout)

@@ -25,7 +25,7 @@ public class InputListener implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
-        System.out.println("Key: "+KeyEvent.getKeyText(e.getKeyCode())+" Code: "+e.getKeyCode());
+        // System.out.println("Key: "+KeyEvent.getKeyText(e.getKeyCode())+" Code: "+e.getKeyCode());
 
         switch(e.getKeyCode()) {
 
