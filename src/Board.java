@@ -18,8 +18,10 @@ public class Board extends JPanel {
 
     private final Field[][] fields = new Field[MAX_X][MAX_Y];
     private final LinkedList<Field> apples = new LinkedList<>();
-    private LinkedList<LinkedList<Field>> snakesLocation = new LinkedList<>();
-    private LinkedList<Snake> snakes = new LinkedList<>();
+    private final LinkedList<LinkedList<Field>> snakesLocation = new LinkedList<>();
+    private final LinkedList<Snake> snakes = new LinkedList<>();
+    private final LinkedList<Field> barrier = new LinkedList<>();
+
 
     private Game game;
 
@@ -97,6 +99,7 @@ public class Board extends JPanel {
 
         this.paintBoard(g2d);
         this.setApple(g2d);
+        this.paintBarrier(g2d);
 
         this.moveSnakes(g2d);
 
@@ -134,8 +137,6 @@ public class Board extends JPanel {
         g2d.setColor(Color.red);
 
         g2d.fillOval(x * MAX_X, y * MAX_Y, MAX_X, MAX_Y);
-
-        g2d.fillRect(5 * MAX_X, 1 * MAX_Y, MAX_X, MAX_Y);
     }
 
 
@@ -158,6 +159,21 @@ public class Board extends JPanel {
 
 
     /**
+     * Paint dead snakes as barrier
+     *
+     * @param g2d
+     */
+    private void paintBarrier(Graphics2D g2d) {
+        g2d.setColor(Color.DARK_GRAY);
+
+        for (Field barrier: this.barrier) {
+            g2d.fillRect(barrier.getPosX() * MAX_X,
+                    barrier.getPosY() * MAX_Y, MAX_X, MAX_Y);
+        }
+    }
+
+
+    /**
      * Moves the snakes over the board
      *
      * @param g2d
@@ -171,8 +187,6 @@ public class Board extends JPanel {
             direction = this.snakes.get(i).think(this);
             newX = this.snakesLocation.get(i).getLast().getPosX();
             newY = this.snakesLocation.get(i).getLast().getPosY();
-
-            System.out.println(newX + " " + newY);
 
             // check if snake is allowed to move in this direction
             if ((direction == Snake.LEFT) && (newX > 0)) {
@@ -229,12 +243,11 @@ public class Board extends JPanel {
 
     private void killSnake(Graphics2D g2d, int snakeIndex) {
         for (Field snakePoint: this.snakesLocation.get(snakeIndex)) {
-            g2d.setColor(Color.DARK_GRAY);
-
-            g2d.fillRect(snakePoint.getPosX() * MAX_X,
-                    snakePoint.getPosY() * MAX_Y, MAX_X, MAX_Y);
+            barrier.add(snakePoint);
 
         }
+
+        this.paintBarrier(g2d);
 
         this.snakesLocation.remove(snakeIndex);
         this.snakes.remove(snakeIndex);
