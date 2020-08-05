@@ -15,15 +15,13 @@ import javax.swing.JPanel;
  */
 public class Window extends JFrame {
 
-    private static final long serialVersionUID = -4535052202864274946L;
-
     private final JPanel boardPanel;
 
     public Window(Game game, String title) {
         super(title);
 
         // Create game.Window frame
-        this.setSize(500,500);
+        this.setSize(Board.SCALE * Board.SCALE + 300,Board.SCALE * Board.SCALE + 40);
         this.setLayout(new BorderLayout());
 
         // Test -----
@@ -47,6 +45,7 @@ public class Window extends JFrame {
 
         // set visibility and stuff
         this.setVisible(true);
+        this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 

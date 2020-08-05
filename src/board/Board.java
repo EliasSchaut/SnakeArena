@@ -4,10 +4,7 @@ import snakes.*;
 import io.Game;
 
 import javax.swing.JPanel;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.util.LinkedList;
 
 /**
@@ -15,6 +12,7 @@ import java.util.LinkedList;
  */
 public class Board extends JPanel {
 
+    public static final int SCALE = 20;
     protected static final int MAX_X = 20;
     protected static final int MAX_Y = 20;
     protected static final int MAX_APPLES_ON_BOARD = 2;
@@ -25,8 +23,8 @@ public class Board extends JPanel {
     private final LinkedList<Snake> snakes = new LinkedList<>();
     private final LinkedList<Field> barrier = new LinkedList<>();
 
-
     private Game game;
+    private int startCounter;
 
 
     /**
@@ -69,23 +67,8 @@ public class Board extends JPanel {
 
             this.snakes.add(snakes[i]);
             this.snakesLocation.add(snake);
+            startCounter = 2;
         }
-
-        // ------- Debug ---------
-        /*String out = "";
-        for (int i = 0; i < 20; i++) {
-            for (int j = 0; j < 20; j++) {
-                out += this.fields[j][i].isFree() + " ";
-
-            }
-
-            out += "\n";
-        }
-
-        out += "\n\n";
-
-        System.out.println(out);*/
-        // -----------------------
     }
 
 
@@ -100,19 +83,29 @@ public class Board extends JPanel {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
+        this.paintNames(g2d);
         this.paintBoard(g2d);
         this.setApple(g2d);
         this.paintBarrier(g2d);
 
-        this.moveSnakes(g2d);
+        // Prevent the 2 unwant starts
+        if (startCounter > 0) {
+            this.paintSnakes(g2d);
+            startCounter--;
+            return;
 
-        this.paintSnakes(g2d);
+        }
 
         if (snakes.size() == 1) {
             game.isRunning = false;
+            this.paintSnakes(g2d);
+            return;
+
+        } else {
+            this.moveSnakes(g2d);
+            this.paintSnakes(g2d);
         }
 
-        System.out.println(apples.size());
     }
 
 
@@ -125,11 +118,27 @@ public class Board extends JPanel {
 
         for (int x = 0; x < MAX_X; x++) {
             for (int y = 0; y < MAX_Y; y++) {
-                g2d.drawRect(x * MAX_X, y * MAX_Y, MAX_X, MAX_Y);
+                g2d.drawRect(x * MAX_X, y * MAX_Y, SCALE, SCALE);
             }
         }
-        g2d.drawRect(MAX_X, MAX_Y, MAX_X, MAX_Y);
+        g2d.drawRect(MAX_X, MAX_Y, SCALE, SCALE);
     }
+
+
+    /**
+     * Draw names of living snakes on board
+     *
+     * @param g2d
+     */
+    private void paintNames(Graphics2D g2d) {
+        for (int i = 0; i < this.snakes.size(); i++) {
+            g2d.setColor(snakes.get(i).COLOR);
+            g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 14f));
+            g2d.drawString(snakes.get(i).NAME, SCALE * SCALE + 100,(50 * i) + 100);
+
+        }
+    }
+
 
     /**
      * Draw an apple
@@ -141,7 +150,7 @@ public class Board extends JPanel {
     private void paintApple(Graphics2D g2d, int x, int y) {
         g2d.setColor(Color.red);
 
-        g2d.fillOval(x * MAX_X, y * MAX_Y, MAX_X, MAX_Y);
+        g2d.fillOval(x * MAX_X, y * MAX_Y, SCALE, SCALE);
     }
 
 
@@ -157,7 +166,7 @@ public class Board extends JPanel {
 
             for (int j = 0; j < this.snakesLocation.get(i).size(); j++) {
                 g2d.fillOval(this.snakesLocation.get(i).get(j).getPosX() * MAX_X,
-                        this.snakesLocation.get(i).get(j).getPosY() * MAX_Y, MAX_X, MAX_Y);
+                        this.snakesLocation.get(i).get(j).getPosY() * MAX_Y, SCALE, SCALE);
             }
         }
     }
@@ -173,7 +182,7 @@ public class Board extends JPanel {
 
         for (Field barrier: this.barrier) {
             g2d.fillRect(barrier.getPosX() * MAX_X,
-                    barrier.getPosY() * MAX_Y, MAX_X, MAX_Y);
+                    barrier.getPosY() * MAX_Y, SCALE, SCALE);
         }
     }
 
@@ -210,6 +219,7 @@ public class Board extends JPanel {
                 System.out.println("snakes.Snake " + this.snakes.get(i).NAME + " returns no correct direction " +
                         "or drive in a border");
                 killSnake(g2d, i);
+                i--;
                 continue;
             }
 
@@ -224,6 +234,7 @@ public class Board extends JPanel {
 
                 } else {
                     killSnake(g2d, i);
+                    i--;
                     continue;
 
                 }

@@ -6,7 +6,9 @@ import snakes.Snake;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-
+/**
+ * Important for DebugSnake and PausePlay
+ */
 public class InputListener implements KeyListener {
 
     private final Game game;
@@ -18,13 +20,13 @@ public class InputListener implements KeyListener {
         this.debugSnake = debugSnake;
         this.game = game;
 
-        System.out.println("Heyy Listen, Link, Link, Link, Link, wake up, Link, Link!!");
     }
 
     // --- Methods ----------------------------------------------
 
     @Override
     public void keyTyped(KeyEvent e) {
+        // do nothing
     }
 
     @Override
@@ -46,8 +48,10 @@ public class InputListener implements KeyListener {
             case 40:	// down
                 debugSnake.direction = Snake.DOWN;
                 break;
-            case 80:
+            case 80:    // pausePlay
                 game.pausePlay();
+                break;
+
             default:
                 System.out.println("Unknown Key: "+KeyEvent.getKeyText(e.getKeyCode())+" Code: "+e.getKeyCode());
         }
