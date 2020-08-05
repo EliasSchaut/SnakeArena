@@ -114,7 +114,7 @@ public class Board extends JPanel {
     /**
      * Draws the grid board
      *
-     * @param g
+     * @param g2d
      */
     private void paintBoard(Graphics2D g2d) {
 

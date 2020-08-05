@@ -26,7 +26,8 @@ public class Window extends JFrame {
         Snake mySnake = new MySnake();
         Snake mySnake2 = new MySnake();
         Snake mySnake3 = new MySnake();
-        Snake[] mySnakes = {mySnake, mySnake2, mySnake3};
+        DebugSnake debugSnake = new DebugSnake();
+        Snake[] mySnakes = {mySnake, mySnake2, mySnake3, debugSnake};
         // ----------
 
         // create Arena (BoardLayout)
@@ -34,6 +35,11 @@ public class Window extends JFrame {
 
         // Adds Arena Panel to Window frame
         this.add(this.boardPanel, BorderLayout.CENTER);
+
+        // register key listener
+        InputListener listener = new InputListener(game, debugSnake);
+        this.addKeyListener(listener);
+        this.setFocusable(true);
 
         // set visibility and stuff
         this.setVisible(true);
