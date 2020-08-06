@@ -8,6 +8,12 @@ public class Game {
     // step-interval time in milliseconds
     private final int WAIT_TIME = 200;
 
+    // if true, debugSnake will sporn on board
+    protected final boolean DEBUG = true;
+
+    // title of window
+    private final String WINDOW_TITLE = "SnakeArena";
+
     // the window representing the game
     private Window window;
 
@@ -31,7 +37,7 @@ public class Game {
         game.game = game;
 
         // Set Up Graphics & Layout
-        game.window = new Window(game, "SnakeArena");
+        game.window = new Window(game, game.WINDOW_TITLE);
 
         // --- game.Game Loop ---
         while (game.isRunning) {

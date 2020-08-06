@@ -24,12 +24,18 @@ public class Window extends JFrame {
         this.setSize(Board.SCALE * Board.SCALE + 300,Board.SCALE * Board.SCALE + 40);
         this.setLayout(new BorderLayout());
 
-        // Test -----
+        // add snakes to board -----
         Snake mySnake = new MySnake();
         Snake mySnake2 = new MySnake();
         Snake mySnake3 = new MySnake();
         DebugSnake debugSnake = new DebugSnake();
-        Snake[] mySnakes = {mySnake, mySnake2, mySnake3, debugSnake};
+
+        Snake[] mySnakes;
+        if (game.DEBUG) {
+            mySnakes = new Snake[]{mySnake, mySnake2, mySnake3, debugSnake};
+        } else {
+            mySnakes = new Snake[]{mySnake, mySnake2, mySnake3};
+        }
         // ----------
 
         // create Arena (BoardLayout)
