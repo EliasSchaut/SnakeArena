@@ -33,19 +33,19 @@ public class Field {
         return posY;
     }
 
-    public boolean isApple() {
+    protected boolean isApple() {
         return apple;
     }
 
-    public void setApple(boolean apple) {
+    protected void setApple(boolean apple) {
         this.apple = apple;
     }
 
-    public boolean isFree() {
+    protected boolean isFree() {
         return isFree;
     }
 
-    public void setFree(boolean free) {
+    protected void setFree(boolean free) {
         isFree = free;
     }
 }

@@ -5,11 +5,20 @@ import snakes.Snake;
 
 import java.util.LinkedList;
 
+/**
+ * The full needed information about the board for snake with index snakeIndex
+ */
 public class BoardInfo {
 
     private final Board board;
     private final int snakeIndex;
 
+    /**
+     * the Board-Class create this Board-Inforamtion for a spezific snake with the index snakeIndex
+     *
+     * @param board the board full of mistery
+     * @param snakeIndex the index of the snake, which will need this information now
+     */
     protected BoardInfo(Board board, int snakeIndex) {
         this.board = board;
         this.snakeIndex = snakeIndex;

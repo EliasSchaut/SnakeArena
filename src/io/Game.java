@@ -20,7 +20,7 @@ public class Game {
     // This game
     private Game game;
 
-    // no one can create a new game (╬▔皿▔)╯
+    // no one else can create a new game (╬▔皿▔)╯
     private Game() {}
 
     // --- Main Method --------------------------------------------------------------
@@ -41,14 +41,15 @@ public class Game {
                 game.window.update();
             }
 
-            // wait for 200 ms
-            // set this to whatever speed you like
-            // a higher number means a slower game
+            // wait for WAIT_TIME in ms
             Thread.sleep(game.WAIT_TIME);
         }
     }
     // ------------------------------------------------------------------------------
 
+    /**
+     * pause or resume the game
+     */
     public void pausePlay() {
         game.isPaused = !isPaused;
     }

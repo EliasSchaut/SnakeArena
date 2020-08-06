@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
+ * Listen the Keyboard and do stuff maybe, if something is typed
  * Important for DebugSnake and PausePlay
  */
 public class InputListener implements KeyListener {

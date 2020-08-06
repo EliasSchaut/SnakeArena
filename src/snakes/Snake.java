@@ -11,7 +11,6 @@ public abstract class Snake {
     public static final int DOWN 	= 2;
     public static final int LEFT 	= 3;
 
-
     public String NAME;
     public Color COLOR;
 

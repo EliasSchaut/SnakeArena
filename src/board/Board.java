@@ -33,7 +33,7 @@ public class Board extends JPanel {
     public Board(Game game, Snake[] snakes) {
         this.game = game;
 
-        // declare Board.Board
+        // set all Fields an Board
         for (int i = 0; i < MAX_X; i++) {
             for (int j = 0; j < MAX_Y; j++) {
                 fields[i][j] = new Field(i, j);
@@ -41,7 +41,7 @@ public class Board extends JPanel {
             }
         }
 
-        // snakes beginn:
+        // set all starpoints of all snakes:
         for (int i = 0; i < snakes.length; i++) {
             Field random;
 
@@ -78,7 +78,6 @@ public class Board extends JPanel {
     @Override
     public void paint(Graphics graphics) {
         super.paint(graphics);
-
         Graphics2D g2d = (Graphics2D) graphics;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
@@ -88,7 +87,7 @@ public class Board extends JPanel {
         this.setApple(g2d);
         this.paintBarrier(g2d);
 
-        // Prevent the 2 unwant starts
+        // Prevent the first two unwant starts
         if (startCounter > 0) {
             this.paintSnakes(g2d);
             startCounter--;
@@ -96,7 +95,8 @@ public class Board extends JPanel {
 
         }
 
-        if (snakes.size() == 1) {
+        // check if game is finish
+        if (snakes.size() <= 1) {
             game.isRunning = false;
             this.paintSnakes(g2d);
             return;
@@ -126,7 +126,7 @@ public class Board extends JPanel {
 
 
     /**
-     * Draw names of living snakes on board
+     * Draw names of living snakes on the right side of the board
      *
      * @param g2d
      */
@@ -141,11 +141,11 @@ public class Board extends JPanel {
 
 
     /**
-     * Draw an apple
+     * Draw an apple on board
      *
      * @param g2d
-     * @param x
-     * @param y
+     * @param x x-coordinate of the to drawn apple
+     * @param y y-coordinate of the to drawn apple
      */
     private void paintApple(Graphics2D g2d, int x, int y) {
         g2d.setColor(Color.red);
@@ -155,7 +155,7 @@ public class Board extends JPanel {
 
 
     /**
-     * Draws the current snake position
+     * Draws the current snake positions
      *
      * @param g2d
      */
@@ -173,7 +173,7 @@ public class Board extends JPanel {
 
 
     /**
-     * Paint dead snakes as barrier
+     * Paint dead snakes as barrier forever (╯▔皿▔)╯
      *
      * @param g2d
      */
@@ -223,8 +223,7 @@ public class Board extends JPanel {
                 continue;
             }
 
-
-            // check if snake run in another snake or in an apple
+            // check if snake run in another snake/barrier or in an apple
             boolean ate = false;
             if (!this.fields[newX][newY].isFree()) {
 
@@ -257,6 +256,13 @@ public class Board extends JPanel {
         }
     }
 
+
+    /**
+     * Use epic kame hame ha power to kill a snake and turn it to a barrier
+     *
+     * @param g2d
+     * @param snakeIndex snake to be killed
+     */
     private void killSnake(Graphics2D g2d, int snakeIndex) {
         barrier.addAll(this.snakesLocation.get(snakeIndex));
 
