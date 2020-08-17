@@ -3,6 +3,7 @@ package board;
 import io.Game;
 import snakes.Snake;
 
+import java.util.List;
 import java.util.LinkedList;
 
 /**
@@ -41,7 +42,7 @@ public class BoardInfo {
      *
      * @return own snake position
      */
-    public LinkedList<Field> getOwnSnake() {
+    public List<Field> getOwnSnake() {
         return board.getSnakesLocation().get(snakeIndex);
     }
 
@@ -51,7 +52,7 @@ public class BoardInfo {
      *
      * @return head of other snakes
      */
-    public LinkedList<Field> getOtherHeads() {
+    public List<Field> getOtherHeads() {
         LinkedList<Field> heads = new LinkedList<>();
 
         for (int i = 0; i < this.board.getSnakesLocation().size(); i++) {
@@ -70,7 +71,7 @@ public class BoardInfo {
      *
      * @return position of all other snakes
      */
-    public LinkedList<LinkedList<Field>> getOtherSnakes() {
+    public List<LinkedList<Field>> getOtherSnakes() {
         LinkedList<LinkedList<Field>> snakes = new LinkedList<>();
 
         for (int i = 0; i < board.getSnakesLocation().size(); i++) {
@@ -88,7 +89,7 @@ public class BoardInfo {
      *
      * @return apple positions
      */
-    public LinkedList<Field> getApples() {
+    public List<Field> getApples() {
         return board.getApples();
     }
 
@@ -98,7 +99,7 @@ public class BoardInfo {
      *
      * @return all fields with barriers
      */
-    public LinkedList<Field> getBarrier() {
+    public List<Field> getBarrier() {
         return board.getBarrier();
     }
 

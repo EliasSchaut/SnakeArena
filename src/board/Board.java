@@ -5,7 +5,9 @@ import io.Game;
 
 import javax.swing.JPanel;
 import java.awt.*;
+import java.util.List;
 import java.util.LinkedList;
+import java.util.ArrayList;
 
 /**
  * This class represents the Arena with the snakes
@@ -18,10 +20,10 @@ public class Board extends JPanel {
     protected static final int MAX_APPLES_ON_BOARD = 2;
 
     private final Field[][] fields = new Field[MAX_X][MAX_Y];
-    private final LinkedList<Field> apples = new LinkedList<>();
-    private final LinkedList<LinkedList<Field>> snakesLocation = new LinkedList<>();
-    private final LinkedList<Snake> snakes = new LinkedList<>();
-    private final LinkedList<Field> barrier = new LinkedList<>();
+    private final List<Field> apples = new ArrayList<>();
+    private final List<LinkedList<Field>> snakesLocation = new ArrayList<>();
+    private final List<Snake> snakes = new ArrayList<>();
+    private final List<Field> barrier = new ArrayList<>();
 
     private Game game;
     private int startCounter;
@@ -60,7 +62,7 @@ public class Board extends JPanel {
             fields[random.getPosX() + 1][random.getPosY()].setFree(false);
             fields[random.getPosX() + 2][random.getPosY()].setFree(false);
 
-            LinkedList<Field> snake = new LinkedList<>();
+            var snake = new LinkedList<Field>();
             snake.addLast(new Field(random.getPosX() + 0, random.getPosY()));
             snake.addLast(new Field(random.getPosX() + 1, random.getPosY()));
             snake.addLast(new Field(random.getPosX() + 2, random.getPosY()));
@@ -343,19 +345,19 @@ public class Board extends JPanel {
         return fields;
     }
 
-    protected LinkedList<Field> getApples() {
+    protected List<Field> getApples() {
         return apples;
     }
 
-    protected LinkedList<LinkedList<Field>> getSnakesLocation() {
+    protected List<LinkedList<Field>> getSnakesLocation() {
         return snakesLocation;
     }
 
-    protected LinkedList<Snake> getSnakes() {
+    protected List<Snake> getSnakes() {
         return snakes;
     }
 
-    protected LinkedList<Field> getBarrier() {
+    protected List<Field> getBarrier() {
         return barrier;
     }
 }
