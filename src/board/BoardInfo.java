@@ -32,7 +32,7 @@ public class BoardInfo {
      *
      * @return own head
      */
-    public Field getOwnHead() {
+    public Position getOwnHead() {
         return board.getSnakesLocation().get(snakeIndex).getLast();
     }
 
@@ -42,7 +42,7 @@ public class BoardInfo {
      *
      * @return own snake position
      */
-    public List<Field> getOwnSnake() {
+    public List<Position> getOwnSnake() {
         return board.getSnakesLocation().get(snakeIndex);
     }
 
@@ -52,8 +52,8 @@ public class BoardInfo {
      *
      * @return head of other snakes
      */
-    public List<Field> getOtherHeads() {
-        LinkedList<Field> heads = new LinkedList<>();
+    public List<Position> getOtherHeads() {
+        LinkedList<Position> heads = new LinkedList<>();
 
         for (int i = 0; i < this.board.getSnakesLocation().size(); i++) {
             if (i != snakeIndex) {
@@ -71,8 +71,8 @@ public class BoardInfo {
      *
      * @return position of all other snakes
      */
-    public List<LinkedList<Field>> getOtherSnakes() {
-        LinkedList<LinkedList<Field>> snakes = new LinkedList<>();
+    public List<LinkedList<Position>> getOtherSnakes() {
+        LinkedList<LinkedList<Position>> snakes = new LinkedList<>();
 
         for (int i = 0; i < board.getSnakesLocation().size(); i++) {
             if (i != snakeIndex) {
@@ -89,7 +89,7 @@ public class BoardInfo {
      *
      * @return apple positions
      */
-    public List<Field> getApples() {
+    public List<Position> getApples() {
         return board.getApples();
     }
 
