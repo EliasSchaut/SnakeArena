@@ -25,9 +25,9 @@ public class Window extends JFrame {
         this.setLayout(new BorderLayout());
 
         // add snakes to board -----
-        Snake mySnake = new MySnake();
-        Snake mySnake2 = new MySnake();
-        Snake mySnake3 = new MySnake();
+        Snake mySnake = new MySnake("java -jar mySnake.jar client");
+        Snake mySnake2 = new MySnake("java -jar mySnake.jar client");
+        Snake mySnake3 = new MySnake("java -jar mySnake.jar client");
         DebugSnake debugSnake = new DebugSnake();
 
         Snake[] mySnakes;

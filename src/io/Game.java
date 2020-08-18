@@ -12,13 +12,10 @@ public class Game {
     private final int WAIT_TIME = 200;
 
     // if true, debugSnake will sporn on board
-    protected final boolean DEBUG = true;
-
-    // if true, program is compiled as cli
-    public static final boolean CLI_CLIENT = true;
+    protected final boolean DEBUG = false;
 
     // if true, program is compiled as cli server
-    public static final boolean CLI_SERVER = true;
+    public boolean CLI_SERVER = true;
 
     // title of window
     private final String WINDOW_TITLE = "SnakeArena";
@@ -40,8 +37,7 @@ public class Game {
 
     // --- Main Method --------------------------------------------------------------
     public static void main(String[] args) throws InterruptedException {
-
-        if (CLI_CLIENT) {
+        if (args.length > 0 && args[0].trim().equals("client")) {
             Scanner scanner = new Scanner(System.in);
             var lines = new ArrayList<String>();
             while (scanner.hasNextLine()) {
@@ -55,6 +51,9 @@ public class Game {
 
         // Create game.Game Object
         Game game = new Game();
+        if (args.length > 0 && args[0].trim().equals("cli-server")) {
+            game.CLI_SERVER = true;
+        }
         game.game = game;
 
         // Set Up Graphics & Layout

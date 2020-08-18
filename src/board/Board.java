@@ -36,13 +36,7 @@ public class Board extends JPanel {
     public Board(Game game, Snake[] snakes) {
         this.game = game;
 
-        // set all Fields an Board
-        for (int i = 0; i < MAX_X; i++) {
-            for (int j = 0; j < MAX_Y; j++) {
-                fields[i][j] = new Field();
-
-            }
-        }
+        initFields();
 
         // set all starpoints of all snakes:
         for (int i = 0; i < snakes.length; i++) {
@@ -76,6 +70,7 @@ public class Board extends JPanel {
      * @param lines the lines read from stdin
      */
     public Board(List<String> lines) {
+        initFields();
         var new_snakes = new HashMap<Integer, LinkedList<Position>>();
         for (int i = 1; i < lines.size(); i++) {
             var cells = lines.get(i).trim().split(" ");
@@ -131,6 +126,16 @@ public class Board extends JPanel {
         return builder.toString();
     }
 
+
+    private void initFields() {
+        // set all Fields an Board
+        for (int i = 0; i < MAX_X; i++) {
+            for (int j = 0; j < MAX_Y; j++) {
+                fields[i][j] = new Field();
+
+            }
+        }
+    }
     /**
      * paints everything
      */
@@ -287,9 +292,9 @@ public class Board extends JPanel {
         String board = serialize();
 
         for (int i = 0; i < this.snakes.size(); i++) {
-            if (Game.CLI_SERVER) {
+            if (game.CLI_SERVER) {
                 var snake =this.snakes.get(i);
-                direction = executeSnake(snake.NAME, new BoardInfo(this, i).serialize(board));
+                direction = executeSnake(snake.PATH, new BoardInfo(this, i).serialize(board));
             } else {
                 direction = this.snakes.get(i).think(new BoardInfo(this, i));
             }
@@ -310,8 +315,8 @@ public class Board extends JPanel {
                 ++newY;
 
             } else {
-                System.out.println("snakes.Snake " + this.snakes.get(i).NAME + " returns no correct direction "
-                        + "or drive in a border");
+                System.out.println("snakes.Snake " + this.snakes.get(i).NAME + " did not return a correct direction "
+                        + "or drove into a border");
                 killSnake(g2d, i);
                 i--;
                 continue;
