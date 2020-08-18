@@ -14,7 +14,7 @@ public class MySnake extends Snake {
     private int counter;
 
     public MySnake() {
-        this.NAME = "Kuhle Schlange";               // set your favorite name
+        this.NAME = "test.jar";               // set your favorite name
         this.COLOR = new Color(80, 0, 80); // set your favorite color
 
         counter = 0;

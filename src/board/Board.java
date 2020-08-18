@@ -5,6 +5,7 @@ import io.Game;
 
 import javax.swing.JPanel;
 import java.awt.*;
+import java.io.*;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.ArrayList;
@@ -69,6 +70,11 @@ public class Board extends JPanel {
         }
     }
 
+    /**
+     * Deserialize Board from String
+     * 
+     * @param lines the lines read from stdin
+     */
     public Board(List<String> lines) {
         var new_snakes = new HashMap<Integer, LinkedList<Position>>();
         for (int i = 1; i < lines.size(); i++) {
@@ -77,24 +83,27 @@ public class Board extends JPanel {
                 if (cells[j].equals("O")) {
                     this.fields[i][j].setApple(true);
                 } else if (!cells[j].equals("#")) {
-                     int id = Integer.parseInt(cells[j]);
-                     int aid = Math.abs(id) - 1;
-                     if (!new_snakes.containsKey(aid)){
+                    int id = Integer.parseInt(cells[j]);
+                    int aid = Math.abs(id) - 1;
+                    if (!new_snakes.containsKey(aid)) {
                         new_snakes.put(aid, new LinkedList<Position>());
-                     }
-                     var list = new_snakes.get(aid);
-                     this.fields[i][j].setFree(false);
-                     if (id < 0) {
-                         list.addLast(new Position(i, j));
-                     } else {
-                         list.addFirst(new Position(i, j));
-                     }
+                    }
+                    var list = new_snakes.get(aid);
+                    this.fields[i][j].setFree(false);
+                    if (id < 0) {
+                        list.addLast(new Position(i, j));
+                    } else {
+                        list.addFirst(new Position(i, j));
+                    }
                 }
             }
         }
+        new_snakes.keySet().stream().forEachOrdered(id -> this.snakesLocation.add(new_snakes.get(id)));
     }
 
-
+    /**
+     * Serialize Board to String
+     */
     public String serialize() {
         var builder = new StringBuilder();
         var snakes = new int[MAX_X][MAX_Y];
@@ -229,6 +238,43 @@ public class Board extends JPanel {
         }
     }
 
+    private int executeSnake(String path, String boardinfo) {
+        String line;
+        OutputStream stdin = null;
+        InputStream stderr = null;
+        InputStream stdout = null;
+        int result = 0;
+        try {
+
+            // launch EXE and grab stdin/stdout and stderr
+            Process process = Runtime.getRuntime().exec(path);
+            stdin = process.getOutputStream();
+            stderr = process.getErrorStream();
+            stdout = process.getInputStream();
+
+            // "write" the parms into stdin
+            stdin.write(boardinfo.getBytes());
+            stdin.close();
+
+            // clean up if any output in stdout
+            BufferedReader brCleanUp = new BufferedReader(new InputStreamReader(stdout));
+            while ((line = brCleanUp.readLine()) != null) {
+                result = Integer.parseInt(line);
+            }
+            brCleanUp.close();
+
+            // clean up if any output in stderr
+            brCleanUp = new BufferedReader(new InputStreamReader(stderr));
+            while ((line = brCleanUp.readLine()) != null) {
+                System.out.println("[Stderr] " + line);
+            }
+            brCleanUp.close();
+        } catch (Exception err) {
+            err.printStackTrace();
+        }
+        return result;
+    }
+
     /**
      * Moves the snakes over the board
      *
@@ -238,9 +284,15 @@ public class Board extends JPanel {
         int direction;
         int newX;
         int newY;
+        String board = serialize();
 
         for (int i = 0; i < this.snakes.size(); i++) {
-            direction = this.snakes.get(i).think(new BoardInfo(this, i));
+            if (Game.CLI_SERVER) {
+                var snake =this.snakes.get(i);
+                direction = executeSnake(snake.NAME, new BoardInfo(this, i).serialize(board));
+            } else {
+                direction = this.snakes.get(i).think(new BoardInfo(this, i));
+            }
             newX = this.snakesLocation.get(i).getLast().getX();
             newY = this.snakesLocation.get(i).getLast().getY();
 

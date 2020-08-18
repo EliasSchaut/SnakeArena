@@ -4,6 +4,7 @@ import io.Game;
 import snakes.Snake;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.LinkedList;
 
 /**
@@ -24,6 +25,34 @@ public class BoardInfo {
         this.board = board;
         this.snakeIndex = snakeIndex;
 
+    }
+
+    /**
+     * Deserialize BoardInfo from String
+     * @param lines the lines read from stdin
+     */
+    public BoardInfo(List<String> lines) {
+        this.snakeIndex = Integer.parseInt(lines.get(0));
+        List<String> new_lines = lines.stream().skip(1).collect(Collectors.toList());
+        this.board = new Board(new_lines);
+    }
+
+    /**
+     * Serialize BoardInfo to String
+     */
+    public String serialize() {
+        return serialize(board.serialize());
+    }
+
+    /**
+     * Serialize BoardInfo to String
+     */
+    public String serialize(String board) {
+        var builder = new StringBuilder();
+        builder.append(snakeIndex);
+        builder.append('\n');
+        builder.append(board);
+        return builder.toString();
     }
 
 
@@ -99,7 +128,7 @@ public class BoardInfo {
      *
      * @return all fields with barriers
      */
-    public List<Field> getBarrier() {
+    public List<Position> getBarrier() {
         return board.getBarrier();
     }
 
@@ -111,20 +140,20 @@ public class BoardInfo {
      * @return true, if the next step in the given direction of the own snake will be free, else false
      */
     public boolean isNextStepFree(int direction) {
-        Field head = getOwnHead();
+        Position head = getOwnHead();
         Field[][] board = this.board.getFields();
 
         if (direction == Snake.UP) {
-            return (head.getPosY() > 0) && (board[head.getPosX()][head.getPosY()].isFree());
+            return (head.getY() > 0) && (board[head.getX()][head.getY()].isFree());
 
         } else if (direction == Snake.RIGHT) {
-            return (head.getPosX() < (Board.MAX_X - 1)) && (board[head.getPosX()][head.getPosY()].isFree());
+            return (head.getX() < (Board.MAX_X - 1)) && (board[head.getX()][head.getY()].isFree());
 
         } else if (direction == Snake.DOWN) {
-            return (head.getPosY() < (Board.MAX_Y - 1)) && (board[head.getPosX()][head.getPosY()].isFree());
+            return (head.getY() < (Board.MAX_Y - 1)) && (board[head.getX()][head.getY()].isFree());
 
         } else if (direction == Snake.LEFT) {
-            return (head.getPosX() > 0) && (board[head.getPosX()][head.getPosY()].isFree());
+            return (head.getX() > 0) && (board[head.getX()][head.getY()].isFree());
 
         } else {
             return false;

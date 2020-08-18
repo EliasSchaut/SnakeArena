@@ -1,5 +1,8 @@
 package io;
 
+import board.*;
+import java.util.*;
+
 /**
  * The Main-Class
  */
@@ -10,6 +13,12 @@ public class Game {
 
     // if true, debugSnake will sporn on board
     protected final boolean DEBUG = true;
+
+    // if true, program is compiled as cli
+    public static final boolean CLI_CLIENT = true;
+
+    // if true, program is compiled as cli server
+    public static final boolean CLI_SERVER = true;
 
     // title of window
     private final String WINDOW_TITLE = "SnakeArena";
@@ -31,6 +40,18 @@ public class Game {
 
     // --- Main Method --------------------------------------------------------------
     public static void main(String[] args) throws InterruptedException {
+
+        if (CLI_CLIENT) {
+            Scanner scanner = new Scanner(System.in);
+            var lines = new ArrayList<String>();
+            while (scanner.hasNextLine()) {
+                lines.add(scanner.nextLine());
+            }
+            scanner.close();
+            var boardinfo = new BoardInfo(lines);
+            System.out.println( new snakes.MySnake().think(boardinfo));
+            return;
+        }
 
         // Create game.Game Object
         Game game = new Game();
