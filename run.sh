@@ -6,4 +6,6 @@ if [ $? -ne 0 ]; then
 fi
 
 cd $top/src
-javac $(find . -name \*.java) && jar -cvfm test.jar mainfest.txt $(find . -name \*.class) && java -jar test.jar
+javac $(find . -name \*.java) && jar -cvfm arena.jar mainfest.txt $(find . -name \*.class)
+cp arena.jar mySnake.jar
+java -jar arena.jar cli-server

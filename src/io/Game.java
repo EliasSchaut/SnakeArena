@@ -1,5 +1,8 @@
 package io;
 
+import board.*;
+import java.util.*;
+
 /**
  * The Main-Class
  */
@@ -9,7 +12,10 @@ public class Game {
     private final int WAIT_TIME = 200;
 
     // if true, debugSnake will sporn on board
-    protected final boolean DEBUG = true;
+    protected final boolean DEBUG = false;
+
+    // if true, program is compiled as cli server
+    public boolean CLI_SERVER = true;
 
     // title of window
     private final String WINDOW_TITLE = "SnakeArena";
@@ -31,9 +37,23 @@ public class Game {
 
     // --- Main Method --------------------------------------------------------------
     public static void main(String[] args) throws InterruptedException {
+        if (args.length > 0 && args[0].trim().equals("client")) {
+            Scanner scanner = new Scanner(System.in);
+            var lines = new ArrayList<String>();
+            while (scanner.hasNextLine()) {
+                lines.add(scanner.nextLine());
+            }
+            scanner.close();
+            var boardinfo = new BoardInfo(lines);
+            System.out.println( new snakes.MySnake().think(boardinfo));
+            return;
+        }
 
         // Create game.Game Object
         Game game = new Game();
+        if (args.length > 0 && args[0].trim().equals("cli-server")) {
+            game.CLI_SERVER = true;
+        }
         game.game = game;
 
         // Set Up Graphics & Layout

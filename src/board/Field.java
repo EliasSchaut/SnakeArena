@@ -1,12 +1,10 @@
 package board;
 
+
 /**
  * Represents one field of the board.
  */
 public class Field {
-    private final int posX;
-    private final int posY;
-
     private boolean apple;
     private boolean isFree;
 
@@ -17,21 +15,11 @@ public class Field {
      * @param x the x-Coordinate of the Board.Board
      * @param y the y-Coordinate of the Board.Board
      */
-    public Field(int x, int y) {
-        this.posX = x;
-        this.posY = y;
+    public Field() {
         this.apple = false;
         this.isFree = true;
     }
 
-
-    public int getPosX() {
-        return posX;
-    }
-
-    public int getPosY() {
-        return posY;
-    }
 
     protected boolean isApple() {
         return apple;

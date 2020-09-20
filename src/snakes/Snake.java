@@ -12,6 +12,7 @@ public abstract class Snake {
     public static final int LEFT 	= 3;
 
     public String NAME;
+    public String PATH;
     public Color COLOR;
 
 

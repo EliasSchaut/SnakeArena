@@ -5,9 +5,11 @@ import io.Game;
 
 import javax.swing.JPanel;
 import java.awt.*;
+import java.io.*;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class represents the Arena with the snakes
@@ -20,14 +22,13 @@ public class Board extends JPanel {
     protected static final int MAX_APPLES_ON_BOARD = 2;
 
     private final Field[][] fields = new Field[MAX_X][MAX_Y];
-    private final List<Field> apples = new ArrayList<>();
-    private final List<LinkedList<Field>> snakesLocation = new ArrayList<>();
+    private final List<Position> apples = new ArrayList<>();
+    private final List<LinkedList<Position>> snakesLocation = new ArrayList<>();
     private final List<Snake> snakes = new ArrayList<>();
-    private final List<Field> barrier = new ArrayList<>();
+    private final List<Position> barrier = new ArrayList<>();
 
     private Game game;
     private int startCounter;
-
 
     /**
      * Create Board.Board
@@ -35,37 +36,27 @@ public class Board extends JPanel {
     public Board(Game game, Snake[] snakes) {
         this.game = game;
 
-        // set all Fields an Board
-        for (int i = 0; i < MAX_X; i++) {
-            for (int j = 0; j < MAX_Y; j++) {
-                fields[i][j] = new Field(i, j);
-
-            }
-        }
+        initFields();
 
         // set all starpoints of all snakes:
         for (int i = 0; i < snakes.length; i++) {
-            Field random;
+            Position random;
 
             do {
                 random = getRandomField();
 
-            } while (
-                    !(
-                    ((random.getPosX() + 2) < MAX_X)
-                    && fields[random.getPosX() + 0][random.getPosY()].isFree()
-                    && fields[random.getPosX() + 1][random.getPosY()].isFree()
-                    && fields[random.getPosX() + 2][random.getPosY()].isFree())
-            );
+            } while (!(((random.getX() + 2) < MAX_X) && fields[random.getX() + 0][random.getY()].isFree()
+                    && fields[random.getX() + 1][random.getY()].isFree()
+                    && fields[random.getX() + 2][random.getY()].isFree()));
 
-            fields[random.getPosX() + 0][random.getPosY()].setFree(false);
-            fields[random.getPosX() + 1][random.getPosY()].setFree(false);
-            fields[random.getPosX() + 2][random.getPosY()].setFree(false);
+            fields[random.getX() + 0][random.getY()].setFree(false);
+            fields[random.getX() + 1][random.getY()].setFree(false);
+            fields[random.getX() + 2][random.getY()].setFree(false);
 
-            var snake = new LinkedList<Field>();
-            snake.addLast(new Field(random.getPosX() + 0, random.getPosY()));
-            snake.addLast(new Field(random.getPosX() + 1, random.getPosY()));
-            snake.addLast(new Field(random.getPosX() + 2, random.getPosY()));
+            var snake = new LinkedList<Position>();
+            snake.addLast(new Position(random.getX() + 0, random.getY()));
+            snake.addLast(new Position(random.getX() + 1, random.getY()));
+            snake.addLast(new Position(random.getX() + 2, random.getY()));
 
             this.snakes.add(snakes[i]);
             this.snakesLocation.add(snake);
@@ -73,7 +64,78 @@ public class Board extends JPanel {
         }
     }
 
+    /**
+     * Deserialize Board from String
+     * 
+     * @param lines the lines read from stdin
+     */
+    public Board(List<String> lines) {
+        initFields();
+        var new_snakes = new HashMap<Integer, LinkedList<Position>>();
+        for (int i = 1; i < lines.size(); i++) {
+            var cells = lines.get(i).trim().split(" ");
+            for (int j = 0; j < cells.length; j++) {
+                if (cells[j].equals("O")) {
+                    this.fields[i][j].setApple(true);
+                } else if (!cells[j].equals("#")) {
+                    int id = Integer.parseInt(cells[j]);
+                    int aid = Math.abs(id) - 1;
+                    if (!new_snakes.containsKey(aid)) {
+                        new_snakes.put(aid, new LinkedList<Position>());
+                    }
+                    var list = new_snakes.get(aid);
+                    this.fields[i][j].setFree(false);
+                    if (id < 0) {
+                        list.addLast(new Position(i, j));
+                    } else {
+                        list.addFirst(new Position(i, j));
+                    }
+                }
+            }
+        }
+        new_snakes.keySet().stream().forEachOrdered(id -> this.snakesLocation.add(new_snakes.get(id)));
+    }
 
+    /**
+     * Serialize Board to String
+     */
+    public String serialize() {
+        var builder = new StringBuilder();
+        var snakes = new int[MAX_X][MAX_Y];
+        for (int i = 0; i < this.snakes.size(); i++) {
+            for (var pos : this.snakesLocation.get(i)) {
+                snakes[pos.getX()][pos.getY()] = i + 1;
+            }
+            var pos = snakesLocation.get(i).getLast();
+            snakes[pos.getX()][pos.getY()] = -i - 1;
+        }
+
+        for (int i = 0; i < MAX_X; i++) {
+            for (int j = 0; j < MAX_Y; j++) {
+                if (this.fields[i][j].isApple()) {
+                    builder.append("O ");
+                } else if (snakes[i][j] != 0) {
+                    builder.append(snakes[i][j] + " ");
+                } else {
+                    builder.append("# ");
+                }
+            }
+            builder.append('\n');
+        }
+
+        return builder.toString();
+    }
+
+
+    private void initFields() {
+        // set all Fields an Board
+        for (int i = 0; i < MAX_X; i++) {
+            for (int j = 0; j < MAX_Y; j++) {
+                fields[i][j] = new Field();
+
+            }
+        }
+    }
     /**
      * paints everything
      */
@@ -81,8 +143,7 @@ public class Board extends JPanel {
     public void paint(Graphics graphics) {
         super.paint(graphics);
         Graphics2D g2d = (Graphics2D) graphics;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         this.paintNames(g2d);
         this.paintBoard(g2d);
@@ -110,7 +171,6 @@ public class Board extends JPanel {
 
     }
 
-
     /**
      * Draws the grid board
      *
@@ -126,7 +186,6 @@ public class Board extends JPanel {
         g2d.drawRect(MAX_X, MAX_Y, SCALE, SCALE);
     }
 
-
     /**
      * Draw names of living snakes on the right side of the board
      *
@@ -136,25 +195,23 @@ public class Board extends JPanel {
         for (int i = 0; i < this.snakes.size(); i++) {
             g2d.setColor(snakes.get(i).COLOR);
             g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 14f));
-            g2d.drawString(snakes.get(i).NAME, SCALE * SCALE + 100,(50 * i) + 100);
+            g2d.drawString(snakes.get(i).NAME, SCALE * SCALE + 100, (50 * i) + 100);
 
         }
     }
-
 
     /**
      * Draw an apple on board
      *
      * @param g2d
-     * @param x x-coordinate of the to drawn apple
-     * @param y y-coordinate of the to drawn apple
+     * @param x   x-coordinate of the to drawn apple
+     * @param y   y-coordinate of the to drawn apple
      */
     private void paintApple(Graphics2D g2d, int x, int y) {
         g2d.setColor(Color.red);
 
         g2d.fillOval(x * MAX_X, y * MAX_Y, SCALE, SCALE);
     }
-
 
     /**
      * Draws the current snake positions
@@ -167,12 +224,11 @@ public class Board extends JPanel {
             g2d.setColor(this.snakes.get(i).COLOR);
 
             for (int j = 0; j < this.snakesLocation.get(i).size(); j++) {
-                g2d.fillOval(this.snakesLocation.get(i).get(j).getPosX() * MAX_X,
-                        this.snakesLocation.get(i).get(j).getPosY() * MAX_Y, SCALE, SCALE);
+                g2d.fillOval(this.snakesLocation.get(i).get(j).getX() * MAX_X,
+                        this.snakesLocation.get(i).get(j).getY() * MAX_Y, SCALE, SCALE);
             }
         }
     }
-
 
     /**
      * Paint dead snakes as barrier forever (╯▔皿▔)╯
@@ -182,12 +238,47 @@ public class Board extends JPanel {
     private void paintBarrier(Graphics2D g2d) {
         g2d.setColor(Color.DARK_GRAY);
 
-        for (Field barrier: this.barrier) {
-            g2d.fillRect(barrier.getPosX() * MAX_X,
-                    barrier.getPosY() * MAX_Y, SCALE, SCALE);
+        for (var barrier : this.barrier) {
+            g2d.fillRect(barrier.getX() * MAX_X, barrier.getY() * MAX_Y, SCALE, SCALE);
         }
     }
 
+    private int executeSnake(String path, String boardinfo) {
+        String line;
+        OutputStream stdin = null;
+        InputStream stderr = null;
+        InputStream stdout = null;
+        int result = 0;
+        try {
+
+            // launch EXE and grab stdin/stdout and stderr
+            Process process = Runtime.getRuntime().exec(path);
+            stdin = process.getOutputStream();
+            stderr = process.getErrorStream();
+            stdout = process.getInputStream();
+
+            // "write" the parms into stdin
+            stdin.write(boardinfo.getBytes());
+            stdin.close();
+
+            // clean up if any output in stdout
+            BufferedReader brCleanUp = new BufferedReader(new InputStreamReader(stdout));
+            while ((line = brCleanUp.readLine()) != null) {
+                result = Integer.parseInt(line);
+            }
+            brCleanUp.close();
+
+            // clean up if any output in stderr
+            brCleanUp = new BufferedReader(new InputStreamReader(stderr));
+            while ((line = brCleanUp.readLine()) != null) {
+                System.out.println("[Stderr] " + line);
+            }
+            brCleanUp.close();
+        } catch (Exception err) {
+            err.printStackTrace();
+        }
+        return result;
+    }
 
     /**
      * Moves the snakes over the board
@@ -198,11 +289,17 @@ public class Board extends JPanel {
         int direction;
         int newX;
         int newY;
+        String board = serialize();
 
         for (int i = 0; i < this.snakes.size(); i++) {
-            direction = this.snakes.get(i).think(new BoardInfo(this, i));
-            newX = this.snakesLocation.get(i).getLast().getPosX();
-            newY = this.snakesLocation.get(i).getLast().getPosY();
+            if (game.CLI_SERVER) {
+                var snake =this.snakes.get(i);
+                direction = executeSnake(snake.PATH, new BoardInfo(this, i).serialize(board));
+            } else {
+                direction = this.snakes.get(i).think(new BoardInfo(this, i));
+            }
+            newX = this.snakesLocation.get(i).getLast().getX();
+            newY = this.snakesLocation.get(i).getLast().getY();
 
             // check if snake is allowed to move in this direction
             if ((direction == Snake.LEFT) && (newX > 0)) {
@@ -218,8 +315,8 @@ public class Board extends JPanel {
                 ++newY;
 
             } else {
-                System.out.println("snakes.Snake " + this.snakes.get(i).NAME + " returns no correct direction " +
-                        "or drive in a border");
+                System.out.println("snakes.Snake " + this.snakes.get(i).NAME + " did not return a correct direction "
+                        + "or drove into a border");
                 killSnake(g2d, i);
                 i--;
                 continue;
@@ -241,23 +338,21 @@ public class Board extends JPanel {
                 }
             }
 
-
             // set Fields -> TODO: make better
-            int oldX = this.snakesLocation.get(i).getFirst().getPosX();
-            int oldY = this.snakesLocation.get(i).getFirst().getPosY();
+            int oldX = this.snakesLocation.get(i).getFirst().getX();
+            int oldY = this.snakesLocation.get(i).getFirst().getY();
 
             this.fields[newX][newY].setFree(false);
             this.fields[oldX][oldY].setFree(true);
 
             // move snake
-            this.snakesLocation.get(i).addLast(new Field(newX, newY));
+            this.snakesLocation.get(i).addLast(new Position(newX, newY));
 
             if (!ate) {
                 this.snakesLocation.get(i).removeFirst();
             }
         }
     }
-
 
     /**
      * Use epic kame hame ha power to kill a snake and turn it to a barrier
@@ -275,21 +370,20 @@ public class Board extends JPanel {
 
     }
 
-
     /**
      * remove an apple on the board and place another
      *
      * @param g2d
-     * @param x x-Coordinate of apple
-     * @param y y-Coordinate of apple
+     * @param x   x-Coordinate of apple
+     * @param y   y-Coordinate of apple
      * @return if an apple was removed
      */
     private boolean removeApple(Graphics2D g2d, int x, int y) {
-        for (Field appleField : apples) {
-            if ((appleField.getPosX() == x) && (appleField.getPosY() == y)) {
+        for (var appleField : apples) {
+            if ((appleField.getX() == x) && (appleField.getY() == y)) {
 
                 // no .setFree here, because a snake will be on this field
-                fields[appleField.getPosX()][appleField.getPosY()].setApple(false);
+                fields[appleField.getX()][appleField.getY()].setApple(false);
                 apples.remove(appleField);
 
                 this.setApple(g2d);
@@ -301,7 +395,6 @@ public class Board extends JPanel {
         return false;
     }
 
-
     /**
      * place an apple on the board
      *
@@ -309,47 +402,45 @@ public class Board extends JPanel {
      */
     private void setApple(Graphics2D g2d) {
         while (apples.size() < MAX_APPLES_ON_BOARD) {
-            Field appleField;
+            Position appleField;
 
             do {
                 appleField = getRandomField();
 
-            } while (!fields[appleField.getPosX()][appleField.getPosY()].isFree());
+            } while (!fields[appleField.getX()][appleField.getY()].isFree());
 
-            fields[appleField.getPosX()][appleField.getPosY()].setFree(false);
-            fields[appleField.getPosX()][appleField.getPosY()].setApple(true);
+            fields[appleField.getX()][appleField.getY()].setFree(false);
+            fields[appleField.getX()][appleField.getY()].setApple(true);
             apples.add(appleField);
         }
 
-
         // paint apples
-        for (Field apple : apples) {
-            this.paintApple(g2d, apple.getPosX(), apple.getPosY());
+        for (var apple : apples) {
+            this.paintApple(g2d, apple.getX(), apple.getY());
         }
     }
-
 
     /**
      * Returns a random Board.Field on the Board.Board
      *
      * @return a random Board.Field on the Board.Board
      */
-    protected Field getRandomField() {
+    protected Position getRandomField() {
         int x = (int) (Math.random() * MAX_X);
         int y = (int) (Math.random() * MAX_Y);
 
-        return new Field(x, y);
+        return new Position(x, y);
     }
 
     protected Field[][] getFields() {
         return fields;
     }
 
-    protected List<Field> getApples() {
+    protected List<Position> getApples() {
         return apples;
     }
 
-    protected List<LinkedList<Field>> getSnakesLocation() {
+    protected List<LinkedList<Position>> getSnakesLocation() {
         return snakesLocation;
     }
 
@@ -357,8 +448,7 @@ public class Board extends JPanel {
         return snakes;
     }
 
-    protected List<Field> getBarrier() {
+    protected List<Position> getBarrier() {
         return barrier;
     }
 }
-
