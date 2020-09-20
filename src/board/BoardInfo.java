@@ -1,6 +1,5 @@
 package board;
 
-import io.Game;
 import snakes.Snake;
 
 import java.util.List;
