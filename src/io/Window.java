@@ -7,6 +7,8 @@ import snakes.MySnake;
 import snakes.Snake;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -25,24 +27,28 @@ public class Window extends JFrame {
         this.setSize(SCALE * SCALE + 500,SCALE * SCALE + 40);
         this.setLayout(new BorderLayout());
 
-        // add snakes to board (TODO: make automatic) -----
-        Snake mySnake = new MySnake();
-        Snake mySnake2 = new MySnake();
-        Snake mySnake3 = new MySnake();
-        DebugSnake debugSnake = new DebugSnake();
 
-        Snake[] mySnakes;
-        mySnakes = (debug) ? new Snake[]{mySnake, mySnake2, mySnake3, debugSnake} : new Snake[]{mySnake, mySnake2, mySnake3};
+        // collect all snakes -----
+        List<Snake> snakes = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            snakes.add(new MySnake());
+        }
+
+        DebugSnake dSnake = new DebugSnake();
+        if (debug) {
+            snakes.add(dSnake);
+        }
         // ----------
 
+
         // create Arena (BoardLayout)
-        this.boardPanel = new Board(game, mySnakes, SCALE, MAX_X, MAX_Y, MAX_APPLES_ON_BOARD);
+        this.boardPanel = new Board(game, snakes, SCALE, MAX_X, MAX_Y, MAX_APPLES_ON_BOARD);
 
         // Adds Arena Panel to game.Window frame
         this.add(this.boardPanel, BorderLayout.CENTER);
 
         // register key listener
-        InputListener listener = new InputListener(game, debugSnake);
+        InputListener listener = new InputListener(game, dSnake);
         this.addKeyListener(listener);
         this.setFocusable(true);
 

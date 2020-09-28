@@ -12,7 +12,7 @@ public class Config {
      * The Constructor!
      * Reads the config file and safe it in var configFile
      */
-    public  Config() {
+    public Config() {
         configFile = new Properties();
         try {
             String cfg_location = "snake_arena.properties";

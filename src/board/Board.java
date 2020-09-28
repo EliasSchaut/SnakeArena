@@ -18,7 +18,7 @@ public class Board extends JPanel {
     public static int MAX_Y;
     public static int MAX_APPLES_ON_BOARD;
 
-    private Field[][] fields;
+    private final Field[][] fields;
     private final List<Field> apples = new ArrayList<>();
     private final List<LinkedList<Field>> snakesLocation = new ArrayList<>();
     private final List<Snake> snakes = new ArrayList<>();
@@ -33,7 +33,7 @@ public class Board extends JPanel {
     /**
      * Create Board
      */
-    public Board(Game game, Snake[] snakes, int SCALE, int MAX_X, int MAX_Y, int MAX_APPLES_ON_BOARD) {
+    public Board(Game game, List<Snake> snakes, int SCALE, int MAX_X, int MAX_Y, int MAX_APPLES_ON_BOARD) {
         this.game = game;
         Board.SCALE = SCALE;
         Board.MAX_X = MAX_X;

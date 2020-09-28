@@ -1,6 +1,9 @@
 package snakes;
 
 import java.awt.*;
+import java.util.*;
+import java.util.List;
+
 import board.*;
 
 public abstract class Snake {
@@ -13,7 +16,6 @@ public abstract class Snake {
 
     public String NAME;
     public Color COLOR;
-
 
     /**
      * Main function for every intelligence of the snake
