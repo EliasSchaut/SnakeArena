@@ -1,7 +1,7 @@
 package board;
 
 import snakes.*;
-import io.Game;
+import game.Game;
 
 import javax.swing.JPanel;
 import java.awt.*;
@@ -13,12 +13,12 @@ import java.util.List;
  */
 public class Board extends JPanel {
 
-    public static final int SCALE = 20;
-    protected static final int MAX_X = 20;
-    protected static final int MAX_Y = 20;
-    protected static final int MAX_APPLES_ON_BOARD = 2;
+    public static int SCALE;
+    public static int MAX_X;
+    public static int MAX_Y;
+    public static int MAX_APPLES_ON_BOARD;
 
-    private final Field[][] fields = new Field[MAX_X][MAX_Y];
+    private Field[][] fields;
     private final List<Field> apples = new ArrayList<>();
     private final List<LinkedList<Field>> snakesLocation = new ArrayList<>();
     private final List<Snake> snakes = new ArrayList<>();
@@ -33,12 +33,17 @@ public class Board extends JPanel {
     /**
      * Create Board
      */
-    public Board(Game game, Snake[] snakes) {
+    public Board(Game game, Snake[] snakes, int SCALE, int MAX_X, int MAX_Y, int MAX_APPLES_ON_BOARD) {
         this.game = game;
+        Board.SCALE = SCALE;
+        Board.MAX_X = MAX_X;
+        Board.MAX_Y = MAX_Y;
+        Board.MAX_APPLES_ON_BOARD = MAX_APPLES_ON_BOARD;
 
+        fields = new Field[Board.MAX_X][Board.MAX_Y];
         // set all Fields an Board
-        for (int i = 0; i < MAX_X; i++) {
-            for (int j = 0; j < MAX_Y; j++) {
+        for (int i = 0; i < Board.MAX_X; i++) {
+            for (int j = 0; j < Board.MAX_Y; j++) {
                 fields[i][j] = new Field(i, j);
 
             }
@@ -53,7 +58,7 @@ public class Board extends JPanel {
 
             } while (
                 !(
-                ((random.getPosX() + 2) < MAX_X)
+                ((random.getPosX() + 2) < Board.MAX_X)
                 && fields[random.getPosX()    ][random.getPosY()].isFree()
                 && fields[random.getPosX() + 1][random.getPosY()].isFree()
                 && fields[random.getPosX() + 2][random.getPosY()].isFree())
@@ -70,7 +75,7 @@ public class Board extends JPanel {
 
             this.snakes.add(snake);
             this.snakesLocation.add(snakeLocation);
-            startCounter = 2;
+            this.startCounter = 2;
         }
     }
 
@@ -100,7 +105,7 @@ public class Board extends JPanel {
 
         // check if game is finish
         if (snakes.size() <= 1) {
-            game.isRunning = false;
+            game.end();
 
         } else {
             this.moveSnakes(g2d);

@@ -1,1 +1,1 @@
-Main-Class: io.Game
+Main-Class: game.Game

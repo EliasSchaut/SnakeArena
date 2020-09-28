@@ -1,5 +1,6 @@
 package io;
 
+import game.Game;
 import snakes.DebugSnake;
 import snakes.Snake;
 
