@@ -10,17 +10,17 @@ import java.util.LinkedList;
  */
 public class BoardInfo {
 
-    private final Board board;
+    private final BoardLogic boardLogic;
     private final int snakeIndex;
 
     /**
      * the Board-Class create this Board-Inforamtion for a spezific snake with the index snakeIndex
      *
-     * @param board the board full of mistery
+     * @param boardLogic the board full of mistery
      * @param snakeIndex the index of the snake, which will need this information now
      */
-    protected BoardInfo(Board board, int snakeIndex) {
-        this.board = board;
+    protected BoardInfo(BoardLogic boardLogic, int snakeIndex) {
+        this.boardLogic = boardLogic;
         this.snakeIndex = snakeIndex;
 
     }
@@ -32,7 +32,7 @@ public class BoardInfo {
      * @return own head
      */
     public Field getOwnHead() {
-        return board.getSnakesLocation().get(snakeIndex).getLast();
+        return boardLogic.getSnakesLocation().get(snakeIndex).getLast();
     }
 
 
@@ -42,7 +42,7 @@ public class BoardInfo {
      * @return own snake position
      */
     public List<Field> getOwnSnake() {
-        return board.getSnakesLocation().get(snakeIndex);
+        return boardLogic.getSnakesLocation().get(snakeIndex);
     }
 
 
@@ -54,9 +54,9 @@ public class BoardInfo {
     public List<Field> getOtherHeads() {
         LinkedList<Field> heads = new LinkedList<>();
 
-        for (int i = 0; i < this.board.getSnakesLocation().size(); i++) {
+        for (int i = 0; i < this.boardLogic.getSnakesLocation().size(); i++) {
             if (i != snakeIndex) {
-                heads.add(this.board.getSnakesLocation().get(i).getLast());
+                heads.add(this.boardLogic.getSnakesLocation().get(i).getLast());
 
             }
         }
@@ -73,9 +73,9 @@ public class BoardInfo {
     public List<LinkedList<Field>> getOtherSnakes() {
         LinkedList<LinkedList<Field>> snakes = new LinkedList<>();
 
-        for (int i = 0; i < board.getSnakesLocation().size(); i++) {
+        for (int i = 0; i < boardLogic.getSnakesLocation().size(); i++) {
             if (i != snakeIndex) {
-                snakes.add(board.getSnakesLocation().get(i));
+                snakes.add(boardLogic.getSnakesLocation().get(i));
             }
         }
 
@@ -89,7 +89,7 @@ public class BoardInfo {
      * @return apple positions
      */
     public List<Field> getApples() {
-        return board.getApples();
+        return boardLogic.getApples();
     }
 
 
@@ -99,7 +99,7 @@ public class BoardInfo {
      * @return all fields with barriers
      */
     public List<Field> getBarrier() {
-        return board.getBarrier();
+        return boardLogic.getBarrier();
     }
 
 
@@ -111,16 +111,16 @@ public class BoardInfo {
      */
     public boolean isNextStepFree(int direction) {
         Field head = getOwnHead();
-        Field[][] board = this.board.getFields();
+        Field[][] board = this.boardLogic.getFields();
 
         if (direction == Snake.UP) {
             return (head.getPosY() > 0) && (board[head.getPosX()][head.getPosY()].isFree());
 
         } else if (direction == Snake.RIGHT) {
-            return (head.getPosX() < (Board.MAX_X - 1)) && (board[head.getPosX()][head.getPosY()].isFree());
+            return (head.getPosX() < (BoardLogic.MAX_X - 1)) && (board[head.getPosX()][head.getPosY()].isFree());
 
         } else if (direction == Snake.DOWN) {
-            return (head.getPosY() < (Board.MAX_Y - 1)) && (board[head.getPosX()][head.getPosY()].isFree());
+            return (head.getPosY() < (BoardLogic.MAX_Y - 1)) && (board[head.getPosX()][head.getPosY()].isFree());
 
         } else if (direction == Snake.LEFT) {
             return (head.getPosX() > 0) && (board[head.getPosX()][head.getPosY()].isFree());
@@ -137,7 +137,7 @@ public class BoardInfo {
      * @return the maximum of the x-coordinates
      */
     public int getMAX_X() {
-        return Board.MAX_X;
+        return BoardLogic.MAX_X;
     }
 
 
@@ -147,7 +147,7 @@ public class BoardInfo {
      * @return the maximum of the y-coordinates
      */
     public int getMAX_Y() {
-        return Board.MAX_Y;
+        return BoardLogic.MAX_Y;
     }
 
 
@@ -157,6 +157,6 @@ public class BoardInfo {
      * @return the maximum of apples on board
      */
     public int getMAX_APPLES_ON_BOARD() {
-        return Board.MAX_APPLES_ON_BOARD;
+        return BoardLogic.MAX_APPLES_ON_BOARD;
     }
 }

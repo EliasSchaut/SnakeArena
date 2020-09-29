@@ -1,6 +1,6 @@
 package io;
 
-import board.Board;
+import board.BoardLogic;
 import game.Game;
 import snakes.DebugSnake;
 import snakes.MySnake;
@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 public class Window extends JFrame {
 
     private final JPanel boardPanel;
+    private final BoardLogic boardLogic;
 
     public Window(Game game, String title, boolean debug, int SCALE, int MAX_X, int MAX_Y, int MAX_APPLES_ON_BOARD) {
         super(title);
@@ -42,7 +43,8 @@ public class Window extends JFrame {
 
 
         // create Arena (BoardLayout)
-        this.boardPanel = new Board(game, snakes, SCALE, MAX_X, MAX_Y, MAX_APPLES_ON_BOARD);
+        this.boardLogic = new BoardLogic(game, snakes, SCALE, MAX_X, MAX_Y, MAX_APPLES_ON_BOARD);
+        this.boardPanel = boardLogic.getBPaint();
 
         // Adds Arena Panel to game.Window frame
         this.add(this.boardPanel, BorderLayout.CENTER);
@@ -54,11 +56,12 @@ public class Window extends JFrame {
 
         // set visibility and stuff
         this.setVisible(true);
-        this.setResizable(false);
+        this.setResizable(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public void update(){
+        this.boardLogic.update();
         this.boardPanel.repaint();
     }
 }
