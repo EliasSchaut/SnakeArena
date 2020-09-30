@@ -15,6 +15,7 @@ public class BoardLogic {
     public static int MAX_X;
     public static int MAX_Y;
     public static int MAX_APPLES_ON_BOARD;
+    public static int OFFSET;
 
     private final Field[][] fields;
     private final List<Field> apples = new ArrayList<>();
@@ -30,13 +31,15 @@ public class BoardLogic {
     /**
      * Create Board with the start positions of the snakes
      */
-    public BoardLogic(Game game, List<Snake> snakes, int SCALE, int MAX_X, int MAX_Y, int MAX_APPLES_ON_BOARD) {
+    public BoardLogic(Game game, List<Snake> snakes,
+                      int SCALE, int MAX_X, int MAX_Y, int OFFSET, int MAX_APPLES_ON_BOARD) {
         this.bPaint = new BoardPaint(this);
         this.game = game;
         BoardLogic.SCALE = SCALE;
         BoardLogic.MAX_X = MAX_X;
         BoardLogic.MAX_Y = MAX_Y;
         BoardLogic.MAX_APPLES_ON_BOARD = MAX_APPLES_ON_BOARD;
+        BoardLogic.OFFSET = OFFSET;
 
         // create an empty board with empty fields
         fields = new Field[BoardLogic.MAX_X][BoardLogic.MAX_Y];

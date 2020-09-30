@@ -21,13 +21,13 @@ public class Window extends JFrame {
     private final JPanel boardPanel;
     private final BoardLogic boardLogic;
 
-    public Window(Game game, String title, boolean RESIZEABLE, boolean debug, int SCALE, int MAX_X, int MAX_Y, int MAX_APPLES_ON_BOARD) {
+    public Window(Game game, String title, boolean RESIZEABLE, boolean debug,
+                  int SCALE, int MAX_X, int MAX_Y, int OFFSET, int MAX_APPLES_ON_BOARD) {
         super(title);
 
         // Create Window frame
-        this.setSize(SCALE * MAX_X + 500,SCALE * MAX_Y + 40);
+        this.setSize(SCALE * MAX_X + 500 + (2 * OFFSET),SCALE * (MAX_Y + 2) + (2 * OFFSET));
         this.setLayout(new BorderLayout());
-
 
         // collect all snakes -----
         List<Snake> snakes = new ArrayList<>();
@@ -43,7 +43,7 @@ public class Window extends JFrame {
 
 
         // create Arena (BoardLayout)
-        this.boardLogic = new BoardLogic(game, snakes, SCALE, MAX_X, MAX_Y, MAX_APPLES_ON_BOARD);
+        this.boardLogic = new BoardLogic(game, snakes, SCALE, MAX_X, MAX_Y, OFFSET, MAX_APPLES_ON_BOARD);
         this.boardPanel = boardLogic.getBPaint();
 
         // Adds Arena Panel to window frame
