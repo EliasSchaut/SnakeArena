@@ -42,9 +42,9 @@ Es gelten folgende Regeln für ein Spiel:
 * Ist eine Schlange einen Apfel, wird sie um ein Feld länger und es erscheint ein neuer Apfel zufällig auf dem Spielfeld
 
 ## Punkteverteilung und Sieg
-Die Punkteverteilung pro Spiel richtet sich nach dem Überlebenssieg der Schlangen. Im Folgenden eine Auflistung der Punkte, die man pro Spiel bekommen kann:
-1. Platz und somit letzte überlebende Schlange - 3 Punkte
-2. Platz und somit vorletzte überlebende Schlange - 2 Punkte
-3. Platz und somit vorvorletzte überlebende Schlange - 1 Punkt
+Die Punkteverteilung pro Spiel richtet sich nach der Länge der Schlangen am Ende eines Spiels. Im Folgenden eine Auflistung der Punkte, die man pro Spiel bekommen kann:
+1. Platz und somit längste Schlange - 3 Punkte
+2. Platz und somit zweitlängste Schlange - 2 Punkte
+3. Platz und somit drittlängste Schlange - 1 Punkt
 
 Gespielt wird 3 Spiele. Danach werden alle Punkte aus allen Runden von allen Teams zusammenaddiert und es gewinnt das Team mit den meisten Punkten.
