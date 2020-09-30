@@ -54,13 +54,17 @@ public class BoardPaint extends JPanel {
 
 
     /**
-     * Draw names of living snakes on the right side of the board
+     * Draw names of living and dead snakes on the right side of the board
      *
      * @param g2d the Graphics2D, which is needed for painting
+     * @param snakes the snakes in game
+     * @param snakesLocation the location of snakes on board
+     * @param deadSnakesInfo the names and lenght of dead snakes
      */
     private void paintNames(Graphics2D g2d, List<Snake> snakes, List<LinkedList<Field>> snakesLocation, List<String> deadSnakesInfo) {
         g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 14f));
 
+        // Living Snakes
         g2d.setColor(Color.BLACK);
         g2d.drawString("Living Snakes:", BoardLogic.SCALE * BoardLogic.SCALE + 100,50);
 
@@ -71,6 +75,7 @@ public class BoardPaint extends JPanel {
 
         }
 
+        // Dead Snakes
         g2d.setColor(Color.BLACK);
         g2d.drawString("Dead Snakes:", BoardLogic.SCALE * BoardLogic.SCALE + 300,50);
 
@@ -83,7 +88,7 @@ public class BoardPaint extends JPanel {
 
 
     /**
-     * Draw an apple on board
+     * Draw the apples on board
      *
      * @param g2d the Graphics2D, which is needed for painting
      * @param apples list of all apples, which have to paint
@@ -98,9 +103,11 @@ public class BoardPaint extends JPanel {
 
 
     /**
-     * Draws the current snake positions
+     * Draws the current snakes positions
      *
      * @param g2d the Graphics2D, which is needed for painting
+     * @param snakes the snakes in game
+     * @param snakesLocation the location of snakes on board
      */
     private void paintSnakes(Graphics2D g2d, List<Snake> snakes, List<LinkedList<Field>> snakesLocation) {
 
@@ -119,6 +126,7 @@ public class BoardPaint extends JPanel {
      * Paint dead snakes as barrier forever (╯▔皿▔)╯
      *
      * @param g2d the Graphics2D, which is needed for painting
+     * @param barriers a list of barrier fields
      */
     private void paintBarrier(Graphics2D g2d, List<Field> barriers) {
         g2d.setColor(Color.DARK_GRAY);

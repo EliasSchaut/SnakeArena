@@ -21,7 +21,7 @@ public class Window extends JFrame {
     private final JPanel boardPanel;
     private final BoardLogic boardLogic;
 
-    public Window(Game game, String title, boolean debug, int SCALE, int MAX_X, int MAX_Y, int MAX_APPLES_ON_BOARD) {
+    public Window(Game game, String title, boolean RESIZEABLE, boolean debug, int SCALE, int MAX_X, int MAX_Y, int MAX_APPLES_ON_BOARD) {
         super(title);
 
         // Create Window frame
@@ -46,7 +46,7 @@ public class Window extends JFrame {
         this.boardLogic = new BoardLogic(game, snakes, SCALE, MAX_X, MAX_Y, MAX_APPLES_ON_BOARD);
         this.boardPanel = boardLogic.getBPaint();
 
-        // Adds Arena Panel to game.Window frame
+        // Adds Arena Panel to window frame
         this.add(this.boardPanel, BorderLayout.CENTER);
 
         // register key listener
@@ -56,7 +56,7 @@ public class Window extends JFrame {
 
         // set visibility and stuff
         this.setVisible(true);
-        this.setResizable(true);
+        this.setResizable(RESIZEABLE);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 

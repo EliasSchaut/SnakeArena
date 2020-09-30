@@ -28,7 +28,7 @@ public class BoardLogic {
 
 
     /**
-     * Create Board
+     * Create Board with the start positions of the snakes
      */
     public BoardLogic(Game game, List<Snake> snakes, int SCALE, int MAX_X, int MAX_Y, int MAX_APPLES_ON_BOARD) {
         this.bPaint = new BoardPaint(this);
@@ -38,8 +38,8 @@ public class BoardLogic {
         BoardLogic.MAX_Y = MAX_Y;
         BoardLogic.MAX_APPLES_ON_BOARD = MAX_APPLES_ON_BOARD;
 
+        // create an empty board with empty fields
         fields = new Field[BoardLogic.MAX_X][BoardLogic.MAX_Y];
-        // set all Fields an Board
         for (int i = 0; i < BoardLogic.MAX_X; i++) {
             for (int j = 0; j < BoardLogic.MAX_Y; j++) {
                 fields[i][j] = new Field(i, j);
@@ -47,7 +47,7 @@ public class BoardLogic {
             }
         }
 
-        // set all starpoints of all snakes:
+        // set all startpoints of all snakes in board:
         for (Snake snake : snakes) {
             Field random;
 
@@ -75,7 +75,8 @@ public class BoardLogic {
             this.snakesLocation.add(snakeLocation);
         }
 
-        this.setApple();
+        // set the apples
+        this.setApples();
     }
 
     public void update() {
@@ -91,7 +92,7 @@ public class BoardLogic {
 
 
     /**
-     * Moves the snakes over the board
+     * Moves the snakes over the board.
      */
     protected void moveSnakes() {
         int direction;
@@ -167,8 +168,6 @@ public class BoardLogic {
         this.barriers.addAll(this.snakesLocation.get(snakeIndex));
         this.deadSnakesInfo.add(snakes.get(snakeIndex).NAME + " (" + snakesLocation.get(snakeIndex).size() + ")");
 
-        //this.paintBarrier(g2d);
-
         this.snakesLocation.remove(snakeIndex);
         this.snakes.remove(snakeIndex);
 
@@ -189,7 +188,7 @@ public class BoardLogic {
                 // no .setFree here, because a snake will be on this field
                 fields[appleField.getPosX()][appleField.getPosY()].setApple(false);
                 apples.remove(appleField);
-                this.setApple();
+                this.setApples();
 
                 return true;
             }
@@ -200,9 +199,9 @@ public class BoardLogic {
 
 
     /**
-     * place an apple on the board
+     * place apples on the board until MAX_APPLES_ON_BOARD value is reached
      */
-    protected void setApple() {
+    protected void setApples() {
         while (apples.size() < MAX_APPLES_ON_BOARD) {
             Field appleField;
 
@@ -219,9 +218,9 @@ public class BoardLogic {
 
 
     /**
-     * Returns a random Board.Field on the Board.Board
+     * Returns a random Field on the board
      *
-     * @return a random Board.Field on the Board.Board
+     * @return a random Field on the board
      */
     protected Field getRandomField() {
         int x = (int) (Math.random() * MAX_X);
@@ -230,6 +229,11 @@ public class BoardLogic {
         return new Field(x, y);
     }
 
+
+
+    // ---------------------------------------------------
+    // Getter-Methods
+    // ---------------------------------------------------
     protected Field[][] getFields() {
         return fields;
     }
@@ -257,5 +261,6 @@ public class BoardLogic {
     public BoardPaint getBPaint() {
         return bPaint;
     }
+    // ---------------------------------------------------
 }
 

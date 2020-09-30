@@ -8,7 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
- * Listen the Keyboard and do stuff maybe, if something is typed
+ * Listen the keyboard and do stuff, if something is typed
  * Important for DebugSnake and PausePlay
  */
 public class InputListener implements KeyListener {
@@ -16,7 +16,6 @@ public class InputListener implements KeyListener {
     private final Game game;
     private final DebugSnake debugSnake;
 
-    // --- Constructor -----------------------------------------------------
 
     protected InputListener(Game game, DebugSnake debugSnake) {
         this.debugSnake = debugSnake;
@@ -24,7 +23,6 @@ public class InputListener implements KeyListener {
 
     }
 
-    // --- Methods ----------------------------------------------
 
     @Override
     public void keyTyped(KeyEvent e) {

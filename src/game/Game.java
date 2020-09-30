@@ -7,13 +7,10 @@ import io.Window;
  */
 public class Game {
 
-    // This game
-    private Game game;
-
     // game will loop until this is false
     private boolean isRunning = true;
 
-    // game will stop until this is false
+    // game will pause until this is false
     private boolean isPaused = true;
 
     private Window window;
@@ -28,8 +25,6 @@ public class Game {
 
         // Create Game
         Game game = new Game();
-        game.game = game;
-
 
         // ------------------------------
         // import config
@@ -43,6 +38,7 @@ public class Game {
         int MAX_X = 0;
         int MAX_Y = 0;
         int MAX_APPLES_ON_BOARD = 0;
+        boolean RESIZEABLE = false;
 
         try {
             WAIT_TIME = Integer.parseInt(cfg.get("WAIT_TIME"));
@@ -53,16 +49,17 @@ public class Game {
             MAX_X = Integer.parseInt(cfg.get("MAX_X"));
             MAX_Y = Integer.parseInt(cfg.get("MAX_Y"));
             MAX_APPLES_ON_BOARD = Integer.parseInt(cfg.get("MAX_APPLES_ON_BOARD"));
+            RESIZEABLE = Boolean.parseBoolean(cfg.get("RESIZEABLE"));
 
         } catch (Exception e) {
-            System.out.println("Error in config file!\n\n");
+            System.out.println("Wrong type format in config file!\n\n");
             e.printStackTrace();
         }
         // ------------------------------
 
 
         // Set Up Graphics & Layout
-        game.window = new Window(game, WINDOW_TITLE, DEBUG, SCALE, MAX_X, MAX_Y, MAX_APPLES_ON_BOARD);
+        game.window = new Window(game, WINDOW_TITLE, RESIZEABLE, DEBUG, SCALE, MAX_X, MAX_Y, MAX_APPLES_ON_BOARD);
 
 
         // ------------------------------
@@ -84,8 +81,6 @@ public class Game {
 
     }
     // ------------------------------------------------------------------------------
-
-
 
     /**
      * pause or resume the game

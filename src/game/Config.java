@@ -10,7 +10,7 @@ public class Config {
 
     /**
      * The Constructor!
-     * Reads the config file and safe it in var configFile
+     * Reads the config file and safe it
      */
     public Config() {
         configFile = new Properties();
@@ -19,6 +19,7 @@ public class Config {
             configFile.load(this.getClass().getClassLoader().getResourceAsStream(cfg_location));
 
         } catch (Exception e) {
+            System.out.println("Config file not found or cannot read!\n\n");
             e.printStackTrace();
         }
     }
@@ -35,6 +36,7 @@ public class Config {
             return this.configFile.getProperty(key);
 
         } catch (Exception e) {
+            System.out.println("Error in config file!\nKey not found or other Error\n\n");
             e.printStackTrace();
         }
 

@@ -14,8 +14,8 @@ public class Field {
     /**
      * Initialize Board.Field
      *
-     * @param x the x-Coordinate of the Board.Board
-     * @param y the y-Coordinate of the Board.Board
+     * @param x the x-Coordinate of the Board
+     * @param y the y-Coordinate of the Board
      */
     public Field(int x, int y) {
         this.posX = x;

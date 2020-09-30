@@ -6,7 +6,7 @@ import java.awt.*;
 
 
 /**
- * an example snakes.Snake for testing
+ * an example snake for testing
  */
 public class MySnake extends Snake {
 
@@ -37,6 +37,6 @@ public class MySnake extends Snake {
         ++counter;
 
 
-        return direction; // or Direction.LEFT, or Direction.DOWN, or Direction.UP
+        return direction; // or LEFT, or DOWN, or UP
     }
 }
