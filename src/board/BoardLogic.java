@@ -80,7 +80,6 @@ public class BoardLogic {
     }
 
     public void update() {
-        System.out.println("x");
         if (snakes.size() <= 1) {
             game.end();
 
