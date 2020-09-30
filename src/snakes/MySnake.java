@@ -1,7 +1,6 @@
 package snakes;
 
 import board.*;
-
 import java.awt.*;
 
 
@@ -10,15 +9,10 @@ import java.awt.*;
  */
 public class MySnake extends Snake {
 
-    private int direction;
-    private int counter;
-
     public MySnake() {
-        this.NAME = "Kuhle Schlange";               // set your favorite name
+        this.NAME = "YOUR_KUHL_SNAKE_NAME";         // set your favorite name
         this.COLOR = new Color(80, 0, 80); // set your favorite color
 
-        counter = 0;
-        direction = UP;
     }
 
     /**
@@ -30,13 +24,8 @@ public class MySnake extends Snake {
     @Override
     public int think(BoardInfo board) {
         // lovely intelligence code here
-        if (counter == 2) {
-            direction = (direction + 1) % 4;
-            counter = 0;
-        }
-        ++counter;
 
 
-        return direction; // or LEFT, or DOWN, or UP
+        return RIGHT; // or LEFT, or DOWN, or UP
     }
 }

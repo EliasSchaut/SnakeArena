@@ -2,7 +2,7 @@ package io;
 
 import board.BoardLogic;
 import game.Game;
-import snakes.DebugSnake;
+import snakes.examples.DebugSnake;
 import snakes.MySnake;
 import snakes.Snake;
 

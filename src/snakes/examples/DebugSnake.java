@@ -1,7 +1,8 @@
-package snakes;
+package snakes.examples;
+
+import snakes.Snake;
 
 import board.*;
-
 import java.awt.*;
 
 /**
