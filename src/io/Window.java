@@ -25,7 +25,7 @@ public class Window extends JFrame {
         super(title);
 
         // Create Window frame
-        this.setSize(SCALE * SCALE + 500,SCALE * SCALE + 40);
+        this.setSize(SCALE * MAX_X + 500,SCALE * MAX_Y + 40);
         this.setLayout(new BorderLayout());
 
 
