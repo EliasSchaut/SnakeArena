@@ -30,7 +30,7 @@ public class BoardPaint extends JPanel {
 
         this.paintNames(g2d, boardLogic.getSnakes(), boardLogic.getSnakesLocation(), boardLogic.getDeadSnakesInfo());
         this.paintBoard(g2d);
-        this.paintApples(g2d, boardLogic.getApples()); // paint Apple
+        this.paintApples(g2d, boardLogic.getApples());
         this.paintBarrier(g2d, boardLogic.getBarrier());
         this.paintSnakes(g2d, boardLogic.getSnakes(), boardLogic.getSnakesLocation());
 
@@ -46,10 +46,10 @@ public class BoardPaint extends JPanel {
 
         for (int x = 0; x < BoardLogic.MAX_X; x++) {
             for (int y = 0; y < BoardLogic.MAX_Y; y++) {
-                g2d.drawRect(x * BoardLogic.MAX_X, y * BoardLogic.MAX_Y, BoardLogic.SCALE, BoardLogic.SCALE);
+                g2d.drawRect(x * BoardLogic.SCALE + BoardLogic.OFFSET, y * BoardLogic.SCALE + BoardLogic.OFFSET
+                        , BoardLogic.SCALE, BoardLogic.SCALE);
             }
         }
-        g2d.drawRect(BoardLogic.MAX_X, BoardLogic.MAX_Y, BoardLogic.SCALE, BoardLogic.SCALE);
     }
 
 
@@ -66,22 +66,26 @@ public class BoardPaint extends JPanel {
 
         // Living Snakes
         g2d.setColor(Color.BLACK);
-        g2d.drawString("Living Snakes:", BoardLogic.SCALE * BoardLogic.SCALE + 100,50);
+        g2d.drawString("Living Snakes:", BoardLogic.SCALE * BoardLogic.MAX_X + 100 + BoardLogic.OFFSET,
+                50 + BoardLogic.OFFSET);
 
         for (int i = 0; i < snakes.size(); i++) {
             g2d.setColor(snakes.get(i).COLOR);
             g2d.drawString(snakes.get(i).NAME + " (" + snakesLocation.get(i).size() + ")",
-                    BoardLogic.SCALE * BoardLogic.SCALE + 100,(50 * (i + 1)) + 50);
+                    BoardLogic.SCALE * BoardLogic.MAX_X + 100 + BoardLogic.OFFSET,
+                    (25 * (i + 1)) + 75 + BoardLogic.OFFSET);
 
         }
 
         // Dead Snakes
         g2d.setColor(Color.BLACK);
-        g2d.drawString("Dead Snakes:", BoardLogic.SCALE * BoardLogic.SCALE + 300,50);
+        g2d.drawString("Dead Snakes:", BoardLogic.SCALE * BoardLogic.MAX_X + 300 + BoardLogic.OFFSET,
+                50 + BoardLogic.OFFSET);
 
         g2d.setColor(Color.DARK_GRAY);
         for (int i = 0; i < deadSnakesInfo.size(); i++) {
-            g2d.drawString(deadSnakesInfo.get(i), BoardLogic.SCALE * BoardLogic.SCALE + 300,(50 * (i + 1)) + 50);
+            g2d.drawString(deadSnakesInfo.get(i), BoardLogic.SCALE * BoardLogic.MAX_X + 300 + BoardLogic.OFFSET,
+                    (25 * (i + 1)) + 75 + BoardLogic.OFFSET);
         }
 
     }
@@ -96,7 +100,8 @@ public class BoardPaint extends JPanel {
     private void paintApples(Graphics2D g2d, List<Field> apples) {
         g2d.setColor(Color.red);
         for (Field apple: apples) {
-            g2d.fillOval(apple.getPosX() * BoardLogic.MAX_X, apple.getPosY() * BoardLogic.MAX_Y, BoardLogic.SCALE, BoardLogic.SCALE);
+            g2d.fillOval(apple.getPosX() * BoardLogic.SCALE + BoardLogic.OFFSET,
+                    apple.getPosY() * BoardLogic.SCALE + BoardLogic.OFFSET, BoardLogic.SCALE, BoardLogic.SCALE);
         }
 
     }
@@ -115,8 +120,9 @@ public class BoardPaint extends JPanel {
             g2d.setColor(snakes.get(i).COLOR);
 
             for (int j = 0; j < snakesLocation.get(i).size(); j++) {
-                g2d.fillOval(snakesLocation.get(i).get(j).getPosX() * BoardLogic.MAX_X,
-                        snakesLocation.get(i).get(j).getPosY() * BoardLogic.MAX_Y, BoardLogic.SCALE, BoardLogic.SCALE);
+                g2d.fillOval(snakesLocation.get(i).get(j).getPosX() * BoardLogic.SCALE + BoardLogic.OFFSET,
+                        snakesLocation.get(i).get(j).getPosY() * BoardLogic.SCALE + BoardLogic.OFFSET,
+                        BoardLogic.SCALE, BoardLogic.SCALE);
             }
         }
     }
@@ -132,8 +138,8 @@ public class BoardPaint extends JPanel {
         g2d.setColor(Color.DARK_GRAY);
 
         for (Field barrier: barriers) {
-            g2d.fillRect(barrier.getPosX() * BoardLogic.MAX_X,
-                    barrier.getPosY() * BoardLogic.MAX_Y, BoardLogic.SCALE, BoardLogic.SCALE);
+            g2d.fillRect(barrier.getPosX() * BoardLogic.SCALE + BoardLogic.OFFSET,
+                    barrier.getPosY() * BoardLogic.SCALE + BoardLogic.OFFSET, BoardLogic.SCALE, BoardLogic.SCALE);
         }
     }
 }

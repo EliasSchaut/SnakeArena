@@ -39,6 +39,7 @@ public class Game {
         int MAX_Y = 0;
         int MAX_APPLES_ON_BOARD = 0;
         boolean RESIZEABLE = false;
+        int OFFSET = 0;
 
         try {
             WAIT_TIME = Integer.parseInt(cfg.get("WAIT_TIME"));
@@ -50,6 +51,8 @@ public class Game {
             MAX_Y = Integer.parseInt(cfg.get("MAX_Y"));
             MAX_APPLES_ON_BOARD = Integer.parseInt(cfg.get("MAX_APPLES_ON_BOARD"));
             RESIZEABLE = Boolean.parseBoolean(cfg.get("RESIZEABLE"));
+            OFFSET = Integer.parseInt(cfg.get("OFFSET"));
+
 
         } catch (Exception e) {
             System.out.println("Wrong type format in config file!\n\n");
@@ -59,7 +62,7 @@ public class Game {
 
 
         // Set Up Graphics & Layout
-        game.window = new Window(game, WINDOW_TITLE, RESIZEABLE, DEBUG, SCALE, MAX_X, MAX_Y, MAX_APPLES_ON_BOARD);
+        game.window = new Window(game, WINDOW_TITLE, RESIZEABLE, DEBUG, SCALE, MAX_X, MAX_Y, OFFSET, MAX_APPLES_ON_BOARD);
 
 
         // ------------------------------
