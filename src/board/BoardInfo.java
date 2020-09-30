@@ -2,6 +2,7 @@ package board;
 
 import snakes.Snake;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
 
@@ -10,53 +11,60 @@ import java.util.LinkedList;
  */
 public class BoardInfo {
 
-    private final BoardLogic boardLogic;
     private final int snakeIndex;
+    private final Field[][] fields;
+    private final List<Field> apples;
+    private final List<LinkedList<Field>> snakesLocation;
+    private final List<Field> barriers;
+
 
     /**
      * the Board-Class create this Board-Inforamtion for a spezific snake with the index snakeIndex
      *
-     * @param boardLogic the board full of mistery
      * @param snakeIndex the index of the snake, which will need this information now
      */
-    protected BoardInfo(BoardLogic boardLogic, int snakeIndex) {
-        this.boardLogic = boardLogic;
+    protected BoardInfo(int snakeIndex, Field[][] fields, List<LinkedList<Field>> snakesLocation,
+                        List<Field> apples, List<Field> barriers) {
         this.snakeIndex = snakeIndex;
+        this.fields = fields;
+        this.snakesLocation = snakesLocation;
+        this.apples = apples;
+        this.barriers = barriers;
 
     }
 
 
     /**
-     * returns own head
+     * returns own head as field
      *
-     * @return own head
+     * @return own head as field
      */
     public Field getOwnHead() {
-        return boardLogic.getSnakesLocation().get(snakeIndex).getLast();
+        return snakesLocation.get(snakeIndex).getLast();
     }
 
 
     /**
-     * returns own snake position
+     * returns own snake position as list
      *
-     * @return own snake position
+     * @return own snake position as list
      */
     public List<Field> getOwnSnake() {
-        return boardLogic.getSnakesLocation().get(snakeIndex);
+        return snakesLocation.get(snakeIndex);
     }
 
 
     /**
-     * Returns head of other snakes
+     * Returns head of other snakes as list
      *
-     * @return head of other snakes
+     * @return head of other snakes as list
      */
     public List<Field> getOtherHeads() {
         LinkedList<Field> heads = new LinkedList<>();
 
-        for (int i = 0; i < this.boardLogic.getSnakesLocation().size(); i++) {
+        for (int i = 0; i < snakesLocation.size(); i++) {
             if (i != snakeIndex) {
-                heads.add(this.boardLogic.getSnakesLocation().get(i).getLast());
+                heads.add(snakesLocation.get(i).getLast());
 
             }
         }
@@ -73,9 +81,9 @@ public class BoardInfo {
     public List<LinkedList<Field>> getOtherSnakes() {
         LinkedList<LinkedList<Field>> snakes = new LinkedList<>();
 
-        for (int i = 0; i < boardLogic.getSnakesLocation().size(); i++) {
+        for (int i = 0; i < snakesLocation.size(); i++) {
             if (i != snakeIndex) {
-                snakes.add(boardLogic.getSnakesLocation().get(i));
+                snakes.add(snakesLocation.get(i));
             }
         }
 
@@ -84,34 +92,34 @@ public class BoardInfo {
 
 
     /**
-     * Return apple positions
+     * Return apple positions as list
      *
-     * @return apple positions
+     * @return apple positions as list
      */
     public List<Field> getApples() {
-        return boardLogic.getApples();
+        return apples;
     }
 
 
     /**
-     * Returns all fields with barriers
+     * Returns all fields with barriers as list
      *
-     * @return all fields with barriers
+     * @return all fields with barriers as list
      */
     public List<Field> getBarrier() {
-        return boardLogic.getBarrier();
+        return barriers;
     }
 
 
     /**
-     * Returns if the next step in the given direction of the own snake will be free
+     * Returns if the next step in the given direction of the own snake is free
      *
      * @param direction a snake direction
-     * @return true, if the next step in the given direction of the own snake will be free, else false
+     * @return true, if the next step in the given direction of the own snake is free, else false
      */
     public boolean isNextStepFree(int direction) {
         Field head = getOwnHead();
-        Field[][] board = this.boardLogic.getFields();
+        Field[][] board = fields;
 
         if (direction == Snake.UP) {
             return (head.getPosY() > 0) && (board[head.getPosX()][head.getPosY()].isFree());

@@ -100,7 +100,13 @@ public class BoardLogic {
         int newY;
 
         for (int i = 0; i < this.snakes.size(); i++) {
-            direction = this.snakes.get(i).think(new BoardInfo(this, i));
+
+            // ---------------------------------------------------
+            // Call ith snake
+            // ---------------------------------------------------
+            direction = this.snakes.get(i).think(new BoardInfo(i, fields, snakesLocation, apples, barriers));
+            // ---------------------------------------------------
+
             newX = this.snakesLocation.get(i).getLast().getPosX();
             newY = this.snakesLocation.get(i).getLast().getPosY();
 
