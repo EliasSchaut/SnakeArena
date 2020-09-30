@@ -5,6 +5,7 @@ import game.Game;
 import snakes.examples.DebugSnake;
 import snakes.MySnake;
 import snakes.Snake;
+import snakes.examples.EasySnake;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class Window extends JFrame {
         // collect all snakes -----
         List<Snake> snakes = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            snakes.add(new MySnake());
+            snakes.add(new EasySnake());
         }
 
         DebugSnake dSnake = new DebugSnake();

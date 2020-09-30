@@ -11,7 +11,7 @@ public class CircleSnake extends Snake {
     private int counter;
 
     public CircleSnake() {
-        this.NAME = "CircleSnake";               // set your favorite name
+        this.NAME = "CircleSnake";                  // set your favorite name
         this.COLOR = new Color(80, 0, 80); // set your favorite color
 
         counter = 0;
@@ -33,7 +33,7 @@ public class CircleSnake extends Snake {
         }
         ++counter;
 
-        return direction; // or LEFT, or DOWN, or UP
+        return direction;
     }
 
 }
