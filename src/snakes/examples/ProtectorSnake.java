@@ -6,16 +6,11 @@ import snakes.Snake;
 
 import java.awt.*;
 
-/**
- * An example for a snake with less intelligence.
- * This snake will always go to the nearest apple. If something blocks the way,
- * it will turn around until its path is free or its dead.
- */
-public class EasySnake extends Snake {
+public class ProtectorSnake extends Snake {
 
-    public EasySnake() {
-        this.NAME = "EasySnake";
-        this.COLOR = new Color(0, 0, 80);
+    public ProtectorSnake() {
+        this.NAME = "ProtectorSnake";
+        this.COLOR = new Color(80, 0, 0);
 
     }
 
