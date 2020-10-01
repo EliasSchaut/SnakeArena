@@ -6,7 +6,8 @@ import board.*;
 import java.awt.*;
 
 /**
- * Only for Debugging or Testing. This snake is controllable with the arrows on the keyboard
+ * Only for Debugging or Testing. This snake is controllable with the arrows on the keyboard.
+ * This snake will be in game, if DEBUG is true in property file
  */
 public class DebugSnake extends Snake {
 

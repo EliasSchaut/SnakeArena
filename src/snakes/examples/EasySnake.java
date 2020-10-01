@@ -1,19 +1,21 @@
 package snakes.examples;
 
 import board.BoardInfo;
-import board.BoardLogic;
 import board.Field;
 import snakes.Snake;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * An example for a snake with less intelligence.
+ * This snake will always go to the nearest apple. If something blocks the way,
+ * it will turn around until its path is free or it is dead.
+ */
 public class EasySnake extends Snake {
 
     public EasySnake() {
-        this.NAME = "EasySnake";                   // everybody can set his favorite name
-        this.COLOR = new Color(0, 0, 80); // everybody can set his favorite color
+        this.NAME = "EasySnake";
+        this.COLOR = new Color(0, 0, 80);
 
     }
 

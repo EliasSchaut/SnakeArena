@@ -5,14 +5,17 @@ import snakes.Snake;
 
 import java.awt.*;
 
+/**
+ * This Snake rotates in a circle the whole time
+ */
 public class CircleSnake extends Snake {
 
     private int direction;
     private int counter;
 
     public CircleSnake() {
-        this.NAME = "CircleSnake";                  // set your favorite name
-        this.COLOR = new Color(80, 0, 80); // set your favorite color
+        this.NAME = "CircleSnake";
+        this.COLOR = new Color(80, 0, 80);
 
         counter = 0;
         direction = DOWN;
@@ -26,7 +29,6 @@ public class CircleSnake extends Snake {
      */
     @Override
     public int think(BoardInfo board) {
-        // lovely intelligence code here
         if (counter == 2) {
             direction = (direction + 1) % 4;
             counter = 0;

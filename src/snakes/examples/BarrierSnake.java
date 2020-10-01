@@ -5,11 +5,14 @@ import snakes.Snake;
 
 import java.awt.*;
 
+/**
+ * This Snake turns immediately into barrier
+ */
 public class BarrierSnake extends Snake {
 
     public BarrierSnake() {
-        this.NAME = "BarrierSnake";         // set your favorite name
-        this.COLOR = new Color(0, 0, 0, 255); // set your favorite color
+        this.NAME = "BarrierSnake";
+        this.COLOR = new Color(0, 0, 0, 255);
 
     }
 
@@ -21,8 +24,6 @@ public class BarrierSnake extends Snake {
      */
     @Override
     public int think(BoardInfo board) {
-        // lovely intelligence code here
-
 
         return LEFT; // or LEFT, or DOWN, or UP
     }
