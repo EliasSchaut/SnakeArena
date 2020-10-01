@@ -13,11 +13,14 @@ public class Game {
     // game will pause until this is false
     private boolean isPaused = true;
 
+    // if true, the game stops, if one snake remains
+    private boolean stop_game = true;
+
+    // the window of the game
     private Window window;
 
     // no one else can create a new game (╬▔皿▔)╯
     private Game() {}
-
 
 
     // --- Main Method --------------------------------------------------------------
@@ -52,6 +55,7 @@ public class Game {
             MAX_APPLES_ON_BOARD = Integer.parseInt(cfg.get("MAX_APPLES_ON_BOARD"));
             RESIZEABLE = Boolean.parseBoolean(cfg.get("RESIZEABLE"));
             OFFSET = Integer.parseInt(cfg.get("OFFSET"));
+            game.stop_game = Boolean.parseBoolean(cfg.get("stop_game"));
 
 
         } catch (Exception e) {
@@ -95,7 +99,11 @@ public class Game {
     /**
      * end game
      */
-    public void end() {
-        isRunning = false;
+    public boolean end(Game game) {
+        if (game.stop_game) {
+            isRunning = false;
+        }
+
+        return game.stop_game;
     }
 }

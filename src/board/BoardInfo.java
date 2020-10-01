@@ -101,6 +101,31 @@ public class BoardInfo {
 
 
     /**
+     * Find nearest Apple from SnakeHead
+     *
+     * @return nearest apple field
+     */
+    public Field getNearestApple() {
+        List<Field> apples = getApples();
+
+        int minReach = BoardLogic.MAX_X + BoardLogic.MAX_Y;
+        int curReach;
+        Field minApple = null;
+        for (Field apple: apples) {
+            curReach = Math.abs(getOwnHead().getPosX() - apple.getPosX()) +
+                    Math.abs(getOwnHead().getPosY() - apple.getPosY());
+
+            if (curReach < minReach) {
+                minApple = apple;
+                minReach = curReach;
+            }
+        }
+
+        return minApple;
+    }
+
+
+    /**
      * Returns all fields with barriers as list
      *
      * @return all fields with barriers as list
@@ -121,16 +146,16 @@ public class BoardInfo {
         Field[][] board = fields;
 
         if (direction == Snake.UP) {
-            return (head.getPosY() > 0) && (board[head.getPosX()][head.getPosY()].isFree());
+            return (head.getPosY() > 0) && (board[head.getPosX()][head.getPosY() - 1].isFree());
 
         } else if (direction == Snake.RIGHT) {
-            return (head.getPosX() < (BoardLogic.MAX_X - 1)) && (board[head.getPosX()][head.getPosY()].isFree());
+            return (head.getPosX() < (BoardLogic.MAX_X - 1)) && (board[head.getPosX() + 1][head.getPosY()].isFree());
 
         } else if (direction == Snake.DOWN) {
-            return (head.getPosY() < (BoardLogic.MAX_Y - 1)) && (board[head.getPosX()][head.getPosY()].isFree());
+            return (head.getPosY() < (BoardLogic.MAX_Y - 1)) && (board[head.getPosX()][head.getPosY() + 1].isFree());
 
         } else if (direction == Snake.LEFT) {
-            return (head.getPosX() > 0) && (board[head.getPosX()][head.getPosY()].isFree());
+            return (head.getPosX() > 0) && (board[head.getPosX() - 1][head.getPosY()].isFree());
 
         } else {
             return false;

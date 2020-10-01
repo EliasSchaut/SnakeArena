@@ -84,7 +84,9 @@ public class BoardLogic {
 
     public void update() {
         if (snakes.size() <= 1) {
-            game.end();
+            if(!game.end(game)) {
+                moveSnakes();
+            }
 
         } else {
             moveSnakes();
@@ -133,20 +135,16 @@ public class BoardLogic {
                 continue;
             }
 
-            // check if snake run in another snake/barrier or in an apple
+            // check if snake run in another snake/barrier or in an apple TODO: define better field status
             boolean ate = false;
             if (!this.fields[newX][newY].isFree()) {
+                killSnake(i);
+                i--;
+                continue;
 
-                if (this.fields[newX][newY].isApple()) {
-                    removeApple(newX, newY);
-                    ate = true;
-
-                } else {
-                    killSnake(i);
-                    i--;
-                    continue;
-
-                }
+            } else if (this.fields[newX][newY].isApple()) {
+                removeApple(newX, newY);
+                ate = true;
             }
 
 
@@ -193,7 +191,8 @@ public class BoardLogic {
         for (Field appleField : apples) {
             if ((appleField.getPosX() == x) && (appleField.getPosY() == y)) {
 
-                // no .setFree here, because a snake will be on this field
+                // no .setFree here, because a snake will be on this field TODO false
+                //fields[appleField.getPosX()][appleField.getPosY()].setFree(false);
                 fields[appleField.getPosX()][appleField.getPosY()].setApple(false);
                 apples.remove(appleField);
                 this.setApples();
@@ -218,7 +217,7 @@ public class BoardLogic {
 
             } while (!fields[appleField.getPosX()][appleField.getPosY()].isFree());
 
-            fields[appleField.getPosX()][appleField.getPosY()].setFree(false);
+            //fields[appleField.getPosX()][appleField.getPosY()].setFree(false);
             fields[appleField.getPosX()][appleField.getPosY()].setApple(true);
             apples.add(appleField);
         }

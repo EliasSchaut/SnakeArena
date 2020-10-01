@@ -15,7 +15,7 @@ public class CircleSnake extends Snake {
         this.COLOR = new Color(80, 0, 80); // set your favorite color
 
         counter = 0;
-        direction = UP;
+        direction = DOWN;
     }
 
     /**

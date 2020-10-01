@@ -25,54 +25,31 @@ public class EasySnake extends Snake {
      */
     @Override
     public int think(BoardInfo board) {
-        Field minApple = getNearestApple(board);
+        Field minApple = board.getNearestApple();
         int posX = board.getOwnHead().getPosX();
         int posY = board.getOwnHead().getPosY();
 
         int numXFields = posX - minApple.getPosX();
         int numYFields = posY - minApple.getPosY();
 
-        if (numXFields != 0) {
-            if (numXFields > 0) {
-                return LEFT;
+        int direction;
 
-            } else {
-                return RIGHT;
-            }
+        if (numXFields != 0) {
+            direction = (numXFields > 0) ? LEFT : RIGHT;
 
         } else {
-            if (numYFields > 0) {
-                return LEFT;
-
-            } else {
-                return RIGHT;
-            }
+            direction = (numYFields > 0) ? UP : DOWN;
         }
+
+        int counter = 0;
+        while ((counter < 3) && !board.isNextStepFree(direction)) {
+            direction = (direction + 1) % 4;
+            counter++;
+        }
+
+        return direction;
     }
 
 
-    /**
-     * Find nearest Apple from SnakeHead
-     *
-     * @param board the whole board with every information necessary
-     * @return nearest apple field
-     */
-    private Field getNearestApple(BoardInfo board) {
-        List<Field> apples = new ArrayList<>();
-        apples = board.getApples();
 
-        int minReach = BoardLogic.MAX_X * BoardLogic.MAX_Y;
-        Field minApple = null;
-
-        for (Field apple: apples) {
-            int curReach = Math.abs(board.getOwnHead().getPosX() - apple.getPosX()) +
-                    Math.abs(board.getOwnHead().getPosY() - apple.getPosY());
-
-            if (curReach < minReach) {
-                minApple = apple;
-            }
-        }
-
-        return minApple;
-    }
 }
