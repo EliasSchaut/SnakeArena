@@ -2,6 +2,11 @@ package game;
 
 import io.Window;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * The Main-Class
  */
@@ -33,40 +38,13 @@ public class Game {
         // import config
         // ------------------------------
         final Config cfg = new Config();
-
-        int WAIT_TIME = 0;
-        boolean DEBUG = false;
-        String WINDOW_TITLE = "";
-        int SCALE = 0;
-        int MAX_X = 0;
-        int MAX_Y = 0;
-        int MAX_APPLES_ON_BOARD = 0;
-        boolean RESIZEABLE = false;
-        int OFFSET = 0;
-
-        try {
-            WAIT_TIME = Integer.parseInt(cfg.get("WAIT_TIME"));
-            DEBUG = Boolean.parseBoolean(cfg.get("debug"));
-            WINDOW_TITLE = cfg.get("WINDOW_TITLE");
-            game.isPaused = Boolean.parseBoolean(cfg.get("start_paused"));
-            SCALE = Integer.parseInt(cfg.get("SCALE"));
-            MAX_X = Integer.parseInt(cfg.get("MAX_X"));
-            MAX_Y = Integer.parseInt(cfg.get("MAX_Y"));
-            MAX_APPLES_ON_BOARD = Integer.parseInt(cfg.get("MAX_APPLES_ON_BOARD"));
-            RESIZEABLE = Boolean.parseBoolean(cfg.get("RESIZEABLE"));
-            OFFSET = Integer.parseInt(cfg.get("OFFSET"));
-            game.stop_game = Boolean.parseBoolean(cfg.get("stop_game"));
-
-
-        } catch (Exception e) {
-            System.out.println("Wrong type format in config file!\n\n");
-            e.printStackTrace();
-        }
+        final Map<String, String> cfgMap = cfg.getAll();
+        final int WAIT_TIME = Integer.parseInt(cfgMap.get("WAIT_TIME"));
         // ------------------------------
 
 
         // Set Up Graphics & Layout
-        game.window = new Window(game, WINDOW_TITLE, RESIZEABLE, DEBUG, SCALE, MAX_X, MAX_Y, OFFSET, MAX_APPLES_ON_BOARD);
+        game.window = new Window(game, cfgMap);
 
 
         // ------------------------------

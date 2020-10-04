@@ -1,7 +1,7 @@
 package io;
 
 import game.Game;
-import snakes.examples.DebugSnake;
+import snakes.examples.KeyboardSnake;
 import snakes.Snake;
 
 import java.awt.event.KeyEvent;
@@ -14,11 +14,11 @@ import java.awt.event.KeyListener;
 public class InputListener implements KeyListener {
 
     private final Game game;
-    private final DebugSnake debugSnake;
+    private final KeyboardSnake keyboardSnake;
 
 
-    protected InputListener(Game game, DebugSnake debugSnake) {
-        this.debugSnake = debugSnake;
+    protected InputListener(Game game, KeyboardSnake keyboardSnake) {
+        this.keyboardSnake = keyboardSnake;
         this.game = game;
 
     }
@@ -36,13 +36,13 @@ public class InputListener implements KeyListener {
 
         switch (e.getKeyCode()) {
             // left
-            case 37 -> debugSnake.direction = Snake.LEFT;
+            case 37 -> keyboardSnake.direction = Snake.LEFT;
             // up
-            case 38 -> debugSnake.direction = Snake.UP;
+            case 38 -> keyboardSnake.direction = Snake.UP;
             // right
-            case 39 -> debugSnake.direction = Snake.RIGHT;
+            case 39 -> keyboardSnake.direction = Snake.RIGHT;
             // down
-            case 40 -> debugSnake.direction = Snake.DOWN;
+            case 40 -> keyboardSnake.direction = Snake.DOWN;
             // pausePlay
             case 80 -> game.pausePlay();
             default -> System.out.println("Unknown Key: " + KeyEvent.getKeyText(e.getKeyCode()) + " Code: " + e.getKeyCode());
