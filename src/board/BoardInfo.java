@@ -141,7 +141,7 @@ public class BoardInfo {
 
 
     /**
-     * Returns if the next step in the given direction of the own snake is free
+     * Returns if the next step in the given direction of the own snake head is free
      *
      * @param direction a snake direction
      * @return true, if the next step in the given direction of the own snake is free, else false
@@ -165,6 +165,39 @@ public class BoardInfo {
         } else {
             return false;
         }
+    }
+
+
+    /**
+     * Returns the state of the field in the given direction from the own snake head
+     *
+     * @param direction a snake direction
+     * @return a field state
+     */
+    public FieldState getNextStepState(int direction) {
+        Field head = getOwnHead();
+        Field[][] board = fields;
+        FieldState state;
+
+        if (direction == Snake.UP) {
+            state = (head.getPosY() > 0) ? board[head.getPosX()][head.getPosY() - 1].getState() : FieldState.Outside;
+
+        } else if (direction == Snake.RIGHT) {
+            state = (head.getPosX() < (BoardLogic.MAX_X - 1)) ?
+                    board[head.getPosX() + 1][head.getPosY()].getState() : FieldState.Outside;
+
+        } else if (direction == Snake.DOWN) {
+            state = (head.getPosY() < (BoardLogic.MAX_Y - 1)) ?
+                    board[head.getPosX()][head.getPosY() + 1].getState() : FieldState.Outside;
+
+        } else if (direction == Snake.LEFT) {
+            state = (head.getPosX() > 0) ? board[head.getPosX() - 1][head.getPosY()].getState() : FieldState.Outside;
+
+        } else {
+            state = FieldState.Outside;
+        }
+
+        return state;
     }
 
 
