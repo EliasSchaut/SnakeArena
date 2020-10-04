@@ -27,7 +27,6 @@ public class Window extends JFrame {
         final int MAX_X = Integer.parseInt(cfgMap.get("MAX_X"));
         final int MAX_Y = Integer.parseInt(cfgMap.get("MAX_Y"));
         final int OFFSET = Integer.parseInt(cfgMap.get("OFFSET"));
-        final int MAX_APPLES_ON_BOARD = Integer.parseInt(cfgMap.get("MAX_APPLES_ON_BOARD"));
 
         // Create Window frame
         this.setSize(SCALE * MAX_X + 500 + (2 * OFFSET),SCALE * (MAX_Y + 2) + (2 * OFFSET));
@@ -44,7 +43,7 @@ public class Window extends JFrame {
         // ----------
 
         // create Arena (BoardLayout)
-        this.boardLogic = new BoardLogic(game, snakes, SCALE, MAX_X, MAX_Y, OFFSET, MAX_APPLES_ON_BOARD);
+        this.boardLogic = new BoardLogic(game, snakes, cfgMap);
         this.boardPanel = boardLogic.getBPaint();
 
         // Adds Arena Panel to window frame

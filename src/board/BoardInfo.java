@@ -33,6 +33,11 @@ public class BoardInfo {
     }
 
 
+    public Field[][] getFields() {
+        return fields;
+    }
+
+
     /**
      * returns own head as field
      *

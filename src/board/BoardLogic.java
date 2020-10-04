@@ -16,6 +16,7 @@ public class BoardLogic {
     public static int MAX_Y;
     public static int MAX_APPLES_ON_BOARD;
     public static int OFFSET;
+    public static int START_LENGTH;
 
     private final Field[][] fields;
     private final List<Field> apples = new ArrayList<>();
@@ -31,15 +32,15 @@ public class BoardLogic {
     /**
      * Create Board with the start positions of the snakes
      */
-    public BoardLogic(Game game, List<Snake> snakes,
-                      int SCALE, int MAX_X, int MAX_Y, int OFFSET, int MAX_APPLES_ON_BOARD) {
+    public BoardLogic(Game game, List<Snake> snakes, Map<String, String> cfgMap) {
         this.bPaint = new BoardPaint(this);
         this.game = game;
-        BoardLogic.SCALE = SCALE;
-        BoardLogic.MAX_X = MAX_X;
-        BoardLogic.MAX_Y = MAX_Y;
-        BoardLogic.MAX_APPLES_ON_BOARD = MAX_APPLES_ON_BOARD;
-        BoardLogic.OFFSET = OFFSET;
+        BoardLogic.SCALE = Integer.parseInt(cfgMap.get("SCALE"));
+        BoardLogic.MAX_X = Integer.parseInt(cfgMap.get("MAX_X"));
+        BoardLogic.MAX_Y = Integer.parseInt(cfgMap.get("MAX_Y"));
+        BoardLogic.MAX_APPLES_ON_BOARD = Integer.parseInt(cfgMap.get("MAX_APPLES_ON_BOARD"));
+        BoardLogic.OFFSET = Integer.parseInt(cfgMap.get("OFFSET"));
+        BoardLogic.START_LENGTH = Integer.parseInt(cfgMap.get("START_LENGTH"));
 
         // create an empty board with empty fields
         fields = new Field[BoardLogic.MAX_X][BoardLogic.MAX_Y];
@@ -54,25 +55,29 @@ public class BoardLogic {
         for (Snake snake : snakes) {
             Field random;
 
+            boolean isFree;
             do {
                 random = getRandomField();
 
-            } while (
-                !(
-                ((random.getPosX() + 2) < BoardLogic.MAX_X)
-                && fields[random.getPosX()    ][random.getPosY()].isFree()
-                && fields[random.getPosX() + 1][random.getPosY()].isFree()
-                && fields[random.getPosX() + 2][random.getPosY()].isFree())
-            );
+                isFree = true;
+                for (int i = 0; i < BoardLogic.START_LENGTH; i++) {
+                    if (((random.getPosX() + 2) >= BoardLogic.MAX_X) || !fields[random.getPosX() + i][random.getPosY()].isFree()) {
 
-            fields[random.getPosX()    ][random.getPosY()].setFree(false);
-            fields[random.getPosX() + 1][random.getPosY()].setFree(false);
-            fields[random.getPosX() + 2][random.getPosY()].setFree(false);
+                        isFree = false;
+                        break;
+                    }
+                }
+
+            } while (!isFree);
+
+            for (int i = 0; i < BoardLogic.START_LENGTH; i++) {
+                fields[random.getPosX() + i][random.getPosY()].setState(FieldState.Snake);
+            }
 
             var snakeLocation = new LinkedList<Field>();
-            snakeLocation.addLast(new Field(random.getPosX()    , random.getPosY()));
-            snakeLocation.addLast(new Field(random.getPosX() + 1, random.getPosY()));
-            snakeLocation.addLast(new Field(random.getPosX() + 2, random.getPosY()));
+            for (int i = 0; i < BoardLogic.START_LENGTH; i++) {
+                snakeLocation.addLast(new Field(random.getPosX() + i, random.getPosY()));
+            }
 
             this.snakes.add(snake);
             this.snakesLocation.add(snakeLocation);
@@ -82,6 +87,10 @@ public class BoardLogic {
         this.setApples();
     }
 
+
+    /**
+     * update the whole Logic for one snake step
+     */
     public void update() {
         if (snakes.size() <= 1) {
             if(!game.end(game)) {
@@ -135,25 +144,25 @@ public class BoardLogic {
                 continue;
             }
 
-            // check if snake run in another snake/barrier or in an apple TODO: define better field status
+            // check if snake run in another snake/barrier or in an apple
             boolean ate = false;
             if (!this.fields[newX][newY].isFree()) {
                 killSnake(i);
                 i--;
                 continue;
 
-            } else if (this.fields[newX][newY].isApple()) {
+            } else if (this.fields[newX][newY].getState() == FieldState.Apple) {
                 removeApple(newX, newY);
                 ate = true;
             }
 
 
-            // set Fields -> TODO: make better
+            // set Fields
             int oldX = this.snakesLocation.get(i).getFirst().getPosX();
             int oldY = this.snakesLocation.get(i).getFirst().getPosY();
 
-            this.fields[newX][newY].setFree(false);
-            this.fields[oldX][oldY].setFree(true);
+            this.fields[newX][newY].setState(FieldState.Snake);
+            this.fields[oldX][oldY].setState(FieldState.Empty);
 
             // move snake
             this.snakesLocation.get(i).addLast(new Field(newX, newY));
@@ -172,6 +181,10 @@ public class BoardLogic {
      */
     protected void killSnake(int snakeIndex) {
         this.barriers.addAll(this.snakesLocation.get(snakeIndex));
+        for (Field snakeLoc : snakesLocation.get(snakeIndex)) {
+            this.fields[snakeLoc.getPosX()][snakeLoc.getPosY()].setState(FieldState.Barrier);
+        }
+
         this.deadSnakesInfo.add(snakes.get(snakeIndex).NAME + " (" + snakesLocation.get(snakeIndex).size() + ")");
 
         this.snakesLocation.remove(snakeIndex);
@@ -190,10 +203,7 @@ public class BoardLogic {
     protected boolean removeApple(int x, int y) {
         for (Field appleField : apples) {
             if ((appleField.getPosX() == x) && (appleField.getPosY() == y)) {
-
-                // no .setFree here, because a snake will be on this field TODO false
-                //fields[appleField.getPosX()][appleField.getPosY()].setFree(false);
-                fields[appleField.getPosX()][appleField.getPosY()].setApple(false);
+                fields[appleField.getPosX()][appleField.getPosY()].setState(FieldState.Snake);
                 apples.remove(appleField);
                 this.setApples();
 
@@ -215,10 +225,9 @@ public class BoardLogic {
             do {
                 appleField = getRandomField();
 
-            } while (!fields[appleField.getPosX()][appleField.getPosY()].isFree());
+            } while (!(fields[appleField.getPosX()][appleField.getPosY()].getState() == FieldState.Empty));
 
-            //fields[appleField.getPosX()][appleField.getPosY()].setFree(false);
-            fields[appleField.getPosX()][appleField.getPosY()].setApple(true);
+            fields[appleField.getPosX()][appleField.getPosY()].setState(FieldState.Apple);
             apples.add(appleField);
         }
     }

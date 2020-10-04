@@ -4,12 +4,10 @@ package board;
  * Represents one field of the board.
  */
 public class Field {
+
     private final int posX;
     private final int posY;
-
-    private boolean apple;
-    private boolean isFree;
-
+    private FieldState state;
 
     /**
      * Initialize Board.Field
@@ -20,8 +18,7 @@ public class Field {
     public Field(int x, int y) {
         this.posX = x;
         this.posY = y;
-        this.apple = false;
-        this.isFree = true;
+        state = FieldState.Empty;
     }
 
 
@@ -33,19 +30,15 @@ public class Field {
         return posY;
     }
 
-    protected boolean isApple() {
-        return apple;
+    public boolean isFree() {
+        return (this.state == FieldState.Empty) || (this.state == FieldState.Apple);
     }
 
-    protected void setApple(boolean apple) {
-        this.apple = apple;
+    public FieldState getState() {
+        return this.state;
     }
 
-    protected boolean isFree() {
-        return isFree;
-    }
-
-    protected void setFree(boolean free) {
-        isFree = free;
+    protected void setState(FieldState status) {
+        this.state = status;
     }
 }
