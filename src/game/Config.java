@@ -51,22 +51,10 @@ public class Config {
     public Map<String, String> getAll() {
         Map<String, String> cfgMap = new HashMap<>();
 
-        cfgMap.put("debug", this.get("debug"));
-        cfgMap.put("start_paused", this.get("start_paused"));
-        cfgMap.put("stop_game", this.get("stop_game"));
-        cfgMap.put("WINDOW_TITLE", this.get("WINDOW_TITLE"));
-        cfgMap.put("WAIT_TIME", this.get("WAIT_TIME"));
-        cfgMap.put("SCALE", this.get("SCALE"));
-        cfgMap.put("MAX_X", this.get("MAX_X"));
-        cfgMap.put("MAX_Y", this.get("MAX_Y"));
-        cfgMap.put("OFFSET", this.get("OFFSET"));
-        cfgMap.put("MAX_APPLES_ON_BOARD", this.get("MAX_APPLES_ON_BOARD"));
-        cfgMap.put("RESIZEABLE", this.get("RESIZEABLE"));
-        cfgMap.put("MySnake", this.get("MySnake"));
-        cfgMap.put("BarrierSnake", this.get("BarrierSnake"));
-        cfgMap.put("CircleSnake", this.get("CircleSnake"));
-        cfgMap.put("EasySnake", this.get("EasySnake"));
-        cfgMap.put("ProtectorSnake", this.get("ProtectorSnake"));
+        Set<Object> keys = this.configFile.keySet();
+        for (Object key : keys) {
+            cfgMap.put(String.valueOf(key), this.get(String.valueOf(key)));
+        }
 
         return cfgMap;
     }
