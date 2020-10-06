@@ -5,6 +5,12 @@ import game.Game;
 
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * This class represents the Arena with the snakes
@@ -17,6 +23,7 @@ public class BoardLogic {
     public static int MAX_APPLES_ON_BOARD;
     public static int OFFSET;
     public static int START_LENGTH;
+    public static int CALC_TIME;
 
     private final Field[][] fields;
     private final List<Field> apples = new ArrayList<>();
@@ -41,6 +48,7 @@ public class BoardLogic {
         BoardLogic.MAX_APPLES_ON_BOARD = Integer.parseInt(cfgMap.get("MAX_APPLES_ON_BOARD"));
         BoardLogic.OFFSET = Integer.parseInt(cfgMap.get("OFFSET"));
         BoardLogic.START_LENGTH = Integer.parseInt(cfgMap.get("START_LENGTH"));
+        BoardLogic.CALC_TIME = Integer.parseInt(cfgMap.get("CALC_TIME"));
 
         // create an empty board with empty fields
         fields = new Field[BoardLogic.MAX_X][BoardLogic.MAX_Y];
@@ -117,7 +125,24 @@ public class BoardLogic {
             // ---------------------------------------------------
             // Call ith snake
             // ---------------------------------------------------
-            direction = this.snakes.get(i).think(new BoardInfo(i, fields, snakesLocation, apples, barriers));
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Future<String> future = executor.submit(() -> "Ready");
+
+            try {
+                direction = this.snakes.get(i).think(new BoardInfo(i, fields, snakesLocation, apples, barriers));
+                future.get(BoardLogic.CALC_TIME, TimeUnit.MILLISECONDS);
+
+            } catch (TimeoutException e) {
+                future.cancel(true);
+                System.out.println("Snake " + snakes.get(i).NAME + " calculate to long!");
+                direction = Snake.RIGHT;
+
+            } catch (Exception e) {
+                direction = Snake.RIGHT;
+
+            }
+
+            executor.shutdownNow();
             // ---------------------------------------------------
 
             newX = this.snakesLocation.get(i).getLast().getPosX();

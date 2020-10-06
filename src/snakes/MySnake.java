@@ -25,7 +25,6 @@ public class MySnake extends Snake {
     public int think(BoardInfo board) {
         // lovely intelligence code here
 
-
         return RIGHT; // or LEFT, or DOWN, or UP
     }
 }
