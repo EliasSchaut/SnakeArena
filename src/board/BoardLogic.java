@@ -129,15 +129,17 @@ public class BoardLogic {
             Future<String> future = executor.submit(() -> "Ready");
 
             try {
-                direction = this.snakes.get(i).think(new BoardInfo(i, fields, snakesLocation, apples, barriers));
+                direction = this.snakes.get(i).think(new BoardInfo(i, fields.clone(), snakesLocation, apples, barriers));
                 future.get(BoardLogic.CALC_TIME, TimeUnit.MILLISECONDS);
 
             } catch (TimeoutException e) {
                 future.cancel(true);
-                System.out.println("Snake " + snakes.get(i).NAME + " calculate to long!");
+                System.out.println("Snake " + snakes.get(i).NAME + " calculate to long!\n");
                 direction = Snake.RIGHT;
 
             } catch (Exception e) {
+                System.out.println("An error occurred in Snake " + snakes.get(i).NAME + "!");
+                e.printStackTrace();
                 direction = Snake.RIGHT;
 
             }
@@ -162,7 +164,7 @@ public class BoardLogic {
                 ++newY;
 
             } else {
-                System.out.println("snakes.Snake " + this.snakes.get(i).NAME + " returns no correct direction " +
+                System.out.println("Snake " + this.snakes.get(i).NAME + " returns no correct direction " +
                         "or drive in a border");
                 killSnake(i);
                 i--;

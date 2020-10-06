@@ -27,6 +27,7 @@ public class KeyboardSnake extends Snake {
      */
     @Override
     public int think(BoardInfo board) {
+
         StringBuffer out = new StringBuffer();
         Field[][] fields = board.getFields();
 
@@ -41,7 +42,6 @@ public class KeyboardSnake extends Snake {
         out.append("\n");
 
         System.out.println(out);
-
 
         return direction;
     }
