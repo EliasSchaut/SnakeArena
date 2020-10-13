@@ -13,7 +13,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * This class represents the Arena with the snakes
+ * This class represents the logic of the arena with the snakes.
+ * The update() method will move all snakes in the direction of their return value of the think-method
  */
 public class BoardLogic {
 
@@ -37,9 +38,18 @@ public class BoardLogic {
 
 
     /**
-     * Create Board with the start positions of the snakes
+     * The Constructor.
+     * First of all it will set all important values from the configs.
+     * Then it will create the board.
+     * At least it set the start positions of the snakes and apples.
+     *
+     * @param game The Game
+     * @param snakes All snakes in game
+     * @param cfgMap All configs
      */
     public BoardLogic(Game game, List<Snake> snakes, Map<String, String> cfgMap) {
+
+        // set important values ----------------------------
         this.bPaint = new BoardPaint(this);
         this.game = game;
         BoardLogic.SCALE = Integer.parseInt(cfgMap.get("SCALE"));
@@ -49,8 +59,10 @@ public class BoardLogic {
         BoardLogic.OFFSET = Integer.parseInt(cfgMap.get("OFFSET"));
         BoardLogic.START_LENGTH = Integer.parseInt(cfgMap.get("START_LENGTH"));
         BoardLogic.CALC_TIME = Integer.parseInt(cfgMap.get("CALC_TIME"));
+        // -------------------------------------------------
 
-        // create an empty board with empty fields
+
+        // create an empty board with empty fields ---------
         fields = new Field[BoardLogic.MAX_X][BoardLogic.MAX_Y];
         for (int i = 0; i < BoardLogic.MAX_X; i++) {
             for (int j = 0; j < BoardLogic.MAX_Y; j++) {
@@ -58,15 +70,19 @@ public class BoardLogic {
 
             }
         }
+        // -------------------------------------------------
 
-        // set all startpoints of all snakes in board:
+
+        // set all start points of all snakes in board ------
         for (Snake snake : snakes) {
             Field random;
 
             boolean isFree;
             do {
+                // First get Field on random position
                 random = getRandomField();
 
+                // Then check if this random field an the num of BoardLogic.START_LENGTH left fields are free.
                 isFree = true;
                 for (int i = 0; i < BoardLogic.START_LENGTH; i++) {
                     if (((random.getPosX() + 2) >= BoardLogic.MAX_X) || !fields[random.getPosX() + i][random.getPosY()].isFree()) {
@@ -76,20 +92,26 @@ public class BoardLogic {
                     }
                 }
 
+            // If the fields are free, take this fields for this snake; else restart
             } while (!isFree);
 
+            // give the selected Fields the snake status
             for (int i = 0; i < BoardLogic.START_LENGTH; i++) {
                 fields[random.getPosX() + i][random.getPosY()].setState(FieldState.Snake);
             }
 
+            // save selected Fields to Body of Snake
             var snakeLocation = new LinkedList<Field>();
             for (int i = 0; i < BoardLogic.START_LENGTH; i++) {
                 snakeLocation.addLast(new Field(random.getPosX() + i, random.getPosY()));
             }
 
+            // add everything together
             this.snakes.add(snake);
             this.snakesLocation.add(snakeLocation);
         }
+        // -------------------------------------------------
+
 
         // set the apples
         this.setApples();
@@ -97,18 +119,17 @@ public class BoardLogic {
 
 
     /**
-     * update the whole Logic for one snake step
+     * Update the whole logic.
+     * Move all snakes in the direction of their return value of the think-method and save/set the new values
      */
     public void update() {
-        if (snakes.size() <= 1) {
-            if(!game.end(game)) {
-                moveSnakes();
-            }
-
-        } else {
-            moveSnakes();
-
+        // end game if only one snake remains and config value stop_game is true
+        if ((snakes.size() <= 1) && (game.end(game))) {
+            return;
         }
+
+        // move all snakes
+        moveSnakes();
     }
 
 
@@ -123,7 +144,7 @@ public class BoardLogic {
         for (int i = 0; i < this.snakes.size(); i++) {
 
             // ---------------------------------------------------
-            // Call ith snake
+            // Call think() method of ith snake and give her CALC_TIME to calculate
             // ---------------------------------------------------
             ExecutorService executor = Executors.newSingleThreadExecutor();
             Future<String> future = executor.submit(() -> "Ready");

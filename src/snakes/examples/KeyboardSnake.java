@@ -28,21 +28,6 @@ public class KeyboardSnake extends Snake {
     @Override
     public int think(BoardInfo board) {
 
-        StringBuffer out = new StringBuffer();
-        Field[][] fields = board.getFields();
-
-        for (int i = 0; i < fields.length; i++) {
-            for (int j = 0; j < fields[i].length; j++) {
-                out.append(fields[j][i].getState()).append("\t");
-            }
-
-            out.append("\n");
-        }
-
-        out.append("\n");
-
-        System.out.println(out);
-
         return direction;
     }
 }

@@ -1,14 +1,13 @@
 package game;
 
 import io.Window;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 /**
- * The Main-Class
+ * The Game-Class
+ * Here is the big game loop. Every loop every snake move in a direction and the board repaints.
+ * The game loop pause or replays if something called the pausePlay() method
+ * The game will loop until something called the end() method
  */
 public class Game {
 
@@ -18,13 +17,13 @@ public class Game {
     // game will pause until this is false
     private boolean isPaused = true;
 
-    // if true, the game stops, if one snake remains
+    // if true, the game stops, if one snake remains, else it will never stop
     private boolean stop_game = true;
 
     // the window of the game
     private Window window;
 
-    // no one else can create a new game (╬▔皿▔)╯
+    // singleton so no one else can create a new game (╬▔皿▔)╯
     private Game() {}
 
 
@@ -35,7 +34,7 @@ public class Game {
         Game game = new Game();
 
         // ------------------------------
-        // import config
+        // import config and set variables
         // ------------------------------
         final Config cfg = new Config();
         final Map<String, String> cfgMap = cfg.getAll();
@@ -43,7 +42,6 @@ public class Game {
         game.isPaused = Boolean.parseBoolean(cfgMap.get("start_paused"));
         game.stop_game = Boolean.parseBoolean(cfgMap.get("stop_game"));
         // ------------------------------
-
 
         // Set Up Graphics & Layout
         game.window = new Window(game, cfgMap);
@@ -57,7 +55,7 @@ public class Game {
             // skip, if game is paused
             if (!game.isPaused) {
 
-                // render Graphics
+                // render Graphics and make snake movements
                 game.window.update();
             }
 

@@ -13,7 +13,7 @@ import java.util.Map;
 import javax.swing.*;
 
 /**
- * The game.Window Class represents the full window on the screen.
+ * The window class represents the full window on the screen.
  * It renders all appearances.
  */
 public class Window extends JFrame {
@@ -22,6 +22,7 @@ public class Window extends JFrame {
     private final BoardLogic boardLogic;
 
     public Window(Game game, Map<String, String> cfgMap) {
+        // set needed config values
         super(cfgMap.get("WINDOW_TITLE"));
         final int SCALE = Integer.parseInt(cfgMap.get("SCALE"));
         final int MAX_X = Integer.parseInt(cfgMap.get("MAX_X"));
@@ -63,8 +64,8 @@ public class Window extends JFrame {
 
     /**
      * Make a game step.
-     * boardLogic.update() updates da Logic of the game. It calls every think-method of every snake an move the snakes
-     * boardPanel.repaint() will paint the Board with the new values
+     * boardLogic.update() updates the logic of the game. It calls every think-method of every snake an move the snakes
+     * boardPanel.repaint() will paint the board with the new values from boardLogic
      */
     public void update(){
         this.boardLogic.update();
@@ -73,7 +74,7 @@ public class Window extends JFrame {
 
 
     /**
-     * collect all snakes (except KeyboardSnake)
+     * collect all snakes (except KeyboardSnake) and return them as list.
      *
      * @param cfgMap the config values
      * @return a list with all snakes in game (except KeyboardSnake)

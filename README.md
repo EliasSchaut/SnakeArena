@@ -3,12 +3,12 @@
 Jeder kennt das Spiel [Snake](https://en.wikipedia.org/wiki/Snake_(video_game_genre)) \
 Man stelle sich nun vor, dass Spielbrett sei um einiges großer und es gäbe mehrere Schlangen und Äpfel. Doch die Schlangen werden nicht von Menschen gesteuert, sondern von KIs.
 
-Genau daraum geht es in diesem Programmierwettbewerb:\
+Genau darum geht es in diesem Programmierwettbewerb:\
 Genau zwei Erstis bilden ein Team. Ein Team soll die KI einer Schlange programmieren. Diese wird dann mit den Schlangen der anderen Teams zusammen auf ein Spielbrett gepackt und das Spiel beginnt!
 
 ## Modalitäten
 * Programmiersprache: Java (da essenziell im 1. Semester)
-* Der gesammte Sourcecode steht allen Teams in diesem Git-Repo zur Verfügung, sodass alle Teams ihre Schlangen ordentlich testen können. Jedoch darf am Ende nur die Schlange MySnake abgegeben werden. Das heißt, dass man den restlichen Code nicht umschreiben sollte, da am Ende wirklich nur MySnake zählt.
+* Der gesamte Sourcecode steht allen Teams in diesem Git-Repo zur Verfügung, sodass alle Teams ihre Schlangen ordentlich testen können. Jedoch darf am Ende nur die Schlange MySnake abgegeben werden. Das heißt, dass man den restlichen Code nicht umschreiben sollte, da am Ende wirklich nur MySnake zählt.
 * Allgemein ist der Code recht gut dokumentiert und nicht besonders groß. Es lohnt sich also, sich die Dokumentation durchzulesen, wenn sich Fragen zum Code finden. Am wichtigsten ist dabei vermutlich die Klasse BoardInfo. Durch diese kann die KI der Schlange alle nötigen Informationen über das Spielfeld bekommen.
 * Es gibt eine Schlange DebugSnake. Diese ist mit den Pfeiltasten steuerbar. Diese dient ausschließlich zum Testen der KI von MySnake.
 * Man kann das Spiel durch drücken auf die Taste P pausieren bzw. fortsetzen. Das Spiel startet standartmäßig pausiert.

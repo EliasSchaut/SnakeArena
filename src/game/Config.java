@@ -3,7 +3,9 @@ package game;
 import java.util.*;
 
 /**
- * Read the properties file. Other classes can read the values with the get-method.
+ * Read the snake_arena.properties file, get all config values and store it.
+ * Other classes can get a single value with a given key with the get() method.
+ * Other classes can get all configs as HashMap with the getAll() method
  */
 public class Config {
     private final Properties configFile;
@@ -19,13 +21,14 @@ public class Config {
             configFile.load(this.getClass().getClassLoader().getResourceAsStream(cfg_location));
 
         } catch (Exception e) {
-            System.out.println("Config file not found or cannot read!\n\n");
+            System.err.println("Config file not found or cannot read!\n\n");
             e.printStackTrace();
         }
     }
 
     /**
-     * Other classes can get the config values with this method
+     * Get a single value with a given key with this method.
+     * If key was not found in the config file, an error occurs
      *
      * @param key the key of value which is needed
      * @return the value of the given key
@@ -36,7 +39,7 @@ public class Config {
             return this.configFile.getProperty(key);
 
         } catch (Exception e) {
-            System.out.println("Error in config file!\nKey not found or other Error\n\n");
+            System.err.println("Error in config file!\nKey not found or other Error\n\n");
             e.printStackTrace();
         }
 
@@ -44,9 +47,10 @@ public class Config {
     }
 
     /**
-     * Get all config values
+     * Get all configs as HashMap as (string, string).
+     * The first string is the name of the config and the second string is the value
      *
-     * @return all config values as (string,string) map
+     * @return all configs as HashMap.
      */
     public Map<String, String> getAll() {
         Map<String, String> cfgMap = new HashMap<>();

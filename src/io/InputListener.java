@@ -9,7 +9,7 @@ import java.awt.event.KeyListener;
 
 /**
  * Listen the keyboard and do stuff, if something is typed
- * Important for DebugSnake and PausePlay
+ * Important for KeyboardSnake and PausePlay
  */
 public class InputListener implements KeyListener {
 
@@ -17,6 +17,13 @@ public class InputListener implements KeyListener {
     private final KeyboardSnake keyboardSnake;
 
 
+    /**
+     * The Constructor.
+     * It sets game and keyboardSnake
+     *
+     * @param game the Game
+     * @param keyboardSnake the KeyboardSnake
+     */
     protected InputListener(Game game, KeyboardSnake keyboardSnake) {
         this.keyboardSnake = keyboardSnake;
         this.game = game;
@@ -24,11 +31,22 @@ public class InputListener implements KeyListener {
     }
 
 
+    /**
+     * Reacts, if a key was typed.
+     *
+     * @param e the specific, which was typed
+     */
     @Override
     public void keyTyped(KeyEvent e) {
         // do nothing
     }
 
+
+    /**
+     * Reacts, if a key was pressed.
+     *
+     * @param e the specific, which was pressed
+     */
     @Override
     public void keyPressed(KeyEvent e) {
 
@@ -49,6 +67,12 @@ public class InputListener implements KeyListener {
         }
     }
 
+
+    /**
+     * Reacts, if a key was released.
+     *
+     * @param e the specific, which was released
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         // do nothing
