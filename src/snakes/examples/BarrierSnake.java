@@ -7,6 +7,8 @@ import java.awt.*;
 
 /**
  * This Snake turns immediately into barrier
+ * This snake appears 'BarrierSnake' times an board.
+ * The value behind 'BarrierSnake' can set in the property file (snake_arena.properties).
  */
 public class BarrierSnake extends Snake {
 

@@ -6,7 +6,9 @@ import snakes.Snake;
 import java.awt.*;
 
 /**
- * This Snake rotates in a circle the whole time
+ * This Snake rotates in a circle the whole time.
+ * This snake appears 'CircleSnake' times an board.
+ * The value behind 'CircleSnake' can set in the property file (snake_arena.properties).
  */
 public class CircleSnake extends Snake {
 

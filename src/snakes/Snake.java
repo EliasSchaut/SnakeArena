@@ -1,11 +1,13 @@
 package snakes;
 
-import java.awt.*;
-import java.util.*;
-import java.util.List;
-
 import board.*;
 
+import java.awt.*;
+
+/**
+ * The abstract snake class.
+ * Every snake must extend from this class.
+ */
 public abstract class Snake {
 
     public final static int UP = 0;

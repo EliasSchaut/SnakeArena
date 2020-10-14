@@ -8,7 +8,9 @@ import snakes.Snake;
 import java.awt.*;
 
 /**
- * This snake goes to the nearest apple and circle around of it
+ * This snake goes to the nearest apple and circle around of it.
+ * This snake appears 'ProtectorSnake' times an board.
+ * The value behind 'ProtectorSnake' can set in the property file (snake_arena.properties).
  */
 public class ProtectorSnake extends Snake {
 

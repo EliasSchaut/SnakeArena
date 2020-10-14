@@ -5,7 +5,6 @@ import game.Game;
 
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -168,10 +167,12 @@ public class BoardLogic {
             executor.shutdownNow();
             // ---------------------------------------------------
 
+
             newX = this.snakesLocation.get(i).getLast().getPosX();
             newY = this.snakesLocation.get(i).getLast().getPosY();
 
-            // check if snake is allowed to move in this direction
+
+            // check if snake is allowed to move in this direction --
             if ((direction == Snake.LEFT) && (newX > 0)) {
                 --newX;
 
@@ -191,8 +192,10 @@ public class BoardLogic {
                 i--;
                 continue;
             }
+            // ---------------------------------------------------
 
-            // check if snake run in another snake/barrier or in an apple
+
+            // check if snake run in another snake/barrier/outside or in an apple --
             boolean ate = false;
             if (!this.fields[newX][newY].isFree()) {
                 killSnake(i);
@@ -203,6 +206,7 @@ public class BoardLogic {
                 removeApple(newX, newY);
                 ate = true;
             }
+            // ---------------------------------------------------------------------
 
 
             // set Fields
@@ -212,9 +216,12 @@ public class BoardLogic {
             this.fields[newX][newY].setState(FieldState.Snake);
             this.fields[oldX][oldY].setState(FieldState.Empty);
 
+
             // move snake
             this.snakesLocation.get(i).addLast(new Field(newX, newY));
 
+
+            // dont remove last part of body, if snake ate an apple
             if (!ate) {
                 this.snakesLocation.get(i).removeFirst();
             }
@@ -228,13 +235,16 @@ public class BoardLogic {
      * @param snakeIndex snake to be killed
      */
     protected void killSnake(int snakeIndex) {
+        // add snake body to barrier list and set field status of fields to value barrier
         this.barriers.addAll(this.snakesLocation.get(snakeIndex));
         for (Field snakeLoc : snakesLocation.get(snakeIndex)) {
             this.fields[snakeLoc.getPosX()][snakeLoc.getPosY()].setState(FieldState.Barrier);
         }
 
+        // add dead snake info
         this.deadSnakesInfo.add(snakes.get(snakeIndex).NAME + " (" + snakesLocation.get(snakeIndex).size() + ")");
 
+        // remove snake from all living snake lists
         this.snakesLocation.remove(snakeIndex);
         this.snakes.remove(snakeIndex);
 
@@ -250,9 +260,13 @@ public class BoardLogic {
      */
     protected boolean removeApple(int x, int y) {
         for (Field appleField : apples) {
+
+            // find apple with given coordinates and remove it from the list
             if ((appleField.getPosX() == x) && (appleField.getPosY() == y)) {
                 fields[appleField.getPosX()][appleField.getPosY()].setState(FieldState.Snake);
                 apples.remove(appleField);
+
+                // add new apples
                 this.setApples();
 
                 return true;
@@ -267,14 +281,18 @@ public class BoardLogic {
      * place apples on the board until MAX_APPLES_ON_BOARD value is reached
      */
     protected void setApples() {
-        while (apples.size() < MAX_APPLES_ON_BOARD) {
-            Field appleField;
 
+        // add apples until value of MAX_APPLES_ON_BOARD is reached
+        while (apples.size() < MAX_APPLES_ON_BOARD) {
+
+            // get random field with field status empty
+            Field appleField;
             do {
                 appleField = getRandomField();
 
             } while (!(fields[appleField.getPosX()][appleField.getPosY()].getState() == FieldState.Empty));
 
+            // set field state of random field to value apple and add apple to apple-list
             fields[appleField.getPosX()][appleField.getPosY()].setState(FieldState.Apple);
             apples.add(appleField);
         }

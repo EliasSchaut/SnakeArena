@@ -5,7 +5,11 @@ import java.awt.*;
 
 
 /**
- * an example snake for testing
+ * This is the snake which has to be filled with lovely intelligence code
+ * to become the longest snake of all other snakes.
+ *
+ * This snake appears 'MySnake' times an board.
+ * The value behind 'MySnake' can set in the property file (snake_arena.properties).
  */
 public class MySnake extends Snake {
 

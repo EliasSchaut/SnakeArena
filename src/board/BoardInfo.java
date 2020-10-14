@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.LinkedList;
 
 /**
- * The full needed information about the board for snake with index snakeIndex
+ * The methods in this class give the full needed information about the board
+ * from the perspective of the snake with the snakeIndex given in constructor.
  */
 public class BoardInfo {
 
@@ -18,9 +19,14 @@ public class BoardInfo {
 
 
     /**
-     * the Board-Class create this Board-Inforamtion for a spezific snake with the index snakeIndex
+     * The Constructor.
+     * It sets all important information values from BoardLogic
      *
      * @param snakeIndex the index of the snake, which will need this information now
+     * @param fields the whole board as 2-dim array
+     * @param snakesLocation the body locations of all snakes
+     * @param apples the positions of all apples
+     * @param barriers the positions of all barriers
      */
     protected BoardInfo(int snakeIndex, Field[][] fields, List<LinkedList<Field>> snakesLocation,
                         List<Field> apples, List<Field> barriers) {
@@ -32,16 +38,20 @@ public class BoardInfo {
 
     }
 
-
+    /**
+     * Get the whole board as 2-dim array filled with fields
+     *
+     * @return the whole board as 2-dim array filled with fields
+     */
     public Field[][] getFields() {
         return fields;
     }
 
 
     /**
-     * returns own head as field
+     * returns own snake-head as field
      *
-     * @return own head as field
+     * @return own snake-head as field
      */
     public Field getOwnHead() {
         return snakesLocation.get(snakeIndex).getLast();
@@ -49,9 +59,9 @@ public class BoardInfo {
 
 
     /**
-     * returns own snake position as list
+     * returns own snake-position as list
      *
-     * @return own snake position as list
+     * @return own snake-position as list
      */
     public List<Field> getOwnSnake() {
         return snakesLocation.get(snakeIndex);
@@ -59,12 +69,12 @@ public class BoardInfo {
 
 
     /**
-     * Returns head of other snakes as list
+     * Returns head of other snakes as list (without own head)
      *
-     * @return head of other snakes as list
+     * @return head of other snakes as list (without own head)
      */
     public List<Field> getOtherHeads() {
-        LinkedList<Field> heads = new LinkedList<>();
+        List<Field> heads = new LinkedList<>();
 
         for (int i = 0; i < snakesLocation.size(); i++) {
             if (i != snakeIndex) {
@@ -78,12 +88,12 @@ public class BoardInfo {
 
 
     /**
-     * Returns position of all other snakes
+     * Returns position of all other snakes (without own snake)
      *
-     * @return position of all other snakes
+     * @return position of all other snakes (without own snake)
      */
     public List<LinkedList<Field>> getOtherSnakes() {
-        LinkedList<LinkedList<Field>> snakes = new LinkedList<>();
+        List<LinkedList<Field>> snakes = new LinkedList<>();
 
         for (int i = 0; i < snakesLocation.size(); i++) {
             if (i != snakeIndex) {
@@ -96,9 +106,9 @@ public class BoardInfo {
 
 
     /**
-     * Return apple positions as list
+     * Return all apple positions as list
      *
-     * @return apple positions as list
+     * @return all apple positions as list
      */
     public List<Field> getApples() {
         return apples;
@@ -106,20 +116,24 @@ public class BoardInfo {
 
 
     /**
-     * Find nearest Apple from SnakeHead
+     * Find nearest apple from own SnakeHead
      *
      * @return nearest apple field
      */
     public Field getNearestApple() {
         List<Field> apples = getApples();
-
-        int minReach = BoardLogic.MAX_X + BoardLogic.MAX_Y;
-        int curReach;
+        int minReach = BoardLogic.MAX_X + BoardLogic.MAX_Y; // set max distance
         Field minApple = null;
+        int curReach;
+
+        // iterate through all apples
         for (Field apple: apples) {
+
+            // calculate number of fields to reach this apple
             curReach = Math.abs(getOwnHead().getPosX() - apple.getPosX()) +
                     Math.abs(getOwnHead().getPosY() - apple.getPosY());
 
+            // if curReach is smaller than every reach bevor, set this as nearest apple
             if (curReach < minReach) {
                 minApple = apple;
                 minReach = curReach;
@@ -141,10 +155,11 @@ public class BoardInfo {
 
 
     /**
-     * Returns if the next step in the given direction of the own snake head is free
+     * Returns if the next field in the given direction of the own snake head is free.
+     * Free means, that the field has status empty or apple.
      *
      * @param direction a snake direction
-     * @return true, if the next step in the given direction of the own snake is free, else false
+     * @return true, if the next field in the given direction of the own snake is free, else false
      */
     public boolean isNextStepFree(int direction) {
         Field head = getOwnHead();
