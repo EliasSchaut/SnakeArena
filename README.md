@@ -12,7 +12,7 @@ Genau zwei Erstis bilden ein Team. Ein Team soll die KI einer Schlange programmi
 * Hilfsmittel: Alles erlaubt (außer schummeln)!
 * Code: Der gesamte Sourcecode steht allen Teams in diesem Git-Repo zur Verfügung, sodass alle Teams ihre Schlangen ordentlich testen können. 
 * Abgabe: Ausschließlich die Klasse MySnake auf einer Abgabeplattform. Das heißt, dass man den restlichen Code nicht umschreiben sollte, da am Ende wirklich nur MySnake zählt.
-* Deadline: Do 29.10. 12 Uhr
+* **Deadline**: Donnerstag, 29.10. um 12 Uhr
 
 ## Regeln
 ### Allgemeine Spielregeln

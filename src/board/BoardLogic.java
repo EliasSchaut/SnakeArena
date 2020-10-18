@@ -57,7 +57,7 @@ public class BoardLogic {
         BoardLogic.MAX_APPLES_ON_BOARD = Integer.parseInt(cfgMap.get("MAX_APPLES_ON_BOARD"));
         BoardLogic.OFFSET = Integer.parseInt(cfgMap.get("OFFSET"));
         BoardLogic.START_LENGTH = Integer.parseInt(cfgMap.get("START_LENGTH"));
-        BoardLogic.CALC_TIME = Integer.parseInt(cfgMap.get("CALC_TIME"));
+        BoardLogic.CALC_TIME = Integer.parseInt(cfgMap.get("calc_time"));
         // -------------------------------------------------
 
 
