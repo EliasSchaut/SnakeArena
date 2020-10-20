@@ -14,6 +14,14 @@ Genau zwei Erstis bilden ein Team. Ein Team soll die KI einer Schlange programmi
 * Abgabe: Ausschließlich die Klasse MySnake auf einer Abgabeplattform. Das heißt, dass man den restlichen Code nicht umschreiben sollte, da am Ende wirklich nur MySnake zählt.
 * **Deadline**: Donnerstag, 29.10. um 12 Uhr
 
+## Spezifikation der Abgabe
+* Die Abgabe *MySnake* muss drei Kriterien erfüllen, um akzeptiert zu werden:
+  * Die öffentliche Variable **NAME** muss mit einem beliebigen Teamnamen gesetzt sein
+  * Die öffentliche Variable **Color** muss mit einer beliebigen Teamfarbe gesetzt sein
+  * Die öffentliche Funktion **think()** muss mit Code gefüllt werden.
+* Zudem scheiden Schlangen, die versuchen zu schummeln, aus. Der Code aller Schlangen wird nach der Deadline händisch kontrolliert!
+* **Abgabesystem:** https://snake.president-code.golf/
+
 ## Regeln
 ### Allgemeine Spielregeln
 * Durch Drücken der Taste P wird das Spiel pausiert bzw. fortgesetzt. Das Spiel startet standartmäßig pausiert.
@@ -59,5 +67,6 @@ Die Punkteverteilung pro Spiel richtet sich nach der Länge der Schlangen am End
 2. Platz und somit zweitlängste Schlange - 2 Punkte
 3. Platz und somit drittlängste Schlange - 1 Punkt
 
-Gespielt wird 3 Spiele. Danach werden alle Punkte aus allen Runden von allen Teams zusammenaddiert und es gewinnt das Team mit den meisten Punkten.
-Das Gewinnerteam erhält originale Milka-Schokolade!
+Gespielt wird 3 Spiele. Danach werden alle Punkte aus allen Runden von allen Teams zusammenaddiert.\
+Der 1. Platz bekommt 2 Säcke Schokolade.\
+Der 2. Platz bekommt 1 Sack Schokolade.
