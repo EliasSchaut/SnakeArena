@@ -9,7 +9,7 @@ import java.util.*;
 public class Game {
 
     // step-interval time in milliseconds
-    private final int WAIT_TIME = 200;
+    public final int WAIT_TIME = 300;
 
     // if true, debugSnake will sporn on board
     protected final boolean DEBUG = false;

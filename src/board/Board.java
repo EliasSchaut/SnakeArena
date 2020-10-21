@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import java.awt.*;
 import java.io.*;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -243,12 +244,12 @@ public class Board extends JPanel {
         }
     }
 
-    private int executeSnake(String path, String boardinfo) {
+    private int executeSnake(String path, String boardinfo, int timeout) {
         String line;
         OutputStream stdin = null;
         InputStream stderr = null;
         InputStream stdout = null;
-        int result = 0;
+        int result = -1;
         try {
 
             // launch EXE and grab stdin/stdout and stderr
@@ -260,6 +261,12 @@ public class Board extends JPanel {
             // "write" the parms into stdin
             stdin.write(boardinfo.getBytes());
             stdin.close();
+
+            if(!process.waitFor(timeout, TimeUnit.MILLISECONDS)) {
+                System.out.println("Process " + path + " took to long to execute");
+                process.destroy(); // consider using destroyForcibly instead
+                return result;
+            }
 
             // clean up if any output in stdout
             BufferedReader brCleanUp = new BufferedReader(new InputStreamReader(stdout));
@@ -294,7 +301,7 @@ public class Board extends JPanel {
         for (int i = 0; i < this.snakes.size(); i++) {
             if (game.CLI_SERVER) {
                 var snake =this.snakes.get(i);
-                direction = executeSnake(snake.PATH, new BoardInfo(this, i).serialize(board));
+                direction = executeSnake(snake.PATH, new BoardInfo(this, i).serialize(board), game.WAIT_TIME);
             } else {
                 direction = this.snakes.get(i).think(new BoardInfo(this, i));
             }
