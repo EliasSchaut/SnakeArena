@@ -335,7 +335,7 @@ public class BoardLogic {
                 validFields.add(tempField);
                 checkFields.add(tempField);
             }
-            if (field.getPosY() < MAX_Y - 1
+            if (field.getPosY() < SIZE_Y - 1
                 && !validFields.contains(tempField = getFields()[field.getPosX()][field.getPosY() + 1])
                 && tempField.isFree()) {
                 validFields.add(tempField);
@@ -347,7 +347,7 @@ public class BoardLogic {
                 validFields.add(tempField);
                 checkFields.add(tempField);
             }
-            if (field.getPosX() < MAX_X - 1
+            if (field.getPosX() < SIZE_X - 1
                 && !validFields.contains(tempField = getFields()[field.getPosX() + 1][field.getPosY()])
                 && tempField.isFree()) {
                 validFields.add(tempField);
