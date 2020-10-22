@@ -1,6 +1,6 @@
 # Programmierwettbewerb SnakeArena
 
-Jeder kennt das Spiel [Snake](https://en.wikipedia.org/wiki/Snake_(video_game_genre)) \
+Jeder kennt das Spiel [Snake](https://en.wikipedia.org/wiki/Snake_(video_game_genre)). \
 Man stelle sich nun vor, dass Spielbrett sei um einiges großer und es gäbe mehrere Schlangen und Äpfel. Doch die Schlangen werden nicht von Menschen gesteuert, sondern von KIs.
 
 Genau darum geht es in diesem Programmierwettbewerb:\
@@ -24,7 +24,7 @@ Genau zwei Erstis bilden ein Team. Ein Team soll die KI einer Schlange programmi
 
 ## Regeln
 ### Allgemeine Spielregeln
-* Durch Drücken der Taste P wird das Spiel pausiert bzw. fortgesetzt. Das Spiel startet standartmäßig pausiert.
+* Durch Drücken der Taste P wird das Spiel pausiert bzw. fortgesetzt. Das Spiel startet standardmäßig pausiert.
 * Das Spiel ist rundenbasiert
 * In jeder Runde wird die think() Methode jeder Schlange aufgerufen und deren Rückgabe für die Schlangenbewegungen verwendet
 * Nach jeder Runde wird das Ergebnis aller Schlangenbewegungen in der Anwendung angezeigt
