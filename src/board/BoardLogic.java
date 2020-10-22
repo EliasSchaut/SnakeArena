@@ -84,7 +84,7 @@ public class BoardLogic {
                 // Then check if this random field an the num of BoardLogic.START_LENGTH left fields are free.
                 isFree = true;
                 for (int i = 0; i < BoardLogic.START_LENGTH; i++) {
-                    if (((random.getPosX() + 2) >= BoardLogic.SIZE_X) || !fields[random.getPosX() + i][random.getPosY()].isFree()) {
+                    if (((random.getPosX() + BoardLogic.START_LENGTH) > BoardLogic.SIZE_X) || !fields[random.getPosX() + i][random.getPosY()].isFree()) {
 
                         isFree = false;
                         break;
