@@ -188,8 +188,8 @@ public class BoardLogic {
                 ++newY;
 
             } else {
-                System.out.println("Snake " + this.snakes.get(i).NAME + " returns no correct direction " +
-                        "or drive in a border");
+                System.out.println("Snake " + this.snakes.get(i).NAME + " returned no correct direction " +
+                        "or drove into a border");
                 killSnake(i);
                 i--;
                 continue;
