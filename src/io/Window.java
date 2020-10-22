@@ -36,7 +36,7 @@ public class Window extends JFrame {
         // collect all snakes -----
         List<Snake> snakes = collectSnakes(cfgMap);
 
-        // enable KeyboardSnake, if debug in config is true
+        // enable KeyboardSnake, if DEBUG in config is true
         KeyboardSnake kSnake = new KeyboardSnake();
         if (Boolean.parseBoolean(cfgMap.get("DEBUG"))) {
             snakes.add(kSnake);
