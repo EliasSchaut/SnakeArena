@@ -59,8 +59,8 @@ public class BoardPaint extends JPanel {
      * @param g2d the Graphics2D, which is needed for painting
      */
     private void paintBoard(Graphics2D g2d) {
-        for (int x = 0; x < BoardLogic.MAX_X; x++) {
-            for (int y = 0; y < BoardLogic.MAX_Y; y++) {
+        for (int x = 0; x < BoardLogic.SIZE_X; x++) {
+            for (int y = 0; y < BoardLogic.SIZE_Y; y++) {
                 g2d.drawRect(x * BoardLogic.SCALE + BoardLogic.OFFSET, y * BoardLogic.SCALE + BoardLogic.OFFSET
                         , BoardLogic.SCALE, BoardLogic.SCALE);
             }
@@ -88,14 +88,14 @@ public class BoardPaint extends JPanel {
         // ----------------------------------
         // Draw header
         g2d.setColor(Color.BLACK);
-        g2d.drawString("Living Snakes:", BoardLogic.SCALE * BoardLogic.MAX_X + 100 + BoardLogic.OFFSET,
+        g2d.drawString("Living Snakes:", BoardLogic.SCALE * BoardLogic.SIZE_X + 100 + BoardLogic.OFFSET,
                 50 + BoardLogic.OFFSET);
 
         // Draw living snakes with current length
         for (int i = 0; i < snakes.size(); i++) {
             g2d.setColor(snakes.get(i).COLOR);
             g2d.drawString(snakes.get(i).NAME + " (" + snakesLocation.get(i).size() + ")",
-                    BoardLogic.SCALE * BoardLogic.MAX_X + 100 + BoardLogic.OFFSET,
+                    BoardLogic.SCALE * BoardLogic.SIZE_X + 100 + BoardLogic.OFFSET,
                     (25 * (i + 1)) + 75 + BoardLogic.OFFSET);
 
         }
@@ -107,13 +107,13 @@ public class BoardPaint extends JPanel {
         // ----------------------------------
         // Draw header
         g2d.setColor(Color.BLACK);
-        g2d.drawString("Dead Snakes:", BoardLogic.SCALE * BoardLogic.MAX_X + 300 + BoardLogic.OFFSET,
+        g2d.drawString("Dead Snakes:", BoardLogic.SCALE * BoardLogic.SIZE_X + 300 + BoardLogic.OFFSET,
                 50 + BoardLogic.OFFSET);
 
         // Draw dead snakes with current length
         g2d.setColor(Color.DARK_GRAY);
         for (int i = 0; i < deadSnakesInfo.size(); i++) {
-            g2d.drawString(deadSnakesInfo.get(i), BoardLogic.SCALE * BoardLogic.MAX_X + 300 + BoardLogic.OFFSET,
+            g2d.drawString(deadSnakesInfo.get(i), BoardLogic.SCALE * BoardLogic.SIZE_X + 300 + BoardLogic.OFFSET,
                     (25 * (i + 1)) + 75 + BoardLogic.OFFSET);
         }
         // ----------------------------------

@@ -25,8 +25,8 @@ public class Window extends JFrame {
         // set needed config values
         super(cfgMap.get("WINDOW_TITLE"));
         final int SCALE = Integer.parseInt(cfgMap.get("SCALE"));
-        final int MAX_X = Integer.parseInt(cfgMap.get("MAX_X"));
-        final int MAX_Y = Integer.parseInt(cfgMap.get("MAX_Y"));
+        final int MAX_X = Integer.parseInt(cfgMap.get("SIZE_X"));
+        final int MAX_Y = Integer.parseInt(cfgMap.get("SIZE_Y"));
         final int OFFSET = Integer.parseInt(cfgMap.get("OFFSET"));
 
         // Create Window frame
@@ -38,7 +38,7 @@ public class Window extends JFrame {
 
         // enable KeyboardSnake, if debug in config is true
         KeyboardSnake kSnake = new KeyboardSnake();
-        if (Boolean.parseBoolean(cfgMap.get("debug"))) {
+        if (Boolean.parseBoolean(cfgMap.get("DEBUG"))) {
             snakes.add(kSnake);
         }
         // ----------

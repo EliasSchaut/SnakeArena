@@ -18,8 +18,8 @@ import java.util.concurrent.TimeoutException;
 public class BoardLogic {
 
     public static int SCALE;
-    public static int MAX_X;
-    public static int MAX_Y;
+    public static int SIZE_X;
+    public static int SIZE_Y;
     public static int MAX_APPLES_ON_BOARD;
     public static int OFFSET;
     public static int START_LENGTH;
@@ -52,19 +52,19 @@ public class BoardLogic {
         this.bPaint = new BoardPaint(this);
         this.game = game;
         BoardLogic.SCALE = Integer.parseInt(cfgMap.get("SCALE"));
-        BoardLogic.MAX_X = Integer.parseInt(cfgMap.get("MAX_X"));
-        BoardLogic.MAX_Y = Integer.parseInt(cfgMap.get("MAX_Y"));
+        BoardLogic.SIZE_X = Integer.parseInt(cfgMap.get("SIZE_X"));
+        BoardLogic.SIZE_Y = Integer.parseInt(cfgMap.get("SIZE_Y"));
         BoardLogic.MAX_APPLES_ON_BOARD = Integer.parseInt(cfgMap.get("MAX_APPLES_ON_BOARD"));
         BoardLogic.OFFSET = Integer.parseInt(cfgMap.get("OFFSET"));
         BoardLogic.START_LENGTH = Integer.parseInt(cfgMap.get("START_LENGTH"));
-        BoardLogic.CALC_TIME = Integer.parseInt(cfgMap.get("calc_time"));
+        BoardLogic.CALC_TIME = Integer.parseInt(cfgMap.get("CALC_TIME"));
         // -------------------------------------------------
 
 
         // create an empty board with empty fields ---------
-        fields = new Field[BoardLogic.MAX_X][BoardLogic.MAX_Y];
-        for (int i = 0; i < BoardLogic.MAX_X; i++) {
-            for (int j = 0; j < BoardLogic.MAX_Y; j++) {
+        fields = new Field[BoardLogic.SIZE_X][BoardLogic.SIZE_Y];
+        for (int i = 0; i < BoardLogic.SIZE_X; i++) {
+            for (int j = 0; j < BoardLogic.SIZE_Y; j++) {
                 fields[i][j] = new Field(i, j);
 
             }
@@ -84,7 +84,7 @@ public class BoardLogic {
                 // Then check if this random field an the num of BoardLogic.START_LENGTH left fields are free.
                 isFree = true;
                 for (int i = 0; i < BoardLogic.START_LENGTH; i++) {
-                    if (((random.getPosX() + 2) >= BoardLogic.MAX_X) || !fields[random.getPosX() + i][random.getPosY()].isFree()) {
+                    if (((random.getPosX() + 2) >= BoardLogic.SIZE_X) || !fields[random.getPosX() + i][random.getPosY()].isFree()) {
 
                         isFree = false;
                         break;
@@ -181,10 +181,10 @@ public class BoardLogic {
             } else if ((direction == Snake.UP) && (newY > 0)) {
                 --newY;
 
-            } else if ((direction == Snake.RIGHT) && (newX < (MAX_X - 1))) {
+            } else if ((direction == Snake.RIGHT) && (newX < (SIZE_X - 1))) {
                 ++newX;
 
-            } else if ((direction == Snake.DOWN) && (newY < (MAX_Y - 1))) {
+            } else if ((direction == Snake.DOWN) && (newY < (SIZE_Y - 1))) {
                 ++newY;
 
             } else {
@@ -313,8 +313,8 @@ public class BoardLogic {
      * @return a random Field on the board
      */
     protected Field getRandomField() {
-        int x = (int) (Math.random() * MAX_X);
-        int y = (int) (Math.random() * MAX_Y);
+        int x = (int) (Math.random() * SIZE_X);
+        int y = (int) (Math.random() * SIZE_Y);
 
         return new Field(x, y);
     }

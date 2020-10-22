@@ -122,7 +122,7 @@ public class BoardInfo {
      */
     public Field getNearestApple() {
         List<Field> apples = getApples();
-        int minReach = BoardLogic.MAX_X + BoardLogic.MAX_Y; // set max distance
+        int minReach = BoardLogic.SIZE_X + BoardLogic.SIZE_Y; // set max distance
         Field minApple = null;
         int curReach;
 
@@ -169,10 +169,10 @@ public class BoardInfo {
             return (head.getPosY() > 0) && (board[head.getPosX()][head.getPosY() - 1].isFree());
 
         } else if (direction == Snake.RIGHT) {
-            return (head.getPosX() < (BoardLogic.MAX_X - 1)) && (board[head.getPosX() + 1][head.getPosY()].isFree());
+            return (head.getPosX() < (BoardLogic.SIZE_X - 1)) && (board[head.getPosX() + 1][head.getPosY()].isFree());
 
         } else if (direction == Snake.DOWN) {
-            return (head.getPosY() < (BoardLogic.MAX_Y - 1)) && (board[head.getPosX()][head.getPosY() + 1].isFree());
+            return (head.getPosY() < (BoardLogic.SIZE_Y - 1)) && (board[head.getPosX()][head.getPosY() + 1].isFree());
 
         } else if (direction == Snake.LEFT) {
             return (head.getPosX() > 0) && (board[head.getPosX() - 1][head.getPosY()].isFree());
@@ -198,11 +198,11 @@ public class BoardInfo {
             state = (head.getPosY() > 0) ? board[head.getPosX()][head.getPosY() - 1].getState() : FieldState.Outside;
 
         } else if (direction == Snake.RIGHT) {
-            state = (head.getPosX() < (BoardLogic.MAX_X - 1)) ?
+            state = (head.getPosX() < (BoardLogic.SIZE_X - 1)) ?
                     board[head.getPosX() + 1][head.getPosY()].getState() : FieldState.Outside;
 
         } else if (direction == Snake.DOWN) {
-            state = (head.getPosY() < (BoardLogic.MAX_Y - 1)) ?
+            state = (head.getPosY() < (BoardLogic.SIZE_Y - 1)) ?
                     board[head.getPosX()][head.getPosY() + 1].getState() : FieldState.Outside;
 
         } else if (direction == Snake.LEFT) {
@@ -221,8 +221,8 @@ public class BoardInfo {
      *
      * @return the maximum of the x-coordinates
      */
-    public int getMAX_X() {
-        return BoardLogic.MAX_X;
+    public int getSIZE_X() {
+        return BoardLogic.SIZE_X;
     }
 
 
@@ -231,8 +231,8 @@ public class BoardInfo {
      *
      * @return the maximum of the y-coordinates
      */
-    public int getMAX_Y() {
-        return BoardLogic.MAX_Y;
+    public int getSIZE_Y() {
+        return BoardLogic.SIZE_Y;
     }
 
 
