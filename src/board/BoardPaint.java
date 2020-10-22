@@ -127,13 +127,19 @@ public class BoardPaint extends JPanel {
      * @param apples list of all apples, which have to paint
      */
     private void paintApples(Graphics2D g2d, List<Field> apples) {
-        // set color
-        g2d.setColor(Color.red);
-
         // paint apples
         for (Field apple: apples) {
+            // draw body
+            g2d.setColor(Color.RED);
             g2d.fillOval(apple.getPosX() * BoardLogic.SCALE + BoardLogic.OFFSET,
-                    apple.getPosY() * BoardLogic.SCALE + BoardLogic.OFFSET, BoardLogic.SCALE, BoardLogic.SCALE);
+                    apple.getPosY() * BoardLogic.SCALE + BoardLogic.OFFSET,
+                    BoardLogic.SCALE, BoardLogic.SCALE);
+
+            // draw leaf
+            g2d.setColor(Color.GREEN);
+            g2d.fillOval(apple.getPosX() * BoardLogic.SCALE + BoardLogic.OFFSET,
+                    apple.getPosY() * BoardLogic.SCALE + BoardLogic.OFFSET,
+                    BoardLogic.SCALE / 2, BoardLogic.SCALE / 2);
         }
 
     }
@@ -149,15 +155,33 @@ public class BoardPaint extends JPanel {
     private void paintSnakes(Graphics2D g2d, List<Snake> snakes, List<LinkedList<Field>> snakesLocation) {
         // iterate all snakes
         for (int i = 0; i < snakesLocation.size(); i++) {
-
-            // set color of the ith snake
-            g2d.setColor(snakes.get(i).COLOR);
-
+            LinkedList<Field> snake = snakesLocation.get(i);
+            int prevX = 0;
+            int prevY = 0;
             // iterate the whole body of a single snake with index i
-            for (int j = 0; j < snakesLocation.get(i).size(); j++) {
-                g2d.fillOval(snakesLocation.get(i).get(j).getPosX() * BoardLogic.SCALE + BoardLogic.OFFSET,
-                        snakesLocation.get(i).get(j).getPosY() * BoardLogic.SCALE + BoardLogic.OFFSET,
-                        BoardLogic.SCALE, BoardLogic.SCALE);
+            for (int j = 0; j < snake.size(); j++) {
+                // set color according to snake and body part
+                if (j == 0) {
+                    g2d.setColor(snakes.get(i).COLOR.darker());
+                } else if (j == snake.size() - 1) {
+                    g2d.setColor(snakes.get(i).COLOR.brighter());
+                } else {
+                    g2d.setColor(snakes.get(i).COLOR);
+                }
+
+                int x = snake.get(j).getPosX() * BoardLogic.SCALE + BoardLogic.OFFSET;
+                int y = snake.get(j).getPosY() * BoardLogic.SCALE + BoardLogic.OFFSET;
+
+                g2d.fillOval(x, y, BoardLogic.SCALE, BoardLogic.SCALE);
+
+                // draw connecting pieces
+                if (j != 0) {
+                    g2d.fillOval((x + prevX) / 2 + BoardLogic.SCALE / 4, (y + prevY) / 2 + BoardLogic.SCALE / 4,
+                            BoardLogic.SCALE / 2, BoardLogic.SCALE / 2);
+                }
+
+                prevX = x;
+                prevY = y;
             }
         }
     }
