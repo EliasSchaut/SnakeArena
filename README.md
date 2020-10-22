@@ -50,9 +50,9 @@ Genau zwei Erstis bilden ein Team. Ein Team soll die KI einer Schlange programmi
   * Ein leeres Feld mit nichts drinnen
   * Ein Feld mit einem Apfel darin
 * Eine Schlange **stirbt**, wenn sie folgende Felder betritt:
-  * Ein Feld mit einem Schlangenköper darin
+  * Ein Feld mit einem Schlangenkörper darin
   * Ein Feld mit einer Barriere darin
-  * Ein Feld, dass außerhalb des Spielfeldes ist
+  * Ein Feld, das außerhalb des Spielfeldes ist
 * Stirbt eine Schlange, wird sie zu einer grauen Barriere, die ihre aktuelle Position stetig beibehält. Diese ist ab sofort nicht mehr steuerbar.
 
 ### Äpfel

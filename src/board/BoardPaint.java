@@ -33,6 +33,8 @@ public class BoardPaint extends JPanel {
      * This method paints the following:
      * The names of dead and living snakes with their current length; the board grid; the apples on board;
      * the snakes on board; the barriers on board
+     *
+     * @param graphics the Graphics, which is needed for painting
      */
     @Override
     public void paint(Graphics graphics) {
@@ -72,7 +74,7 @@ public class BoardPaint extends JPanel {
      * @param g2d the Graphics2D, which is needed for painting
      * @param snakes the snakes in game
      * @param snakesLocation the location of snakes on board
-     * @param deadSnakesInfo the names and lenght of dead snakes
+     * @param deadSnakesInfo the names and length of dead snakes
      */
     private void paintNames(Graphics2D g2d, List<Snake> snakes,
                             List<LinkedList<Field>> snakesLocation, List<String> deadSnakesInfo) {
@@ -148,7 +150,7 @@ public class BoardPaint extends JPanel {
         // iterate all snakes
         for (int i = 0; i < snakesLocation.size(); i++) {
 
-            // set color of the snake
+            // set color of the ith snake
             g2d.setColor(snakes.get(i).COLOR);
 
             // iterate the whole body of a single snake with index i

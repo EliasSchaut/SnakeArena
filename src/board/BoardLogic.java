@@ -149,7 +149,8 @@ public class BoardLogic {
             Future<String> future = executor.submit(() -> "Ready");
 
             try {
-                direction = this.snakes.get(i).think(new BoardInfo(i, fields.clone(), snakesLocation, apples, barriers));
+                direction = this.snakes.get(i).think(new BoardInfo(i, fields.clone(), new ArrayList<>(snakesLocation),
+                        new ArrayList<>(apples), new ArrayList<>(barriers)));
                 future.get(BoardLogic.CALC_TIME, TimeUnit.MILLISECONDS);
 
             } catch (TimeoutException e) {
@@ -214,7 +215,6 @@ public class BoardLogic {
             int oldY = this.snakesLocation.get(i).getFirst().getPosY();
 
             this.fields[newX][newY].setState(FieldState.Snake);
-            this.fields[oldX][oldY].setState(FieldState.Empty);
 
 
             // move snake
@@ -224,6 +224,7 @@ public class BoardLogic {
             // dont remove last part of body, if snake ate an apple
             if (!ate) {
                 this.snakesLocation.get(i).removeFirst();
+                this.fields[oldX][oldY].setState(FieldState.Empty);
             }
         }
     }
