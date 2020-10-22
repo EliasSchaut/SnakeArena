@@ -330,26 +330,26 @@ public class BoardLogic {
             Field tempField;
             // checking in all 4 directions
             if (field.getPosY() > 0
-                && !validFields.contains(tempField = getFields()[field.getPosX()][field.getPosY() - 1])
-                && tempField.getState() == FieldState.Empty) {
+                    && !validFields.contains(tempField = getFields()[field.getPosX()][field.getPosY() - 1])
+                    && tempField.getState() == FieldState.Empty) {
                 validFields.add(tempField);
                 checkFields.add(tempField);
             }
             if (field.getPosY() < SIZE_Y - 1
-                && !validFields.contains(tempField = getFields()[field.getPosX()][field.getPosY() + 1])
-                && tempField.isFree()) {
+                    && !validFields.contains(tempField = getFields()[field.getPosX()][field.getPosY() + 1])
+                    && tempField.getState() == FieldState.Empty) {
                 validFields.add(tempField);
                 checkFields.add(tempField);
             }
             if (field.getPosX() > 0
-                && !validFields.contains(tempField = getFields()[field.getPosX() - 1][field.getPosY()])
-                && tempField.isFree()) {
+                    && !validFields.contains(tempField = getFields()[field.getPosX() - 1][field.getPosY()])
+                    && tempField.getState() == FieldState.Empty) {
                 validFields.add(tempField);
                 checkFields.add(tempField);
             }
             if (field.getPosX() < SIZE_X - 1
-                && !validFields.contains(tempField = getFields()[field.getPosX() + 1][field.getPosY()])
-                && tempField.isFree()) {
+                    && !validFields.contains(tempField = getFields()[field.getPosX() + 1][field.getPosY()])
+                    && tempField.getState() == FieldState.Empty) {
                 validFields.add(tempField);
                 checkFields.add(tempField);
             }
@@ -404,4 +404,3 @@ public class BoardLogic {
     }
     // ---------------------------------------------------
 }
-
