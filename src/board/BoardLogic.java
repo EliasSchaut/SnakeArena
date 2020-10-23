@@ -258,11 +258,16 @@ public class BoardLogic {
         this.snakes.remove(snakeIndex);
 
         // check if all existing apples are still valid
+        // do it via an auxiliary list to avoid concurrent modification exception
         Set<Field> validAppleFields = getValidAppleFields();
-        for (Field appleField : getApples()) {
+        List<Field> removedApples = new ArrayList<>();
+        for (Field appleField : apples) {
             if (!validAppleFields.contains(appleField)) {
-                removeApple(appleField.getPosX(), appleField.getPosY());
+                removedApples.add(appleField);
             }
+        }
+        for (Field appleField : removedApples) {
+            removeApple(appleField.getPosX(), appleField.getPosY());
         }
     }
 
