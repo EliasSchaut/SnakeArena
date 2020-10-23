@@ -212,7 +212,7 @@ public class BoardLogic {
 
 
             } else if (this.fields[newX][newY].getState() == FieldState.Apple) {
-                removeApple(newX, newY,true);
+                removeApple(newX, newY, FieldState.Snake);
                 ate = true;
             }
             // ---------------------------------------------------------------------
@@ -259,7 +259,7 @@ public class BoardLogic {
 
         // check if all existing apples are still valid
         // do it via an auxiliary list to avoid concurrent modification exception
-        Set<Field> validAppleFields = getValidAppleFields();
+        Set<Field> validAppleFields = getValidAppleFields(true);
         List<Field> removedApples = new ArrayList<>();
         for (Field appleField : apples) {
             if (!validAppleFields.contains(appleField)) {
@@ -267,7 +267,7 @@ public class BoardLogic {
             }
         }
         for (Field appleField : removedApples) {
-            removeApple(appleField.getPosX(), appleField.getPosY(),false);
+            removeApple(appleField.getPosX(), appleField.getPosY(), FieldState.Empty);
         }
     }
 
@@ -277,15 +277,15 @@ public class BoardLogic {
      *
      * @param x x-Coordinate of apple
      * @param y y-Coordinate of apple
-     * @param eatenBySnake if the apple was eaten by a snake
+     * @param replacementState the state the field should have after removing
      * @return if an apple was removed
      */
-    protected boolean removeApple(int x, int y, boolean eatenBySnake) {
+    protected boolean removeApple(int x, int y, FieldState replacementState) {
         for (Field appleField : apples) {
 
             // find apple with given coordinates and remove it from the list
             if ((appleField.getPosX() == x) && (appleField.getPosY() == y)) {
-                fields[appleField.getPosX()][appleField.getPosY()].setState(eatenBySnake ? FieldState.Snake : FieldState.Empty);
+                fields[appleField.getPosX()][appleField.getPosY()].setState(replacementState);
                 apples.remove(appleField);
 
                 // add new apples
@@ -304,16 +304,12 @@ public class BoardLogic {
      */
     protected void setApples() {
         // get all valid fields
-        List<Field> validFields = new ArrayList<>(getValidAppleFields());
+        List<Field> validFields = new ArrayList<>(getValidAppleFields(false));
 
         // add apples until value of MAX_APPLES_ON_BOARD is reached
         while (apples.size() < MAX_APPLES_ON_BOARD && validFields.size() > 0) {
             // get random valid field
             Field appleField = validFields.get((int) (Math.random() * validFields.size()));
-            if(appleField.getState() == FieldState.Apple){
-                validFields.remove(appleField);
-                continue;
-            }
             validFields.remove(appleField);
 
             // set field state of random field to value apple and add apple to apple-list
@@ -325,9 +321,10 @@ public class BoardLogic {
     /**
      * generate a set of all valid apple fields
      *
+     * @param includeApples if apples should be considered a valid Field
      * @return a set containing all fields where an apple could be reached by a snake
      */
-    protected Set<Field> getValidAppleFields() {
+    protected Set<Field> getValidAppleFields(boolean includeApples) {
         // checking from all snake heads
         Deque<Field> checkFields = new ArrayDeque<>();
         for (LinkedList<Field> snake : snakesLocation) {
@@ -341,25 +338,25 @@ public class BoardLogic {
             // checking in all 4 directions
             if (field.getPosY() > 0
                     && !validFields.contains(tempField = getFields()[field.getPosX()][field.getPosY() - 1])
-                    && tempField.isFree()) {
+                    && (includeApples ? tempField.isFree() : tempField.getState()==FieldState.Empty)) {
                 validFields.add(tempField);
                 checkFields.add(tempField);
             }
             if (field.getPosY() < SIZE_Y - 1
                     && !validFields.contains(tempField = getFields()[field.getPosX()][field.getPosY() + 1])
-                    && tempField.isFree()) {
+                    && (includeApples ? tempField.isFree() : tempField.getState()==FieldState.Empty)) {
                 validFields.add(tempField);
                 checkFields.add(tempField);
             }
             if (field.getPosX() > 0
                     && !validFields.contains(tempField = getFields()[field.getPosX() - 1][field.getPosY()])
-                    && tempField.isFree()) {
+                    && (includeApples ? tempField.isFree() : tempField.getState()==FieldState.Empty)) {
                 validFields.add(tempField);
                 checkFields.add(tempField);
             }
             if (field.getPosX() < SIZE_X - 1
                     && !validFields.contains(tempField = getFields()[field.getPosX() + 1][field.getPosY()])
-                    && tempField.isFree()) {
+                    && (includeApples ? tempField.isFree() : tempField.getState()==FieldState.Empty)) {
                 validFields.add(tempField);
                 checkFields.add(tempField);
             }
