@@ -281,21 +281,12 @@ public class BoardLogic {
      * @return if an apple was removed
      */
     protected boolean removeApple(int x, int y, FieldState replacementState) {
-        for (Field appleField : apples) {
-
-            // find apple with given coordinates and remove it from the list
-            if ((appleField.getPosX() == x) && (appleField.getPosY() == y)) {
-                fields[appleField.getPosX()][appleField.getPosY()].setState(replacementState);
-                apples.remove(appleField);
-
-                // add new apples
-                this.setApples();
-
-                return true;
-            }
+        boolean removed = apples.removeIf(appleField -> (appleField.getPosX() == x) && (appleField.getPosY() == y));
+        if (removed) {
+            this.setApples();
+            this.fields[x][y].setState(replacementState);
         }
-
-        return false;
+        return removed;
     }
 
 
