@@ -32,6 +32,8 @@ public class BoardLogic {
     private final List<Field> barriers = new ArrayList<>();
     private final List<String> deadSnakesInfo = new ArrayList<>();
 
+    private final Random rand = new Random();
+
     private final BoardPaint bPaint;
     private final Game game;
 
@@ -300,7 +302,7 @@ public class BoardLogic {
         // add apples until value of MAX_APPLES_ON_BOARD is reached
         while (apples.size() < MAX_APPLES_ON_BOARD && validFields.size() > 0) {
             // get random valid field
-            Field appleField = validFields.get((int) (Math.random() * validFields.size()));
+            Field appleField = validFields.get(rand.nextInt(validFields.size()));
             validFields.remove(appleField);
 
             // set field state of random field to value apple and add apple to apple-list
@@ -362,8 +364,8 @@ public class BoardLogic {
      * @return a random Field on the board
      */
     protected Field getRandomField() {
-        int x = (int) (Math.random() * SIZE_X);
-        int y = (int) (Math.random() * SIZE_Y);
+        int x = rand.nextInt(SIZE_X);
+        int y = rand.nextInt(SIZE_Y);
 
         return new Field(x, y);
     }
