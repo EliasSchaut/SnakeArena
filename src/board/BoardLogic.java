@@ -127,6 +127,8 @@ public class BoardLogic {
         // end game if only one snake remains and config value stop_game is true
         // or no more apples are available
         if ((snakes.size() <= 1) && (game.end(game)) || apples.size() == 0) {
+            System.out.println("The game has ended!");
+            game.pausePlay();
             return;
         }
 
@@ -145,6 +147,9 @@ public class BoardLogic {
 
         for (int i = 0; i < this.snakes.size(); i++) {
 
+            // check if we are able to place new apples before the snake moves
+            setApples();
+
             // ---------------------------------------------------
             // Call think() method of ith snake and give her CALC_TIME to calculate
             // ---------------------------------------------------
@@ -158,7 +163,7 @@ public class BoardLogic {
 
             } catch (TimeoutException e) {
                 future.cancel(true);
-                System.out.println("Snake " + snakes.get(i).NAME + " calculate to long!\n");
+                System.out.println("Snake " + snakes.get(i).NAME + " calculated too long!\n");
                 direction = Snake.RIGHT;
 
             } catch (Exception e) {
@@ -287,7 +292,6 @@ public class BoardLogic {
     protected boolean removeApple(int x, int y, FieldState replacementState) {
         boolean removed = apples.removeIf(appleField -> (appleField.getPosX() == x) && (appleField.getPosY() == y));
         if (removed) {
-            this.setApples();
             this.fields[x][y].setState(replacementState);
         }
         return removed;
@@ -298,18 +302,22 @@ public class BoardLogic {
      * place apples on the board until MAX_APPLES_ON_BOARD value is reached
      */
     protected void setApples() {
-        // get all valid fields
-        List<Field> validFields = new ArrayList<>(getValidAppleFields(false));
+        // only check further if there are apples missing
+        if (apples.size() < MAX_APPLES_ON_BOARD) {
 
-        // add apples until value of MAX_APPLES_ON_BOARD is reached
-        while (apples.size() < MAX_APPLES_ON_BOARD && validFields.size() > 0) {
-            // get random valid field
-            Field appleField = validFields.get(rand.nextInt(validFields.size()));
-            validFields.remove(appleField);
+            // get all valid fields
+            List<Field> validFields = new ArrayList<>(getValidAppleFields(false));
 
-            // set field state of random field to value apple and add apple to apple-list
-            appleField.setState(FieldState.Apple);
-            apples.add(appleField);
+            // add apples until value of MAX_APPLES_ON_BOARD is reached
+            while (apples.size() < MAX_APPLES_ON_BOARD && validFields.size() > 0) {
+                // get random valid field
+                Field appleField = validFields.get(rand.nextInt(validFields.size()));
+                validFields.remove(appleField);
+
+                // set field state of random field to value apple and add apple to apple-list
+                appleField.setState(FieldState.Apple);
+                apples.add(appleField);
+            }
         }
     }
 
