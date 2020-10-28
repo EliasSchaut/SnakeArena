@@ -214,7 +214,9 @@ public class BoardLogic {
 
 
             } else if (this.fields[newX][newY].getState() == FieldState.Apple) {
-                removeApple(newX, newY, FieldState.Snake);
+                if (!removeApple(newX, newY, FieldState.Snake)) {
+                    System.out.println("Snake " + this.snakes.get(i).NAME + " tried to eat an apple that doesn't exist at " + newX + ", " + newY + "!");
+                }
                 ate = true;
             }
             // ---------------------------------------------------------------------
@@ -324,36 +326,60 @@ public class BoardLogic {
             checkFields.add(snake.getLast());
         }
 
-        Set<Field> validFields = new HashSet<Field>();
+        Set<Field> validFields = new HashSet<>();
         while (!checkFields.isEmpty()) {
             Field field = checkFields.removeLast();
-            Field tempField;
             // checking in all 4 directions
-            if (field.getPosY() > 0
-                    && !validFields.contains(tempField = getFields()[field.getPosX()][field.getPosY() - 1])
-                    && (includeApples ? tempField.isFree() : tempField.getState()==FieldState.Empty)) {
-                validFields.add(tempField);
-                checkFields.add(tempField);
-            }
-            if (field.getPosY() < SIZE_Y - 1
-                    && !validFields.contains(tempField = getFields()[field.getPosX()][field.getPosY() + 1])
-                    && (includeApples ? tempField.isFree() : tempField.getState()==FieldState.Empty)) {
-                validFields.add(tempField);
-                checkFields.add(tempField);
-            }
-            if (field.getPosX() > 0
-                    && !validFields.contains(tempField = getFields()[field.getPosX() - 1][field.getPosY()])
-                    && (includeApples ? tempField.isFree() : tempField.getState()==FieldState.Empty)) {
-                validFields.add(tempField);
-                checkFields.add(tempField);
-            }
-            if (field.getPosX() < SIZE_X - 1
-                    && !validFields.contains(tempField = getFields()[field.getPosX() + 1][field.getPosY()])
-                    && (includeApples ? tempField.isFree() : tempField.getState()==FieldState.Empty)) {
-                validFields.add(tempField);
-                checkFields.add(tempField);
+            for (int i = 0; i < 4; i++) {
+                Field tempField = null;
+                boolean validDir = false;
+                switch (i) {
+                    case 0:
+                        if (field.getPosY() > 0) {
+                            validDir = true;
+                            tempField = getFields()[field.getPosX()][field.getPosY() - 1];
+                        }
+                        break;
+                    case 1:
+                        if (field.getPosY() < SIZE_Y - 1) {
+                            validDir = true;
+                            tempField = getFields()[field.getPosX()][field.getPosY() + 1];
+                        }
+                        break;
+                    case 2:
+                        if (field.getPosX() > 0) {
+                            validDir = true;
+                            tempField = getFields()[field.getPosX() - 1][field.getPosY()];
+                        }
+                        break;
+                    case 3:
+                        if (field.getPosX() < SIZE_X - 1) {
+                            validDir = true;
+                            tempField = getFields()[field.getPosX() + 1][field.getPosY()];
+                        }
+                        break;
+                }
+                if (validDir && !validFields.contains(tempField)
+                        && (tempField.getState() == FieldState.Empty
+                        || includeApples && tempField.getState() == FieldState.Apple)) {
+                    validFields.add(tempField);
+                    checkFields.add(tempField);
+                }
             }
         }
+
+        // visualization!
+        /*int[][] debug = new int[SIZE_X][SIZE_Y];
+        for (Field f : validFields) {
+            debug[f.getPosX()][f.getPosY()] = 1;
+        }
+        for (int y = 0; y < SIZE_Y; y++) {
+            for (int x = 0; x < SIZE_X; x++) {
+                System.out.print(debug[x][y] + "\t");
+            }
+            System.out.println();
+        }
+        System.out.println();*/
 
         return validFields;
     }
