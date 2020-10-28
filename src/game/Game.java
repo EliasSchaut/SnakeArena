@@ -38,7 +38,6 @@ public class Game {
         // ------------------------------
         final Config cfg = new Config();
         final Map<String, String> cfgMap = cfg.getAll();
-        final int WAIT_TIME = Integer.parseInt(cfgMap.get("WAIT_TIME"));
         game.isPaused = Boolean.parseBoolean(cfgMap.get("START_PAUSED"));
         game.stop_game = Boolean.parseBoolean(cfgMap.get("STOP_TIME"));
         // ------------------------------
@@ -60,7 +59,7 @@ public class Game {
             }
 
             // wait for WAIT_TIME in ms
-            Thread.sleep(WAIT_TIME);
+            Thread.sleep(game.window.getWaitTime());
         }
         // ------------------------------
 
@@ -72,6 +71,13 @@ public class Game {
      */
     public void pausePlay() {
         isPaused = !isPaused;
+    }
+
+    /**
+     * show or hide the helper window
+     */
+    public void showHelperWindow() {
+        window.displayHelper();
     }
 
     /**

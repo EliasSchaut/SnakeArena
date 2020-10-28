@@ -58,6 +58,7 @@ public class InputListener implements KeyListener {
             case KeyEvent.VK_DOWN, KeyEvent.VK_S -> keyboardSnake.direction = Snake.DOWN;
             case KeyEvent.VK_LEFT, KeyEvent.VK_A -> keyboardSnake.direction = Snake.LEFT;
             case KeyEvent.VK_P -> game.pausePlay();
+            case KeyEvent.VK_SPACE -> game.showHelperWindow();
             default -> System.out.println("Unknown Key: " + KeyEvent.getKeyText(e.getKeyCode()) + " Code: " + e.getKeyCode());
         }
     }

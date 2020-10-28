@@ -18,6 +18,9 @@ import javax.swing.*;
  */
 public class Window extends JFrame {
 
+    // helper window we own
+    private final HelperWindow helperWindow;
+
     private final JPanel boardPanel;
     private final BoardLogic boardLogic;
 
@@ -59,6 +62,9 @@ public class Window extends JFrame {
         this.setVisible(true);
         this.setResizable(Boolean.parseBoolean(cfgMap.get("RESIZEABLE")));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // create helper window
+        helperWindow = new HelperWindow(this, game, cfgMap, listener);
     }
 
 
@@ -67,7 +73,7 @@ public class Window extends JFrame {
      * boardLogic.update() updates the logic of the game. It calls every think-method of every snake an move the snakes
      * boardPanel.repaint() will paint the board with the new values from boardLogic
      */
-    public void update(){
+    public void update() {
         this.boardLogic.update();
         this.boardPanel.repaint();
     }
@@ -115,5 +121,18 @@ public class Window extends JFrame {
 
         return snakes;
     }
+
+    // ---------------------------------------------------
+    // Exposing necessary HelperWindow functionality
+    // ---------------------------------------------------
+    public void displayHelper() {
+        helperWindow.display();
+    }
+
+    public int getWaitTime() {
+        return helperWindow.getWaitTime();
+    }
+    // ---------------------------------------------------
+
 }
 
