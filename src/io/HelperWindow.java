@@ -41,7 +41,7 @@ public class HelperWindow extends JFrame {
         int height = Integer.parseInt(cfgMap.get("HELPER_HEIGHT"));
         int minWait = Integer.parseInt(cfgMap.get("HELPER_MIN_WAIT_SLIDER"));
         int maxWait = Integer.parseInt(cfgMap.get("HELPER_MAX_WAIT_SLIDER"));
-        int waitTime = Integer.parseInt(cfgMap.get("WAIT_TIME"));
+        this.waitTime = Integer.parseInt(cfgMap.get("WAIT_TIME"));
         boolean resizable = Boolean.parseBoolean(cfgMap.get("HELPER_RESIZEABLE"));
         boolean focusable = Boolean.parseBoolean(cfgMap.get("HELPER_FOCUSABLE"));
         // -------------------------------------------------
@@ -52,11 +52,15 @@ public class HelperWindow extends JFrame {
         // creating GUI items -------------
 
         // create wait time slider
+        int sliderStart = ((int) Math.sqrt((maxWait - minWait) * (waitTime - minWait))) + minWait;
         waitTimeLabel = new JLabel("WAIT TIME: " + waitTime, JLabel.CENTER);
-        waitTimeSlider = new JSlider(JSlider.HORIZONTAL, minWait, maxWait, waitTime);
+        waitTimeSlider = new JSlider(JSlider.HORIZONTAL, minWait, maxWait, sliderStart);
         waitTimeSlider.addChangeListener(e -> {
-            this.waitTime = waitTimeSlider.getValue();
-            waitTimeLabel.setText("WAIT TIME: " + this.waitTime);
+
+            // this formula allows for finer control in the lower range
+            int sliderValue = ((int) Math.pow(waitTimeSlider.getValue() - minWait, 2)) / (maxWait - minWait) + minWait;
+            waitTimeLabel.setText("WAIT TIME: " + sliderValue);
+            this.waitTime = sliderValue;
         });
 
         // create pause/play button with action listener
