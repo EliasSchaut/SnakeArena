@@ -116,11 +116,14 @@ public class HelperWindow extends JFrame {
 
     // set the label of the pause/play button
     private void setButtonLaben(Game game) {
+        pauseButton.setText("PLAY/PAUSE");
+
+        /* use this if you can call this method after pressing P with GOOD!! code!
         if (game.isPaused()) {
             pauseButton.setText("PLAY");
         } else {
             pauseButton.setText("PAUSE");
-        }
+        }*/
     }
 
 }
