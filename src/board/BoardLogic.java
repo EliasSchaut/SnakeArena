@@ -80,6 +80,7 @@ public class BoardLogic {
 
             boolean isFree;
             do {
+
                 // First get Field on random position
                 random = getRandomField();
 
@@ -124,11 +125,12 @@ public class BoardLogic {
      * Move all snakes in the direction of their return value of the think-method and save/set the new values
      */
     public void update() {
+
         // end game if only one snake remains and config value stop_game is true
         // or no more apples are available
         if ((snakes.size() <= 1) && (game.end(game)) || apples.size() == 0) {
-            System.out.println("The game has ended!");
             game.pausePlay();
+            System.out.println("The game has ended!");
             return;
         }
 
@@ -220,7 +222,8 @@ public class BoardLogic {
 
             } else if (this.fields[newX][newY].getState() == FieldState.Apple) {
                 if (!removeApple(newX, newY, FieldState.Snake)) {
-                    System.out.println("Snake " + this.snakes.get(i).NAME + " tried to eat an apple that doesn't exist at " + newX + ", " + newY + "!");
+                    System.out.println("Snake " + this.snakes.get(i).NAME
+                            + " tried to eat an apple that doesn't exist at " + newX + ", " + newY + "!");
                 }
                 ate = true;
             }
@@ -282,7 +285,7 @@ public class BoardLogic {
 
 
     /**
-     * remove an apple on the board and place another
+     * Remove an apple on the board and place another
      *
      * @param x x-Coordinate of apple
      * @param y y-Coordinate of apple
@@ -299,7 +302,7 @@ public class BoardLogic {
 
 
     /**
-     * place apples on the board until MAX_APPLES_ON_BOARD value is reached
+     * Place apples on the board until MAX_APPLES_ON_BOARD value is reached
      */
     protected void setApples() {
         // only check further if there are apples missing
@@ -310,6 +313,7 @@ public class BoardLogic {
 
             // add apples until value of MAX_APPLES_ON_BOARD is reached
             while (apples.size() < MAX_APPLES_ON_BOARD && validFields.size() > 0) {
+
                 // get random valid field
                 Field appleField = validFields.get(rand.nextInt(validFields.size()));
                 validFields.remove(appleField);
@@ -321,53 +325,75 @@ public class BoardLogic {
         }
     }
 
+
     /**
-     * generate a set of all valid apple fields
+     * Generate a set of all valid apple fields.
+     * A field is valid if every snake head can reach it.
      *
      * @param includeApples if apples should be considered a valid Field
      * @return a set containing all fields where an apple could be reached by a snake
      */
     protected Set<Field> getValidAppleFields(boolean includeApples) {
-        // checking from all snake heads
+
+        // collect all snake heads as start points and save them in checkFields
         Deque<Field> checkFields = new ArrayDeque<>();
         for (LinkedList<Field> snake : snakesLocation) {
             checkFields.add(snake.getLast());
         }
 
+        // all valid fields will saved in this list
         Set<Field> validFields = new HashSet<>();
+
+        // iterate through checkFields until it's empty.
         while (!checkFields.isEmpty()) {
+
+            // remove last element of checkFields at start of every iteration.
+            // this field is now called iteration field
             Field field = checkFields.removeLast();
-            // checking in all 4 directions
+
+            // checks which directions can be reached from the iteration field.
+            // when a direction can be reached, it will added to checkFields.
             for (int i = 0; i < 4; i++) {
                 Field tempField = null;
                 boolean validDir = false;
+
+                // checks for all four directions whether you would bump to the edge of the board
+                // if true, they will stored in tempField
                 switch (i) {
-                    case 0:
+                    // UP
+                    case 0 -> {
                         if (field.getPosY() > 0) {
                             validDir = true;
                             tempField = getFields()[field.getPosX()][field.getPosY() - 1];
                         }
-                        break;
-                    case 1:
+                    }
+                    // DOWN
+                    case 1 -> {
                         if (field.getPosY() < SIZE_Y - 1) {
                             validDir = true;
                             tempField = getFields()[field.getPosX()][field.getPosY() + 1];
                         }
-                        break;
-                    case 2:
+                    }
+                    // LEFT
+                    case 2 -> {
                         if (field.getPosX() > 0) {
                             validDir = true;
                             tempField = getFields()[field.getPosX() - 1][field.getPosY()];
                         }
-                        break;
-                    case 3:
+                    }
+                    // RIGHT
+                    case 3 -> {
                         if (field.getPosX() < SIZE_X - 1) {
                             validDir = true;
                             tempField = getFields()[field.getPosX() + 1][field.getPosY()];
                         }
-                        break;
+                    }
                 }
-                if (validDir && !validFields.contains(tempField)
+
+                // If a field from tempField is not already in validFields
+                // and either the field is empty or (includeApples must be true) there is an apple on the field,
+                // then the field is added to validFields and checkFields
+                if (validDir  && !validFields.contains(tempField)
                         && (tempField.getState() == FieldState.Empty
                         || includeApples && tempField.getState() == FieldState.Apple)) {
                     validFields.add(tempField);
@@ -376,7 +402,7 @@ public class BoardLogic {
             }
         }
 
-        // visualization!
+        // visualization for debugging!
         /*int[][] debug = new int[SIZE_X][SIZE_Y];
         for (Field f : validFields) {
             debug[f.getPosX()][f.getPosY()] = 1;

@@ -39,7 +39,7 @@ public class Game {
         final Config cfg = new Config();
         final Map<String, String> cfgMap = cfg.getAll();
         game.isPaused = Boolean.parseBoolean(cfgMap.get("START_PAUSED"));
-        game.stop_game = Boolean.parseBoolean(cfgMap.get("STOP_TIME"));
+        game.stop_game = Boolean.parseBoolean(cfgMap.get("STOP_GAME"));
         // ------------------------------
 
         // Set Up Graphics & Layout
@@ -66,6 +66,7 @@ public class Game {
     }
     // ------------------------------------------------------------------------------
 
+
     /**
      * pause or resume the game
      */
@@ -73,12 +74,14 @@ public class Game {
         isPaused = !isPaused;
     }
 
+
     /**
      * show or hide the helper window
      */
     public void showHelperWindow() {
         window.displayHelper();
     }
+
 
     /**
      * end game
@@ -89,5 +92,15 @@ public class Game {
         }
 
         return game.stop_game;
+    }
+
+
+    /**
+     * returns isPaused
+     *
+     * @return isPaused
+     */
+    public boolean isPaused() {
+        return isPaused;
     }
 }

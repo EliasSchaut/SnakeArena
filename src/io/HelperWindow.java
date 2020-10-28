@@ -22,47 +22,64 @@ public class HelperWindow extends JFrame {
     // the time between game moves in ms
     private int waitTime;
 
-    // the width of the window
-    private final int width = 250;
 
+    /**
+     * the Constructor.
+     * It will set all relevant values from the property file, create a helper window and set all relevant stuff on it
+     *
+     * @param window the window of the game
+     * @param game the game
+     * @param cfgMap the configs
+     * @param listener the keyListener
+     */
     public HelperWindow(Window window, Game game, Map<String, String> cfgMap, InputListener listener) {
-        super("Snake Arena Helper");
-
+        super(cfgMap.get("HELPER_TITLE"));
         this.window = window;
+
+        // get config values ----------------------------
+        int width = Integer.parseInt(cfgMap.get("HELPER_WIDTH"));
+        int height = Integer.parseInt(cfgMap.get("HELPER_HEIGHT"));
+        int minWait = Integer.parseInt(cfgMap.get("HELPER_MIN_WAIT_SLIDER"));
+        int maxWait = Integer.parseInt(cfgMap.get("HELPER_MAX_WAIT_SLIDER"));
+        int waitTime = Integer.parseInt(cfgMap.get("WAIT_TIME"));
+        boolean resizable = Boolean.parseBoolean(cfgMap.get("HELPER_RESIZEABLE"));
+        boolean focusable = Boolean.parseBoolean(cfgMap.get("HELPER_FOCUSABLE"));
+        // -------------------------------------------------
 
         // no automatic layout managing
         this.setLayout(null);
 
-        // initializing wait time from file
-        waitTime = Math.max(0, Math.min(1000, Integer.parseInt(cfgMap.get("WAIT_TIME"))));
+        // creating GUI items -------------
 
-        // creating GUI items
-        waitTimeLabel = new JLabel("WAIT TIME: " + Integer.toString(waitTime), JLabel.CENTER);
-
-        waitTimeSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, (int) Math.sqrt(waitTime * 1000.0));
+        // create wait time slider
+        waitTimeLabel = new JLabel("WAIT TIME: " + waitTime, JLabel.CENTER);
+        waitTimeSlider = new JSlider(JSlider.HORIZONTAL, minWait, maxWait, waitTime);
         waitTimeSlider.addChangeListener(e -> {
-            // this formula allows for finer control in the lower range
-            waitTime = waitTimeSlider.getValue() * waitTimeSlider.getValue() / 1000;
-            waitTimeLabel.setText("WAIT TIME: " + Integer.toString(waitTime));
+            this.waitTime = waitTimeSlider.getValue();
+            waitTimeLabel.setText("WAIT TIME: " + this.waitTime);
         });
 
-        pauseButton = new JButton("PAUSE");
+        // create pause/play button with action listener
+        pauseButton = new JButton();
+        setButtonLaben(game);
         pauseButton.addActionListener(e -> {
             game.pausePlay();
+            setButtonLaben(game);
+
         });
-        // ----------
+        // ---------------------------------
 
         // set visibility and stuff
-        this.setSize(width, 150);
-        display();
-        this.setResizable(false);
-        this.setFocusable(true);
+        this.setSize(width, height);
+        displayHide();
+        this.setResizable(resizable);
+        this.setFocusable(focusable);
         this.addKeyListener(listener);
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
         // making sure to respect the insets
         final int actualWidth = width - this.getInsets().left - this.getInsets().right;
-        int y = 0;
+        int y = 10;
         waitTimeSlider.setBounds(0, y, actualWidth, 20);
         y += 20;
         waitTimeLabel.setBounds(0, y, actualWidth, 20);
@@ -78,7 +95,7 @@ public class HelperWindow extends JFrame {
     /**
      * Hides the helper window or shows and places it next to the main window
      */
-    public void display() {
+    public void displayHide() {
         if (!this.isVisible()) {
             this.setLocation(window.getX() + window.getWidth(), window.getY());
             this.setVisible(true);
@@ -90,6 +107,16 @@ public class HelperWindow extends JFrame {
     // getter
     public int getWaitTime() {
         return waitTime;
+    }
+
+
+    // set the label of the pause/play button
+    private void setButtonLaben(Game game) {
+        if (game.isPaused()) {
+            pauseButton.setText("PLAY");
+        } else {
+            pauseButton.setText("PAUSE");
+        }
     }
 
 }

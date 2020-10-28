@@ -24,7 +24,16 @@ public class Window extends JFrame {
     private final JPanel boardPanel;
     private final BoardLogic boardLogic;
 
+
+    /**
+     * The Constructor.
+     * It will set all relevant values from the property file, create BoardLogic and BoardPaint and create a window
+     *
+     * @param game the game
+     * @param cfgMap all configs
+     */
     public Window(Game game, Map<String, String> cfgMap) {
+
         // set needed config values
         super(cfgMap.get("WINDOW_TITLE"));
         final int SCALE = Integer.parseInt(cfgMap.get("SCALE"));
@@ -126,7 +135,7 @@ public class Window extends JFrame {
     // Exposing necessary HelperWindow functionality
     // ---------------------------------------------------
     public void displayHelper() {
-        helperWindow.display();
+        helperWindow.displayHide();
     }
 
     public int getWaitTime() {
