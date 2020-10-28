@@ -53,16 +53,12 @@ public class InputListener implements KeyListener {
         // System.out.println("Key: "+KeyEvent.getKeyText(e.getKeyCode())+" Code: "+e.getKeyCode());
 
         switch (e.getKeyCode()) {
-            // left
-            case 37 -> keyboardSnake.direction = Snake.LEFT;
-            // up
-            case 38 -> keyboardSnake.direction = Snake.UP;
-            // right
-            case 39 -> keyboardSnake.direction = Snake.RIGHT;
-            // down
-            case 40 -> keyboardSnake.direction = Snake.DOWN;
-            // pausePlay
-            case 80 -> game.pausePlay();
+            case KeyEvent.VK_UP, KeyEvent.VK_W -> keyboardSnake.direction = Snake.UP;
+            case KeyEvent.VK_RIGHT, KeyEvent.VK_D -> keyboardSnake.direction = Snake.RIGHT;
+            case KeyEvent.VK_DOWN, KeyEvent.VK_S -> keyboardSnake.direction = Snake.DOWN;
+            case KeyEvent.VK_LEFT, KeyEvent.VK_A -> keyboardSnake.direction = Snake.LEFT;
+            case KeyEvent.VK_P -> game.pausePlay();
+            case KeyEvent.VK_SPACE -> game.showHelperWindow();
             default -> System.out.println("Unknown Key: " + KeyEvent.getKeyText(e.getKeyCode()) + " Code: " + e.getKeyCode());
         }
     }
