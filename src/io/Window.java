@@ -8,6 +8,7 @@ import snakes.Snake;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import javax.swing.*;
@@ -127,6 +128,72 @@ public class Window extends JFrame {
         for (int i = 0; i < num; i++) {
             snakes.add(new ProtectorSnake());
         }
+
+
+        // contest snakes -----------------------------------------------------------
+
+        // Python
+        num = Integer.parseInt(cfgMap.get("Python"));
+        for (int i = 0; i < num; i++) {
+            snakes.add(new snakes.contest.pyhton.MySnake());
+        }
+
+        // Snakeue
+        num = Integer.parseInt(cfgMap.get("Snakeue"));
+        for (int i = 0; i < num; i++) {
+            snakes.add(new snakes.contest.snakeue.MySnake());
+        }
+
+        // fiesserIk0ri4n
+        num = Integer.parseInt(cfgMap.get("fiesserIk0ri4n"));
+        for (int i = 0; i < num; i++) {
+            snakes.add(new snakes.contest.fiesserIk0ri4n.MySnake());
+        }
+
+        // DevilOfParadise
+        num = Integer.parseInt(cfgMap.get("DevilOfParadise"));
+        for (int i = 0; i < num; i++) {
+            snakes.add(new snakes.contest.devilOfParadise.MySnake());
+        }
+
+        // SnakeBy
+        num = Integer.parseInt(cfgMap.get("SnakeBy"));
+        for (int i = 0; i < num; i++) {
+            snakes.add(new snakes.contest.snakeBy.MySnake());
+        }
+
+        // .IDI
+        num = Integer.parseInt(cfgMap.get("IDI"));
+        for (int i = 0; i < num; i++) {
+            snakes.add(new snakes.contest.idi.MySnake());
+        }
+
+        // ESnake
+        num = Integer.parseInt(cfgMap.get("ESnake"));
+        for (int i = 0; i < num; i++) {
+            snakes.add(new snakes.contest.eSnake.MySnake());
+        }
+
+        // Chrysopelea_Tobias
+        num = Integer.parseInt(cfgMap.get("Chrysopelea_Tobias"));
+        for (int i = 0; i < num; i++) {
+            snakes.add(new snakes.contest.chrysopelea_Tobias.MySnake());
+        }
+
+        // Schlongus_Humongous
+        num = Integer.parseInt(cfgMap.get("Schlongus_Humongous"));
+        for (int i = 0; i < num; i++) {
+            snakes.add(new snakes.contest.schlongus_Humongous.MySnake());
+        }
+
+        // Norbert
+        num = Integer.parseInt(cfgMap.get("Norbert"));
+        for (int i = 0; i < num; i++) {
+            snakes.add(new snakes.contest.norbert.MySnake());
+        }
+        // --------------------------------------------------------------------------
+
+        Collections.shuffle(snakes);
 
         return snakes;
     }
