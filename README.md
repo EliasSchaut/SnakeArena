@@ -69,8 +69,8 @@ Die Punkteverteilung pro Spiel richtet sich nach der Länge der Schlangen am End
 3. Platz und somit drittlängste Schlange - 1 Punkt
 
 ## Sieg
-* Alle Schlangen werden zufällig auf vier möglichst gleich große Gruppen aufgeteilt und spielen dort zwei Spiele. 
-* Die Schlange mit der höchsten Punktzahl (bei Gleichstand beide) in einer Gruppe gilt nach den zwei Spielen als Sieger der Gruppe.
+* Alle Schlangen werden zufällig auf möglichst gleich große Gruppen aufgeteilt und spielen dort fünf Spiele. 
+* Die beiden Schlangen mit den höchsten Punktzahlen (bei Gleichstand alle diese) in einer Gruppe gilt nach den fünf Spielen als Sieger der Gruppe.
 * Daraufhin werden alle Sieger aller Gruppen in ein episches Finale geworfen. Dort werden drei Spiele gespielt.
 
 Der 1. Platz aus dem Finale bekommt 2 Säcke Schokolade.\
